@@ -30,14 +30,9 @@ class welcomeScreen : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_welcome_screen, container, false)
 
-        view.findViewById<Button>(R.id.button_login).setOnClickListener {
+        view.findViewById<Button>(R.id.GetStartedBtn).setOnClickListener {
             findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
         }
-
-        view.findViewById<Button>(R.id.button_register).setOnClickListener {
-            findNavController().navigate(R.id.action_welcomeFragment_to_registerFragment)
-        }
-
         return view
     }
 

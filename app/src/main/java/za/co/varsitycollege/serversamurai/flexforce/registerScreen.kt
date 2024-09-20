@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 
 private const val ARG_PARAM1 = "param1"
@@ -32,6 +33,10 @@ class registerScreen : Fragment() {
 
         view.findViewById<Button>(R.id.button_register).setOnClickListener {
             findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
+        }
+
+        view.findViewById<TextView>(R.id.loginLink).setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         return view

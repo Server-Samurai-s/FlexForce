@@ -1,11 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="top|center_horizontal"
-    tools:context=".homeInnerScreen"
+    tools:context=".ProfileScreenView"
     android:background="@drawable/gradient_background">
 
     <LinearLayout
@@ -19,10 +17,8 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginTop="70dp"
-            android:background="@drawable/round_button"
             android:clipToOutline="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/profilepic" />
+            android:src="@drawable/arrow_left" />
 
         <TextView
             android:id="@+id/textView5"
@@ -35,21 +31,6 @@
             android:textSize="23sp"
             android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/notiBtn"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="70dp"
-            android:background="@drawable/round_button"
-            android:clipToOutline="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground" />
     </LinearLayout>
 
-    <!-- Include the fragment_home_inner_view layout -->
-    <include
-        layout="@layout/fragment_home_inner_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+</FrameLayout>

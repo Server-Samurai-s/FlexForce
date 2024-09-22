@@ -15,4 +15,14 @@
     <string name="register">Register</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="home">Home</string>
+    <string name="current_streak">Current Streak 🔥</string>
+    <string name="weight">Weight</string>
+    <string name="mon">Mon</string>
+    <string name="favorite_workout">Favorite Workout</string>
+    <string name="please_enter_calories">Please enter calories</string>
+    <string name="please_enter_weight">Please enter weight</string>
+    <string name="fitness_tracker">Fitness Tracker</string>
+    <string name="submit">Submit</string>
+    <string name="settings">Settings</string>
 </resources>

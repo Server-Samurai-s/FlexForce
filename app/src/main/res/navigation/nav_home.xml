@@ -1,0 +1,34 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home"
+    app:startDestination="@id/navigation_home_inner">
+
+    <!-- Home Inner Fragment -->
+    <fragment
+        android:id="@+id/navigation_home_inner"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.homeInnerScreen"
+        android:label="Home"
+        tools:layout="@layout/fragment_home_inner_screen" />
+
+    <!-- Workout Fragment -->
+    <fragment
+        android:id="@+id/nav_workout"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.workoutScreen"
+        android:label="Workout"
+        tools:layout="@layout/fragment_workout_screen" />
+
+    <!-- Stats Fragment -->
+    <fragment
+        android:id="@+id/nav_stats"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.statisticScreen"
+        android:label="Stats"
+        tools:layout="@layout/fragment_statistic_screen" />
+
+    <!-- Challenge Fragment -->
+    <fragment
+        android:id="@+id/nav_challenge"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.challengeScreen"
+        android:label="Challenge"
+        tools:layout="@layout/fragment_challenge_screen" />
+</navigation>

@@ -1,124 +1,126 @@
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:orientation="vertical"
+    android:gravity="top"
+    android:padding="0dp"
     android:background="@drawable/gradient_background">
 
+    <!-- Image View -->
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="469dp"
-        android:layout_height="246dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/register" />
+        android:src="@drawable/register" />
 
-    <TextView
-        android:id="@+id/textView4"
+    <!-- Register Form Container -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:text="Register"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textView"
+        <!-- Register Title -->
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="Register"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <!-- Sign Up Message -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_light"
+            android:text="Please register to continue"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <!-- Email Input -->
+        <EditText
+            android:id="@+id/editText_email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_edittext"
+            android:drawableStart="@drawable/email"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/montserrat"
+            android:hint="@string/email"
+            android:textColorHint="@color/white_hint" />
+
+        <!-- Password Input -->
+        <EditText
+            android:id="@+id/editText_password"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_edittext"
+            android:drawableStart="@drawable/lockclosedoutline"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/montserrat"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:textColorHint="@color/white_hint" />
+
+        <!-- Confirm Password Input -->
+        <EditText
+            android:id="@+id/editText_confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_edittext"
+            android:drawableStart="@drawable/lockclosedoutline"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/montserrat"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:textColorHint="@color/white_hint" />
+
+        <!-- Already Have Account Link -->
+        <TextView
+            android:id="@+id/loginLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat_light"
+            android:text="Already have an account? Login"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <!-- Register Button -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Please register to continue"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView4" />
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1"
 
-    <EditText
-        android:id="@+id/editText_email"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rounded_edittext"
-        android:drawableStart="@drawable/email"
-        android:drawablePadding="8dp"
-        android:hint="Email"
-        android:paddingStart="8dp"
-        android:textColorHint="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editText_password"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rounded_edittext"
-        android:drawableStart="@drawable/lockclosedoutline"
-        android:drawablePadding="8dp"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:paddingStart="8dp"
-        android:textColorHint="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/editText_email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/button_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_black_button"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Register"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/editText_confirmPassword"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rounded_edittext"
-        android:drawableStart="@drawable/lockclosedoutline"
-        android:drawablePadding="8dp"
-        android:hint="@string/confirm_password"
-        android:inputType="textPassword"
-        android:paddingStart="8dp"
-        android:textColorHint="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/editText_password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/loginLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="197dp"
-        android:text="@string/already_have_an_account_login"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.117"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_confirmPassword" />
-
-    <Button
-        android:id="@+id/button_register"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="Register"
-        android:textColor="@color/white"
-        android:background="@drawable/rounded_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -34,4 +34,5 @@
     <string name="doey">Doey</string>
     <string name="english">English</string>
     <string name="passwordProfile">******************</string>
+    <string name="registerSubHeading">Please register to continue</string>
 </resources>

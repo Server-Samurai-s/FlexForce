@@ -21,9 +21,9 @@
     <!-- Register Form Container -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:gravity="start"
         android:padding="16dp">
 
@@ -108,7 +108,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_weight="1"
-
+        android:gravity="bottom"
         android:padding="16dp">
 
         <Button

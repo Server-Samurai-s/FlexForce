@@ -42,6 +42,10 @@ class registerScreen : Fragment() {
                 Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
             }
         }
+
+        binding.loginLink.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
     }
 
     private fun registerUser(email: String, password: String) {

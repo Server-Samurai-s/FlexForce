@@ -1,7 +1,5 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
+        android:contentDescription="@string/register_banner"
         android:scaleType="centerCrop"
         android:src="@drawable/register" />
 
@@ -34,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/montserrat_semibold"
-            android:text="Register"
+            android:text="@string/register"
             android:textColor="@color/white"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -46,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/montserrat_light"
-            android:text="Please register to continue"
+            android:text="@string/registerSubHeading"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -61,6 +60,7 @@
             android:drawablePadding="8dp"
             android:fontFamily="@font/montserrat"
             android:hint="@string/email"
+            android:inputType="textEmailAddress"
             android:textColorHint="@color/white_hint" />
 
         <!-- Password Input -->
@@ -69,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
+            android:autofillHints=""
             android:background="@drawable/rounded_edittext"
             android:drawableStart="@drawable/lockclosedoutline"
             android:drawablePadding="8dp"

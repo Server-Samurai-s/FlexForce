@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme -->
     <style name="Base.Theme.FlexForce" parent="Theme.Material3.DayNight.NoActionBar">
@@ -17,7 +17,7 @@
     <!-- Define custom button style extending MaterialButton -->
     <style name="CustomButtonStyle" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/black</item> <!-- Set button background to black -->
-        <item name="cornerRadius">12dp</item>           <!-- Set corner radius -->
+        <item name="cornerRadius">5dp</item>           <!-- Set corner radius -->
         <item name="android:textColor">@color/white</item> <!-- Set text color to white -->
     </style>
 

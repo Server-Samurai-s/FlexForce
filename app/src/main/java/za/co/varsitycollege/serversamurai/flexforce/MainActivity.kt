@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.appcompat.widget.Toolbar
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Initialize Firebase Auth
+        FirebaseAuth.getInstance()
 
         // Set up the toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)

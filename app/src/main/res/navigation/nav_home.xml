@@ -4,12 +4,30 @@
     android:id="@+id/nav_home"
     app:startDestination="@id/navigation_home_inner">
 
-    <!-- Home Inner Fragment -->
+
     <fragment
         android:id="@+id/navigation_home_inner"
         android:name="za.co.varsitycollege.serversamurai.flexforce.homeInnerScreen"
         android:label="Home"
-        tools:layout="@layout/fragment_home_inner_screen" />
+        tools:layout="@layout/fragment_home_inner_screen">
+        <!-- Action to navigate to Profile Fragment -->
+        <action
+            android:id="@+id/action_homeInner_to_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
+
+    <!-- Profile Fragment -->
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ProfileScreenView"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile_screen_view">
+        <!-- Action to navigate back to Home Inner Fragment -->
+        <action
+            android:id="@+id/action_profile_to_homeInner"
+            app:destination="@id/navigation_home_inner" />
+    </fragment>
+
 
     <!-- Workout Fragment -->
     <fragment
@@ -31,4 +49,6 @@
         android:name="za.co.varsitycollege.serversamurai.flexforce.challengeScreen"
         android:label="Challenge"
         tools:layout="@layout/fragment_challenge_screen" />
+
+
 </navigation>

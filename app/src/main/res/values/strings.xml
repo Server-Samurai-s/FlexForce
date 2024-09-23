@@ -2,4 +2,36 @@
     <string name="app_name">FlexForce</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="please_sign_in_to_continue">Please sign in to continue</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="dont_have_an_account_register">Dont have an account? Register</string>
+    <string name="loginbtn">Login</string>
+    <string name="welcome_to_flexforce">Welcome to FlexForce</string>
+    <string name="with_this_app_you_will_be_able_to_get_that_summer_body_in_no_time_but_obviously_enjoy_the_journey">With this app you will be able to get that summer body in no time but obviously enjoy the journey</string>
+    <string name="get_started">Get Started</string>
+    <string name="terms_and_condition_apply">Terms and Condition Apply</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="home">Home</string>
+    <string name="current_streak">Current Streak 🔥</string>
+    <string name="weight">Weight</string>
+    <string name="mon">Mon</string>
+    <string name="favorite_workout">Favorite Workout</string>
+    <string name="please_enter_calories">Please enter calories</string>
+    <string name="please_enter_weight">Please enter weight</string>
+    <string name="fitness_tracker">Fitness Tracker</string>
+    <string name="submit">Submit</string>
+    <string name="settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="last_name">Last Name</string>
+    <string name="name">Name</string>
+    <string name="nickname">Nickname</string>
+    <string name="johnny_doe">Johnny Doe</string>
+    <string name="john">John</string>
+    <string name="doey">Doey</string>
+    <string name="english">English</string>
+    <string name="passwordProfile">******************</string>
 </resources>

@@ -1,13 +1,55 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFEB3B"
-    tools:context=".homeInnerScreen">
+    android:orientation="vertical"
+    android:gravity="top|center_horizontal"
+    tools:context=".homeInnerScreen"
+    android:background="@drawable/gradient_background">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="24dp"
+        android:layout_marginBottom="50dp">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <ImageButton
+                android:id="@+id/user_profileBtn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/round_button"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profilepic" />
+
+            <TextView
+                android:id="@+id/headerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Home"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+
+        <!-- Other views/components go here -->
+
+    </LinearLayout>
+
+    <!-- Include the fragment_home_inner_view layout -->
+    <include
+        layout="@layout/fragment_home_inner_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

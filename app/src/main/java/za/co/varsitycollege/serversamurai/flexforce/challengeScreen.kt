@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,8 +38,29 @@ class challengeScreen : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_challenge_screen, container, false)
+        val view = inflater.inflate(R.layout.fragment_challenge_screen, container, false)
+
+        // Find the Buttons by their IDs
+        val challengeBtn1: Button = view.findViewById(R.id.challenge_1btn)
+        val challengeBtn2: Button = view.findViewById(R.id.challenge_2btn)
+        val challengeBtn3: Button = view.findViewById(R.id.challenge_3btn)
+
+        challengeBtn1.setOnClickListener { navigateWithPayload("Challenge 1", R.id.action_nav_challenge_to_nav_challenge_view) }
+        challengeBtn2.setOnClickListener { navigateWithPayload("Challenge 2", R.id.action_nav_challenge_to_nav_challenge_view) }
+        challengeBtn3.setOnClickListener { navigateWithPayload("Challenge 3", R.id.action_nav_challenge_to_nav_challenge_view) }
+
+
+        return view
     }
+
+    private fun navigateWithPayload(challengeId: String, actionId: Int) {
+        val bundle = Bundle()
+        bundle.putString("challengeId", challengeId)
+        findNavController().navigate(actionId, bundle)
+        Toast.makeText(context, "$challengeId button clicked", Toast.LENGTH_SHORT).show()
+    }
+
+
 
     companion object {
         /**

@@ -74,7 +74,7 @@
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton1"
+                    android:id="@+id/mondayRadioBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
@@ -114,7 +114,7 @@
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton2"
+                    android:id="@+id/tuesdayRadioBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
@@ -153,7 +153,7 @@
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton3"
+                    android:id="@+id/wednesdayRadioBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
@@ -192,7 +192,7 @@
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton4"
+                    android:id="@+id/thursdayRadioBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
@@ -231,7 +231,7 @@
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton5"
+                    android:id="@+id/fridayRadioBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
@@ -270,7 +270,7 @@
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton6"
+                    android:id="@+id/saturdayRadioBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
@@ -309,7 +309,7 @@
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton7"
+                    android:id="@+id/sundayRadioBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />

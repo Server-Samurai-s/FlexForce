@@ -4,40 +4,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".workoutScreen">
+    tools:context=".CreateWorkoutFragment">
 
     <!-- Title -->
     <TextView
-        android:id="@+id/tv_workout_title"
+        android:id="@+id/tv_create_workout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Workouts"
+        android:text="New Workout"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"/>
 
-    <!-- Search Bar -->
+    <!-- Workout Name Input -->
     <EditText
-        android:id="@+id/search_workout"
+        android:id="@+id/et_workout_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search by exercise"
+        android:hint="Name your Workout"
+        android:layout_margin="16dp"
+        android:textSize="20sp"/>
+
+    <!-- Day Selection (Dropdown) -->
+    <Spinner
+        android:id="@+id/spinner_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp" />
 
-    <!-- RecyclerView for Workouts -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_workouts"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="vertical"/>
-
-    <!-- Add Workout Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_workout"
+    <!-- Create Workout Button -->
+    <Button
+        android:id="@+id/btn_create_workout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Create Workout"
         android:layout_gravity="center"
-        android:layout_margin="16dp"/>
+        android:layout_marginTop="16dp"/>
 </LinearLayout>

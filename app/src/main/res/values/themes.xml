@@ -1,9 +1,24 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
+
+    <!-- Base application theme -->
     <style name="Base.Theme.FlexForce" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
+        <!-- Customize your Material3 theme here -->
+
+        <!-- Optional: Define primary, secondary colors for Material3 -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <!-- Customize buttons -->
+        <item name="materialButtonStyle">@style/CustomButtonStyle</item>
     </style>
 
+    <!-- Inherit your custom theme -->
     <style name="Theme.FlexForce" parent="Base.Theme.FlexForce" />
+
+    <!-- Define custom button style extending MaterialButton -->
+    <style name="CustomButtonStyle" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/black</item> <!-- Set button background to black -->
+        <item name="cornerRadius">5dp</item>           <!-- Set corner radius -->
+        <item name="android:textColor">@color/white</item> <!-- Set text color to white -->
+    </style>
+
 </resources>

@@ -4,19 +4,42 @@
     android:id="@+id/nav_home"
     app:startDestination="@id/navigation_home_inner">
 
-    <!-- Home Inner Fragment -->
+
     <fragment
         android:id="@+id/navigation_home_inner"
         android:name="za.co.varsitycollege.serversamurai.flexforce.homeInnerScreen"
         android:label="Home"
-        tools:layout="@layout/fragment_home_inner_screen" />
+        tools:layout="@layout/fragment_home_inner_screen">
+        <!-- Action to navigate to Profile Fragment -->
+        <action
+            android:id="@+id/action_homeInner_to_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
+
+    <!-- Profile Fragment -->
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ProfileScreenView"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile_screen_view">
+        <!-- Action to navigate back to Home Inner Fragment -->
+        <action
+            android:id="@+id/action_profile_to_homeInner"
+            app:destination="@id/navigation_home_inner" />
+    </fragment>
+
 
     <!-- Workout Fragment -->
     <fragment
         android:id="@+id/nav_workout"
         android:name="za.co.varsitycollege.serversamurai.flexforce.workoutScreen"
         android:label="Workout"
-        tools:layout="@layout/fragment_workout_screen" />
+        tools:layout="@layout/fragment_workout_screen">
+        <action
+            android:id="@+id/action_workoutScreen_to_createWorkoutFragment"
+            app:destination="@id/createWorkoutFragment" />
+    </fragment>
+
 
     <!-- Stats Fragment -->
     <fragment
@@ -31,4 +54,45 @@
         android:name="za.co.varsitycollege.serversamurai.flexforce.challengeScreen"
         android:label="Challenge"
         tools:layout="@layout/fragment_challenge_screen" />
+
+
+
+    <!-- Workout Section -->
+
+    <!-- Create Workout Fragment -->
+    <fragment
+        android:id="@+id/createWorkoutFragment"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.CreateWorkoutFragment"
+        android:label="New Workout"
+        tools:layout="@layout/fragment_create_workout">
+
+        <!-- Action to navigate to Select Muscle Group -->
+        <action
+            android:id="@+id/action_createWorkoutFragment_to_selectMuscleGroupFragment"
+            app:destination="@id/selectMuscleGroupFragment" />
+    </fragment>
+
+    <!-- Select Muscle Group Fragment -->
+    <fragment
+        android:id="@+id/selectMuscleGroupFragment"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.SelectMuscleGroupFragment"
+        android:label="Select Muscle Group"
+        tools:layout="@layout/fragment_select_muscle_group">
+
+        <!-- Action to navigate to Add Exercise -->
+        <action
+            android:id="@+id/action_selectMuscleGroupFragment_to_addExerciseFragment"
+            app:destination="@id/addExerciseFragment" />
+    </fragment>
+
+    <!-- Add Exercise Fragment -->
+    <fragment
+        android:id="@+id/addExerciseFragment"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.AddExerciseFragment"
+        android:label="Add Exercises"
+        tools:layout="@layout/fragment_add_exercises">
+
+    </fragment>
+
+
 </navigation>

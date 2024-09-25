@@ -4,40 +4,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".workoutScreen">
+    tools:context=".SelectMuscleGroupFragment">
 
     <!-- Title -->
     <TextView
-        android:id="@+id/tv_workout_title"
+        android:id="@+id/tv_muscle_group_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Workouts"
+        android:text="Select Muscle Group"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"/>
 
-    <!-- Search Bar -->
-    <EditText
-        android:id="@+id/search_workout"
-        android:layout_width="match_parent"
+    <!-- Muscle Group Image -->
+    <ImageView
+        android:id="@+id/iv_body_map"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Search by exercise"
-        android:layout_margin="16dp" />
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"/>
 
-    <!-- RecyclerView for Workouts -->
+    <!-- Muscle Group RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_workouts"
+        android:id="@+id/rv_muscle_groups"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scrollbars="vertical"/>
 
-    <!-- Add Workout Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_workout"
+    <!-- Apply Button -->
+    <Button
+        android:id="@+id/btn_apply_muscle_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Apply"
         android:layout_gravity="center"
         android:layout_margin="16dp"/>
 </LinearLayout>

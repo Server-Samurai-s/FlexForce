@@ -89,7 +89,18 @@
                 android:text="@string/dont_have_an_account_register"
                 android:textColor="@color/white" />
 
-    </LinearLayout>
+            <CheckBox
+                android:id="@+id/checkbox_remember_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember Me"
+                android:textColor="@color/white"
+                android:layout_marginTop="16dp"
+                android:textAlignment="center"
+                android:fontFamily="@font/montserrat_light"/>
+
+
+        </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"

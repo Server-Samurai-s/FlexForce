@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_color"
+    android:padding="16dp"
+    tools:context=".selectExerciseScreen">
+
+    <!-- Top Bar with Back Button and Workout Title -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="16dp">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_left"
+            android:contentDescription="Back"
+            android:layout_alignParentStart="true" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tv_workout_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WORKOUT 1"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <!-- Search Bar -->
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Search by exercise"
+        android:paddingStart="16dp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/search_bar_background"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Muscle Group Button -->
+    <Button
+        android:id="@+id/btn_muscle_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Muscle Group"
+        android:backgroundTint="@color/button_background"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Take Photo Button (For Future Use) -->
+    <Button
+        android:id="@+id/btn_take_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Take Photo"
+        android:backgroundTint="@color/button_background"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone" /> <!-- Hidden for now -->
+
+    <!-- Exercise List (RecyclerView) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_exercise_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical"
+        android:padding="8dp" />
+
+    <!-- Add Selected Button -->
+    <Button
+        android:id="@+id/btn_add_selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Selected"
+        android:backgroundTint="@color/button_background"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

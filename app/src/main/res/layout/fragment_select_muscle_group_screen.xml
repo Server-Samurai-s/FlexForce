@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_color"
+    android:padding="16dp"
+    tools:context=".SelectMuscleGroupScreen">
+
+    <!-- Top Bar with Clear and Apply Buttons -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="16dp">
+
+        <!-- Clear Button -->
+        <TextView
+            android:id="@+id/tv_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CLEAR"
+            android:textColor="@color/clear_color"
+            android:textSize="16sp"
+            android:layout_alignParentStart="true"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tv_muscle_group_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Muscle Group"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_centerInParent="true" />
+
+        <!-- Apply Button -->
+        <TextView
+            android:id="@+id/tv_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="APPLY"
+            android:textColor="@color/apply_color"
+            android:textSize="16sp"
+            android:layout_alignParentEnd="true"
+            android:clickable="true"
+            android:focusable="true" />
+    </RelativeLayout>
+
+    <!-- ViewSwitcher to toggle between Front and Back views -->
+    <ViewSwitcher
+        android:id="@+id/viewSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Front View Anatomy -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_body_map_front"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/muscular_system_front"
+                android:scaleType="fitCenter" />
+
+            <!-- Clickable regions for front view muscles -->
+
+            <!-- Forearms -->
+            <View
+                android:id="@+id/clickable_forearms_front"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:layout_gravity="top|start"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="400dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- Biceps -->
+            <View
+                android:id="@+id/clickable_biceps"
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:layout_gravity="top|start"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="300dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- Add more muscle regions for front view (e.g., Pectorals, Abdominals, Quadriceps) -->
+
+        </FrameLayout>
+
+        <!-- Back View Anatomy -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_body_map_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/muscular_system_back"
+                android:scaleType="fitCenter" />
+
+            <!-- Clickable regions for back view muscles -->
+
+            <!-- Forearms (Back) -->
+            <View
+                android:id="@+id/clickable_forearms_back"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:layout_gravity="top|start"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="400dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- Upper Back -->
+            <View
+                android:id="@+id/clickable_upper_back"
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:layout_gravity="top|start"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="150dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- Add more muscle regions for back view (e.g., Triceps, Lower Back, Gluteus) -->
+
+        </FrameLayout>
+    </ViewSwitcher>
+
+    <!-- Button to Switch Views (Toggle between Front and Back) -->
+    <Button
+        android:id="@+id/btn_switch_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch View"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp" />
+
+    <!-- Spacer for separation -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
+    <!-- RecyclerView for Muscle Groups -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_muscle_groups"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical"
+        android:padding="8dp" />
+</LinearLayout>

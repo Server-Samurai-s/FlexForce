@@ -26,7 +26,7 @@ class CreateWorkoutFragment : Fragment() {
 
         // Handle button click to navigate to SelectMuscleGroupFragment
         binding.btnCreateWorkout.setOnClickListener {
-            findNavController().navigate(R.id.action_createWorkoutFragment_to_selectMuscleGroupFragment)
+            findNavController().navigate(R.id.action_createWorkoutFragment_to_selectExerciseScreen)
         }
     }
 }

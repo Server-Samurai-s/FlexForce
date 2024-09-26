@@ -68,30 +68,27 @@
 
         <!-- Action to navigate to Select Muscle Group -->
         <action
-            android:id="@+id/action_createWorkoutFragment_to_selectMuscleGroupFragment"
-            app:destination="@id/selectMuscleGroupFragment" />
+            android:id="@+id/action_createWorkoutFragment_to_selectExerciseScreen"
+            app:destination="@id/selectExerciseScreen" />
     </fragment>
 
-    <!-- Select Muscle Group Fragment -->
     <fragment
-        android:id="@+id/selectMuscleGroupFragment"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.SelectMuscleGroupFragment"
-        android:label="Select Muscle Group"
-        tools:layout="@layout/fragment_select_muscle_group">
+        android:id="@+id/selectExerciseScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.selectExerciseScreen"
+        android:label="Select Exercise"
+        tools:layout="@layout/fragment_select_exercise_screen">
 
-        <!-- Action to navigate to Add Exercise -->
+
         <action
-            android:id="@+id/action_selectMuscleGroupFragment_to_addExerciseFragment"
-            app:destination="@id/addExerciseFragment" />
+            android:id="@+id/action_selectExerciseScreen_to_selectMuscleGroupScreen"
+            app:destination="@id/selectMuscleGroupScreen" />
     </fragment>
 
-    <!-- Add Exercise Fragment -->
     <fragment
-        android:id="@+id/addExerciseFragment"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.AddExerciseFragment"
-        android:label="Add Exercises"
-        tools:layout="@layout/fragment_add_exercises">
-
+        android:id="@+id/selectMuscleGroupScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.SelectMuscleGroupScreen"
+        android:label="Select Muscle Group"
+        tools:layout="@layout/fragment_select_muscle_group_screen">
     </fragment>
 
 

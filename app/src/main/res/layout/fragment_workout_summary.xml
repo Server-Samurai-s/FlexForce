@@ -4,40 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".workoutScreen">
+    tools:context=".WorkoutSummaryFragment">
 
     <!-- Title -->
     <TextView
-        android:id="@+id/tv_workout_title"
+        android:id="@+id/tv_summary_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Workouts"
+        android:text="Workout Summary"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"/>
 
-    <!-- Search Bar -->
-    <EditText
-        android:id="@+id/search_workout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Search by exercise"
-        android:layout_margin="16dp" />
-
-    <!-- RecyclerView for Workouts -->
+    <!-- RecyclerView to show selected exercises -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_workouts"
+        android:id="@+id/rv_summary_exercises"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scrollbars="vertical"/>
 
-    <!-- Add Workout Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_workout"
+    <!-- Done Button -->
+    <Button
+        android:id="@+id/btn_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Done"
         android:layout_gravity="center"
         android:layout_margin="16dp"/>
 </LinearLayout>

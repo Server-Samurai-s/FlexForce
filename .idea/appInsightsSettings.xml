@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="za.co.varsitycollege.serversamurai.flexforce" />
+                  <option name="mobileSdkAppId" value="1:7419107632:android:25049d656480512593d0f5" />
+                  <option name="projectId" value="flexforce-5aad9" />
+                  <option name="projectNumber" value="7419107632" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

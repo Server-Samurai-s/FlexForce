@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "7419107632",
+    "project_id": "flexforce-5aad9",
+    "storage_bucket": "flexforce-5aad9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7419107632:android:25049d656480512593d0f5",
+        "android_client_info": {
+          "package_name": "za.co.varsitycollege.serversamurai.flexforce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvUYhITNIAr7ISzVd2vLtYJqVdibtwHd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

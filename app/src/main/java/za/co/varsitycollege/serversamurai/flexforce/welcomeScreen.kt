@@ -5,45 +5,33 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.navigation.fragment.findNavController
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentWelcomeScreenBinding
 
 class welcomeScreen : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    // Declare the binding variable
+    private var _binding: FragmentWelcomeScreenBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_welcome_screen, container, false)
+        // Inflate the layout using ViewBinding
+        _binding = FragmentWelcomeScreenBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        view.findViewById<Button>(R.id.GetStartedBtn).setOnClickListener {
-            findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
+        // Set up button click listener using binding
+        binding.getStartedButton.setOnClickListener {
+            findNavController().navigate(R.id.action_welcomeFragment_to_registerFragment)
         }
+
         return view
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            welcomeScreen().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null // Avoid memory leaks
     }
 }

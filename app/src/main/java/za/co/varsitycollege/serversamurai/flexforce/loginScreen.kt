@@ -1,55 +1,81 @@
 package za.co.varsitycollege.serversamurai.flexforce
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.google.firebase.auth.FirebaseAuth
+import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentLoginScreenBinding
 
 class loginScreen : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentLoginScreenBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_login_screen, container, false)
+        // Initialize View Binding
+        binding = FragmentLoginScreenBinding.inflate(inflater, container, false)
 
-        view.findViewById<Button>(R.id.button_login).setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        }
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
 
-        view.findViewById<TextView>(R.id.registerLink).setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-        }
+        // Initialize SharedPreferences
+        sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
-        return view
+        return binding.root
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            loginScreen().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Handle login button click
+        binding.buttonLogin.setOnClickListener {
+            val email = binding.editTextEmail.text.toString()
+            val password = binding.editTextPassword.text.toString()
+
+            // Validate input
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                loginUser(email, password)
+            } else {
+                Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Handle register link click
+        binding.registerLink.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+    }
+
+    private fun loginUser(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Login successful
+                    handleRememberMe(email)
+                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                } else {
+                    // If sign-in fails, display a message to the user.
+                    Toast.makeText(context, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun handleRememberMe(email: String) {
+        // If the user checked "Remember Me"
+        if (binding.checkboxRememberMe.isChecked) {
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("rememberMe", true)
+            editor.putString("email", email)  // Optionally save the email
+            editor.apply()  // Commit changes
+        }
     }
 }

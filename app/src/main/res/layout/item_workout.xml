@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="16dp">
+
+    <!-- Day Indicator (Circular) -->
+    <TextView
+        android:id="@+id/text_day"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/circle_background"
+        android:gravity="center"
+        android:text="Mon"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <!-- Workout Name -->
+    <TextView
+        android:id="@+id/text_workout_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Chest and Biceps"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <!-- Three-dot menu icon (Optional) -->
+    <ImageView
+        android:id="@+id/menu_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@android:drawable/ic_menu_more"
+        android:contentDescription="More options" />
+</LinearLayout>

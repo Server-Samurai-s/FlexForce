@@ -1,43 +1,52 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".workoutScreen">
+    android:background="@color/background_color"
+    android:padding="16dp">
 
     <!-- Title -->
     <TextView
-        android:id="@+id/tv_workout_title"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your Workouts"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"/>
+        android:textColor="@android:color/white"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
 
     <!-- Search Bar -->
     <EditText
-        android:id="@+id/search_workout"
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Search by exercise"
-        android:layout_margin="16dp" />
+        android:background="@drawable/search_bar_background"
+        android:paddingStart="16dp"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp" />
 
     <!-- RecyclerView for Workouts -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_workouts"
+        android:id="@+id/recycler_workouts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:scrollbars="vertical"/>
+        android:layout_marginBottom="16dp" />
 
-    <!-- Add Workout Button -->
+    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_workout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="16dp"/>
+        android:layout_gravity="end"
+        android:src="@android:drawable/ic_input_add"
+        android:contentDescription="Add Workout"
+        app:backgroundTint="@color/primaryColor"
+        android:layout_marginBottom="16dp" />
+
 </LinearLayout>

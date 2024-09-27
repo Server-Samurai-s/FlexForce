@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,6 +12,7 @@
 
     <!-- Top Bar with Clear and Apply Buttons -->
     <RelativeLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -53,95 +55,102 @@
     </RelativeLayout>
 
     <!-- ViewSwitcher to toggle between Front and Back views -->
-    <ViewSwitcher
-        android:id="@+id/viewSwitcher"
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="2">
 
-        <!-- Front View Anatomy -->
-        <FrameLayout
+        <ViewSwitcher
+            android:id="@+id/viewSwitcher"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/iv_body_map_front"
+            <!-- Front View Anatomy -->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/muscular_system_front"
-                android:scaleType="fitCenter" />
+                android:layout_height="match_parent">
 
-            <!-- Clickable regions for front view muscles -->
+                <!-- Base Anatomy Image -->
+                <ImageView
+                    android:id="@+id/iv_body_map_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/muscular_system_front" />
 
-            <!-- Forearms -->
-            <View
-                android:id="@+id/clickable_forearms_front"
-                android:layout_width="80dp"
-                android:layout_height="100dp"
-                android:layout_gravity="top|start"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="400dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true" />
+                <!-- Neck Overlay Image -->
+                <ImageView
+                    android:id="@+id/overlay_neck_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_neck"
+                    android:visibility="gone" />
 
-            <!-- Biceps -->
-            <View
-                android:id="@+id/clickable_biceps"
-                android:layout_width="60dp"
-                android:layout_height="80dp"
-                android:layout_gravity="top|start"
-                android:layout_marginStart="120dp"
-                android:layout_marginTop="300dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true" />
+                <ImageView
+                    android:id="@+id/overlay_shoulders_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_shoulders"
+                    android:visibility="gone" />
 
-            <!-- Add more muscle regions for front view (e.g., Pectorals, Abdominals, Quadriceps) -->
+                <!-- Overlay for hitbox visualization (Optional) -->
+                <za.co.varsitycollege.serversamurai.flexforce.HitboxOverlayView
+                    android:id="@+id/overlay_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:visibility="gone"/>
+            </FrameLayout>
 
-        </FrameLayout>
-
-        <!-- Back View Anatomy -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_body_map_back"
+            <!-- Back View Anatomy -->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/muscular_system_back"
-                android:scaleType="fitCenter" />
+                android:layout_height="match_parent">
 
-            <!-- Clickable regions for back view muscles -->
+                <!-- Base Anatomy Image -->
+                <ImageView
+                    android:id="@+id/iv_body_map_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/muscular_system_back" />
 
-            <!-- Forearms (Back) -->
-            <View
-                android:id="@+id/clickable_forearms_back"
-                android:layout_width="80dp"
-                android:layout_height="100dp"
-                android:layout_gravity="top|start"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="400dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true" />
+                <!-- Trapezius Overlay Image -->
+                <ImageView
+                    android:id="@+id/overlay_traps_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/back_traps"
+                    android:visibility="gone" />
 
-            <!-- Upper Back -->
-            <View
-                android:id="@+id/clickable_upper_back"
-                android:layout_width="100dp"
-                android:layout_height="120dp"
-                android:layout_gravity="top|start"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="150dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true" />
+                <ImageView
+                    android:id="@+id/overlay_deltoids_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/back_deltoids"
+                    android:visibility="gone" />
 
-            <!-- Add more muscle regions for back view (e.g., Triceps, Lower Back, Gluteus) -->
-
-        </FrameLayout>
-    </ViewSwitcher>
+                <!-- Overlay for hitbox visualization (Optional) -->
+                <za.co.varsitycollege.serversamurai.flexforce.HitboxOverlayView
+                    android:id="@+id/overlay_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:visibility="gone"/>
+            </FrameLayout>
+        </ViewSwitcher>
+    </FrameLayout>
 
     <!-- Button to Switch Views (Toggle between Front and Back) -->
     <Button
@@ -149,7 +158,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Switch View"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp" />
 
     <!-- Spacer for separation -->

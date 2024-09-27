@@ -10,32 +10,28 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="24dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/backHomeBtn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/round_button"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/arrow_left" />
+
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
-
-            <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/arrow_left"
-                android:contentDescription="back" />
-
-            <TextView
-                android:id="@+id/headerTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Settings"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white" />
-
-        </RelativeLayout>
+            android:layout_gravity="center"
+            android:text="Settings"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/white" />
 
         <!-- Other views/components go here -->
 

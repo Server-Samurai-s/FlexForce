@@ -1,4 +1,5 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,15 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="24dp"
-        android:layout_marginBottom="50dp">
+        android:padding="16dp">
 
-        <!-- First CardView -->
+        <!-- Header Section -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="24dp">
 
             <ImageButton
                 android:id="@+id/backBtnC"
@@ -35,38 +36,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Beyond Barries"
+                android:text="Beyond Barriers"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/white" />
-
         </RelativeLayout>
 
+        <!-- First CardView -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:backgroundTint="#212121">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#212121">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="24dp">
 
-                <!-- First Element -->
+                <!-- Period Section -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:paddingVertical="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="12dp"
                         android:src="@drawable/calendar" />
 
                     <LinearLayout
@@ -79,7 +82,8 @@
                             android:layout_height="wrap_content"
                             android:text="Period"
                             android:textColor="@android:color/white"
-                            android:textSize="16sp" />
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/timePeriodTxt"
@@ -97,18 +101,18 @@
                     android:layout_height="1dp"
                     android:background="@android:color/darker_gray" />
 
-                <!-- Second Element -->
+                <!-- Challenge Type Section -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:paddingVertical="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="12dp"
                         android:src="@drawable/frame" />
 
                     <LinearLayout
@@ -119,9 +123,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Chllenge type"
+                            android:text="Challenge Type"
                             android:textColor="@android:color/white"
-                            android:textSize="16sp" />
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/challengeTypeTxt"
@@ -139,18 +144,18 @@
                     android:layout_height="1dp"
                     android:background="@android:color/darker_gray" />
 
-                <!-- Third Element -->
+                <!-- Tracking With Section -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:paddingVertical="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="12dp"
                         android:src="@drawable/dumbbell" />
 
                     <LinearLayout
@@ -163,7 +168,8 @@
                             android:layout_height="wrap_content"
                             android:text="Tracking with"
                             android:textColor="@android:color/white"
-                            android:textSize="16sp" />
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/trackingWithTxt"
@@ -177,45 +183,39 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Second CardView -->
+        <!-- Second CardView for Description -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:backgroundTint="#212121">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#212121">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="24dp">
 
-                <!-- First Element -->
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <!-- Description Section -->
+                <TextView
+                    android:id="@+id/descriptionTxt"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:text="Description"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/descriptionTxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Description"
-                            android:textColor="@android:color/white"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-
+                <TextView
+                    android:id="@+id/descriptionDetailsTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is the description of the challenge."
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -225,10 +225,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp"
             android:backgroundTint="@color/black"
             android:text="Start Challenge"
-            android:textColor="@android:color/white" />
-
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="12dp" />
     </LinearLayout>
 </ScrollView>

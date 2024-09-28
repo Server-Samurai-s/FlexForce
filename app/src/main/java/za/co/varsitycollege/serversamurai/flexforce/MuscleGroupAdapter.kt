@@ -2,48 +2,55 @@ package za.co.varsitycollege.serversamurai.flexforce
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import za.co.varsitycollege.serversamurai.flexforce.databinding.ItemMuscleGroupBinding
 
 class MuscleGroupAdapter(
-    private val muscleGroups: List<MuscleGroupItem>, // List of muscle groups
-    private val onMuscleSelected: (MuscleGroupItem) -> Unit // Callback for when a muscle is selected
+    private val muscleGroups: List<SelectMuscleGroupScreen.MuscleGroup>,
+    private val selectedMuscles: List<String> // Pass the selected muscles from the fragment
 ) : RecyclerView.Adapter<MuscleGroupAdapter.MuscleGroupViewHolder>() {
 
-    inner class MuscleGroupViewHolder(val binding: ItemMuscleGroupBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(muscleGroup: MuscleGroupItem) {
-            // Bind muscle group name
-            binding.tvMuscleName.text = muscleGroup.name
-
-            // Update the background based on whether the muscle is selected
-            if (muscleGroup.isSelected) {
-                binding.root.setBackgroundColor(Color.GRAY) // Highlight selected muscle
-            } else {
-                binding.root.setBackgroundColor(Color.TRANSPARENT) // Default background for unselected
-            }
-
-            // Handle muscle group selection on item click
-            binding.root.setOnClickListener {
-                // Trigger callback to toggle selection
-                onMuscleSelected(muscleGroup)
-            }
-        }
+    inner class MuscleGroupViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val groupName: TextView = view.findViewById(R.id.tv_muscle_group_name)
+        val muscleList: LinearLayout = view.findViewById(R.id.layout_muscles)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MuscleGroupViewHolder {
-        val binding = ItemMuscleGroupBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
-        return MuscleGroupViewHolder(binding)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_muscle_group, parent, false)
+        return MuscleGroupViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MuscleGroupViewHolder, position: Int) {
-        holder.bind(muscleGroups[position])
+        val muscleGroup = muscleGroups[position]
+        holder.groupName.text = muscleGroup.name
+
+        // Populate muscles dynamically
+        holder.muscleList.removeAllViews()
+        for (muscle in muscleGroup.muscles) {
+            val muscleTextView = TextView(holder.itemView.context).apply {
+                text = muscle
+                setPadding(16, 8, 16, 8)
+                setTextColor(Color.WHITE)
+
+                // Highlight the muscle if it's selected
+                if (selectedMuscles.contains(muscle)) {
+                    setBackgroundColor(Color.YELLOW) // or any highlight color
+                } else {
+                    setBackgroundColor(Color.TRANSPARENT)
+                }
+            }
+            holder.muscleList.addView(muscleTextView)
+        }
     }
 
     override fun getItemCount(): Int = muscleGroups.size
 }
+
+
+
+
 
 

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -139,7 +140,11 @@ class SelectMuscleGroupScreen : Fragment() {
         }
 
         tvApply.setOnClickListener {
-            //applySelections()
+            val bundle = Bundle().apply {
+                putStringArrayList("selectedMuscles", ArrayList(selectedMuscles))
+            }
+
+            findNavController().navigate(R.id.action_selectMuscleGroupScreen_to_selectExerciseScreen, bundle)
         }
 
         setupRecyclerView()

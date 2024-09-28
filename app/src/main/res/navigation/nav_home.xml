@@ -106,7 +106,7 @@
 
     <fragment
         android:id="@+id/selectExerciseScreen"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.selectExerciseScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.SelectExerciseScreen"
         android:label="Select Exercise"
         tools:layout="@layout/fragment_select_exercise_screen">
 
@@ -121,6 +121,9 @@
         android:name="za.co.varsitycollege.serversamurai.flexforce.SelectMuscleGroupScreen"
         android:label="Select Muscle Group"
         tools:layout="@layout/fragment_select_muscle_group_screen">
+        <action
+            android:id="@+id/action_selectMuscleGroupScreen_to_selectExerciseScreen"
+            app:destination="@id/selectExerciseScreen" />
     </fragment>
 
 

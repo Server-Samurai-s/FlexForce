@@ -1,49 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:padding="16dp">
+    android:background="@drawable/item_exercise_background"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:elevation="4dp"
+    android:gravity="center_vertical">
 
-    <!-- Exercise Category Icon -->
-    <ImageView
-        android:id="@+id/iv_exercise_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@android:drawable/ic_menu_info_details"
-    android:layout_marginEnd="8dp" />
+    <!-- Category or Icon -->
 
-    <!-- Exercise Name and Category -->
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_exercise_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Body Weight"
-            android:textSize="12sp"
-            android:textColor="@android:color/darker_gray" />
-
+        <!-- Exercise Name -->
         <TextView
             android:id="@+id/tv_exercise_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Archer push-up"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@android:color/black" />
+
+        <!-- Sets and Reps -->
+        <TextView
+            android:id="@+id/tv_sets_reps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textColor="@android:color/black" />
+
+        <!-- Category or Equipment Tag -->
+        <TextView
+            android:id="@+id/tv_equipment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Body Weight"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
+
     </LinearLayout>
 
-    <!-- Add Button -->
-    <ImageView
+    <!-- Plus Button -->
+    <Button
         android:id="@+id/btn_add_exercise"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@android:drawable/ic_input_add"
-        android:contentDescription="Add Exercise" />
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="Add Exercise"
+        android:layout_marginStart="16dp" />
 </LinearLayout>

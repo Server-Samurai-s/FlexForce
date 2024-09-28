@@ -23,7 +23,7 @@
             android:id="@+id/tv_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CLEAR"
+            android:text="@string/clear"
             android:textColor="@color/clear_color"
             android:textSize="16sp"
             android:layout_alignParentStart="true"
@@ -35,7 +35,7 @@
             android:id="@+id/tv_muscle_group_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Muscle Group"
+            android:text="@string/muscle_group"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
@@ -46,7 +46,7 @@
             android:id="@+id/tv_apply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="APPLY"
+            android:text="@string/apply"
             android:textColor="@color/apply_color"
             android:textSize="16sp"
             android:layout_alignParentEnd="true"
@@ -77,6 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
                     android:scaleType="fitCenter"
                     android:src="@drawable/muscular_system_front" />
 
@@ -86,6 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
                     android:scaleType="fitCenter"
                     android:src="@drawable/front_neck"
                     android:visibility="gone" />
@@ -95,8 +97,98 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
                     android:scaleType="fitCenter"
                     android:src="@drawable/front_shoulders"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_chest_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_chest"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_biceps_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_biceps"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_obliques_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_obliques"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_abs_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_abs"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_inner_thighs_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_inner_thighs"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_forearms_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_forearms"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_quads_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_quads"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_tibs_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_tibs"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_hips_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/front_hips"
                     android:visibility="gone" />
 
                 <!-- Overlay for hitbox visualization (Optional) -->
@@ -119,6 +211,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
                     android:scaleType="fitCenter"
                     android:src="@drawable/muscular_system_back" />
 
@@ -129,6 +222,7 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
+                    android:contentDescription="@string/todo"
                     android:src="@drawable/back_traps"
                     android:visibility="gone" />
 
@@ -138,7 +232,97 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
+                    android:contentDescription="@string/todo"
                     android:src="@drawable/back_deltoids"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_para_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/back_para"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_triceps_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/back_triceps"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_upper_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/back_upper_back"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_lower_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/back_lower_back"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_hips_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/back_hips"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_glutes_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/back_glutes"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_forearms_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/back_forearms"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_hamstrings_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/back_hamstrings"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/overlay_calves_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/back_calves"
                     android:visibility="gone" />
 
                 <!-- Overlay for hitbox visualization (Optional) -->
@@ -157,7 +341,7 @@
         android:id="@+id/btn_switch_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Switch View"
+        android:text="@string/switch_view"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp" />
 

@@ -17,6 +17,7 @@ import za.co.varsitycollege.serversamurai.flexforce.service.WorkoutRequest
 
 import android.text.Editable
 import android.text.TextWatcher
+import com.google.firebase.auth.FirebaseAuth
 
 class workoutScreen : Fragment() {
 
@@ -62,7 +63,7 @@ class workoutScreen : Fragment() {
     }
 
     private fun fetchUserWorkouts() {
-        val userId = "xPdIUiUTXhfKWVmaxLIQftA9rwB2" // Replace with actual Firebase user ID
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: "default_user_id"
         ApiClient.retrofitService.getUserWorkouts(userId).enqueue(object : Callback<List<WorkoutRequest>> {
             override fun onResponse(call: Call<List<WorkoutRequest>>, response: Response<List<WorkoutRequest>>) {
                 if (response.isSuccessful) {

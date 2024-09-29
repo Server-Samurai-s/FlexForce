@@ -1,0 +1,87 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tabs"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="bottom"
+    android:clipToOutline="true"
+    android:background="@color/black">
+
+    <!-- Home Tab -->
+    <LinearLayout
+        android:id="@+id/home_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="30dp">
+
+        <ImageView
+            android:id="@+id/home_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/home"
+            android:contentDescription="Home Icon" />
+
+        <TextView
+            android:id="@+id/home_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Statistics Tab -->
+    <LinearLayout
+        android:id="@+id/statistics_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/stats_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/bar_chart"
+            android:contentDescription="Stats Icon" />
+
+        <TextView
+            android:id="@+id/_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stats"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Workout Tab -->
+    <LinearLayout
+        android:id="@+id/workout_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="false">
+
+        <ImageView
+            android:id="@+id/workout_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/bar_chart"
+            android:contentDescription="Stats Icon" />
+
+        <TextView
+            android:id="@+id/workout_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Workout"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</RelativeLayout>

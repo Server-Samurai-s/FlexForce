@@ -60,4 +60,12 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
+    // Add the Firebase SDK for Google Analytics
+    implementation(libs.firebase.analytics.ktx)
+
+    // Add the Cloud Firestore SDK
+    implementation(libs.firebase.firestore.ktx)
 }
+
+// Add this to the bottom of the file
+apply(plugin = "com.google.gms.google-services")

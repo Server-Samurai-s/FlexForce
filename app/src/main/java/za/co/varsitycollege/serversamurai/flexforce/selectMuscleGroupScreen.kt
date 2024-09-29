@@ -48,6 +48,9 @@ class SelectMuscleGroupScreen : Fragment() {
     private lateinit var overlayCalvesBack: ImageView
     private lateinit var overlayHipsBack: ImageView
 
+    private lateinit var workoutName: String
+    private lateinit var selectedDay: String
+
 
     // Hitboxes for front view
     private val frontHitboxes = mutableListOf<Hitbox>()
@@ -67,6 +70,10 @@ class SelectMuscleGroupScreen : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_select_muscle_group_screen, container, false)
+
+        // Retrieve workout name and day from arguments
+        workoutName = arguments?.getString("workoutName") ?: "Default Workout"
+        selectedDay = arguments?.getString("selectedDay") ?: "Monday"
 
         // Initialize views
         ivBodyMapFront = view.findViewById(R.id.iv_body_map_front)
@@ -141,6 +148,8 @@ class SelectMuscleGroupScreen : Fragment() {
 
         tvApply.setOnClickListener {
             val bundle = Bundle().apply {
+                putString("workoutName", workoutName)
+                putString("selectedDay", selectedDay)
                 putStringArrayList("selectedMuscles", ArrayList(selectedMuscles))
             }
 

@@ -14,4 +14,6 @@
     <color name="clear_color">#FFC107</color> <!-- Amber for Clear button -->
     <color name="apply_color">#4CAF50</color> <!-- Green for Apply button -->
     <color name="button_background">#000000</color> <!-- Black button background -->
+    <color name="yellow">#FFE249</color> <!-- White text color -->
+    <color name="selected_background">#919191</color> <!-- Red text color -->
 </resources>

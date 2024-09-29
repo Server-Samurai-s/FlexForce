@@ -114,6 +114,9 @@
         <action
             android:id="@+id/action_selectExerciseScreen_to_selectMuscleGroupScreen"
             app:destination="@id/selectMuscleGroupScreen" />
+        <action
+            android:id="@+id/action_selectExerciseScreen_to_workoutSummaryScreen"
+            app:destination="@id/workoutSummaryScreen" />
     </fragment>
 
     <fragment
@@ -123,6 +126,20 @@
         tools:layout="@layout/fragment_select_muscle_group_screen">
         <action
             android:id="@+id/action_selectMuscleGroupScreen_to_selectExerciseScreen"
+            app:destination="@id/selectExerciseScreen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/workoutSummaryScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.WorkoutSummaryScreen"
+        android:label="Workout Summary"
+        tools:layout="@layout/fragment_workout_summary_screen">
+
+        <action
+            android:id="@+id/action_workoutSummaryScreen_to_nav_workout"
+            app:destination="@id/nav_workout" />
+        <action
+            android:id="@+id/action_workoutSummaryScreen_to_selectExerciseScreen"
             app:destination="@id/selectExerciseScreen" />
     </fragment>
 

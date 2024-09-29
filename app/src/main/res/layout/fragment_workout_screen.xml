@@ -12,7 +12,8 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Workouts"
+        android:text="YOUR WORKOUTS"
+        android:fontFamily="@font/montserrat_semibold"
         android:textSize="24sp"
         android:textColor="@android:color/white"
         android:layout_gravity="center_horizontal"
@@ -26,9 +27,12 @@
         android:hint="Search by exercise"
         android:background="@drawable/search_bar_background"
         android:paddingStart="16dp"
-        android:drawableStart="@android:drawable/ic_menu_search"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="16dp" />
+        android:textSize="14sp"
+        android:fontFamily="@font/montserrat"
+        android:drawableStart="@drawable/ic_search"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="10dp"/>
 
     <!-- RecyclerView for Workouts -->
     <androidx.recyclerview.widget.RecyclerView
@@ -38,15 +42,13 @@
         android:layout_weight="1"
         android:layout_marginBottom="16dp" />
 
-    <!-- Floating Action Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageView
         android:id="@+id/fab_add_workout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:src="@android:drawable/ic_input_add"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
         android:contentDescription="Add Workout"
-        app:backgroundTint="@color/primaryColor"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/add_button" />
 
 </LinearLayout>

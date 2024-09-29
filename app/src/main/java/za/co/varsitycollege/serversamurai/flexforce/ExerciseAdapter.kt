@@ -1,17 +1,21 @@
 package za.co.varsitycollege.serversamurai.flexforce
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import za.co.varsitycollege.serversamurai.flexforce.service.Exercise
+import za.co.varsitycollege.serversamurai.flexforce.Exercise
 
 class ExerciseAdapter(
-    private var exercises: List<za.co.varsitycollege.serversamurai.flexforce.service.Exercise>,
-    private val onExerciseSelected: (Exercise) -> Unit // Callback for selected exercise
+    private var exercises: List<Exercise>,
+    private val onExerciseSelected: (Exercise, Boolean) -> Unit // Callback for selected exercise and its selection state
 ) : RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>() {
+
+    // Tracks selected exercises
+    private val selectedExercises: MutableSet<Exercise> = mutableSetOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_exercise, parent, false)
@@ -20,17 +24,30 @@ class ExerciseAdapter(
 
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
         val exercise = exercises[position]
+
         holder.tvExerciseName.text = exercise.name
         holder.tvSetsReps.text = "${exercise.sets} sets x ${exercise.reps} reps"
+        holder.tvMuscleGroup.text = exercise.muscleGroup
+        holder.tvEquipment.text = exercise.equipment
 
-        // Handling the "Back" button press, you can navigate or filter accordingly
-//        holder.btnBackMuscle.setOnClickListener {
-//            // Handle the back muscle button press if necessary
-//        }
 
-        // Handling the "+" button press to select the exercise
-        holder.btnAddExercise.setOnClickListener {
-            onExerciseSelected(exercise)
+        // Highlight the item if it's selected
+        if (selectedExercises.contains(exercise)) {
+            holder.itemView.setBackgroundColor(holder.itemView.context.getColor(R.color.selected_background))
+        } else {
+            holder.itemView.setBackgroundColor(holder.itemView.context.getColor(android.R.color.transparent))
+        }
+
+        // Handle the click to select/deselect the exercise
+        holder.itemView.setOnClickListener {
+            val isSelected = selectedExercises.contains(exercise)
+            if (isSelected) {
+                selectedExercises.remove(exercise)
+            } else {
+                selectedExercises.add(exercise)
+            }
+            notifyItemChanged(position) // Update the item visual state
+            onExerciseSelected(exercise, !isSelected)
         }
     }
 
@@ -38,16 +55,17 @@ class ExerciseAdapter(
         return exercises.size
     }
 
-    class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvExerciseName: TextView = itemView.findViewById(R.id.tv_exercise_name)
-        val tvSetsReps: TextView = itemView.findViewById(R.id.tv_sets_reps)
-//        val btnBackMuscle: Button = itemView.findViewById(R.id.btn_back_muscle)
-        val btnAddExercise: Button = itemView.findViewById(R.id.btn_add_exercise)
-    }
-
     fun updateExercises(newExercises: List<Exercise>) {
         exercises = newExercises
         notifyDataSetChanged()
     }
+
+    class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvExerciseName: TextView = itemView.findViewById(R.id.tv_exercise_name)
+        val tvSetsReps: TextView = itemView.findViewById(R.id.tv_sets_reps)
+        val tvMuscleGroup: TextView = itemView.findViewById(R.id.tv_muscle_group)
+        val tvEquipment: TextView = itemView.findViewById(R.id.tv_equipment)
+    }
 }
+
 

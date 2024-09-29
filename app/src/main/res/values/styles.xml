@@ -5,4 +5,15 @@
         <item name="exampleColor">@color/light_blue_400</item>
         <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
     </style>
+
+    <style name="CustomButton">
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textColor">#FFFFFF</item> <!-- White text -->
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="CustomAddButton">
+        <item name="android:background">@drawable/plus</item>
+        <item name="android:textColor">#FFFFFF</item> <!-- White text -->
+    </style>
 </resources>

@@ -1,11 +1,14 @@
 package za.co.varsitycollege.serversamurai.flexforce
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,11 +21,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
+import za.co.varsitycollege.serversamurai.flexforce.Exercise
 import za.co.varsitycollege.serversamurai.flexforce.service.ExerciseResponse
 
 // Define data classes for API request and response
 data class MuscleRequest(val muscles: List<String>)
-data class Exercise(val name: String, val sets: Int, val reps: Int)
 
 interface ApiService {
     @POST("api/workouts/exercises")
@@ -34,6 +37,15 @@ class SelectExerciseScreen : Fragment() {
     private lateinit var rvExerciseList: RecyclerView
     private lateinit var apiService: ApiService
     private lateinit var selectedMuscles: List<String>
+    private var selectedExercises: MutableList<Exercise> = mutableListOf()
+
+    private lateinit var addSelectedText: TextView
+    private lateinit var selectedCounterText: TextView
+    private lateinit var selectMuscleGroupButton: Button
+    private lateinit var addSelectedLayout: View
+
+    private lateinit var workoutName: String
+    private lateinit var selectedDay: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +53,20 @@ class SelectExerciseScreen : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_select_exercise_screen, container, false)
 
+        // Retrieve workout name and selected day from arguments
+        workoutName = arguments?.getString("workoutName") ?: "Default Workout"
+        selectedDay = arguments?.getString("selectedDay") ?: "Monday"
+
         // Initialize RecyclerView
         rvExerciseList = view.findViewById(R.id.rv_exercise_list)
         rvExerciseList.layoutManager = LinearLayoutManager(context)
 
+        // Get the text views for the Add Selected button and the counter
+        addSelectedText = view.findViewById(R.id.tv_add_selected)
+        selectedCounterText = view.findViewById(R.id.tv_selected_counter)
+
         // Get selected muscles from arguments (from previous fragment)
-        selectedMuscles = arguments?.getStringArrayList("selectedMuscles") ?: listOf("Biceps", "Triceps") // default example
+        selectedMuscles = arguments?.getStringArrayList("selectedMuscles") ?: listOf() // default example
 
         // Initialize Retrofit
         val retrofit = Retrofit.Builder()
@@ -56,17 +76,32 @@ class SelectExerciseScreen : Fragment() {
 
         apiService = retrofit.create(ApiService::class.java)
 
-        // Button to go to the muscle group selection screen
-        val btnSelectMuscleGroup = view.findViewById<Button>(R.id.btn_muscle_group)
-        btnSelectMuscleGroup.setOnClickListener {
-            findNavController().navigate(R.id.action_selectExerciseScreen_to_selectMuscleGroupScreen)
+        // Set up the adapter with a callback for exercise selection
+        rvExerciseList.adapter = ExerciseAdapter(emptyList()) { exercise, isSelected ->
+            toggleExerciseSelection(exercise, isSelected)
         }
 
-        // Set up the adapter with a callback for exercise selection
-        rvExerciseList.adapter = ExerciseAdapter(emptyList()) { selectedExercise ->
-            // Handle what happens when an exercise is selected
-            Toast.makeText(context, "${selectedExercise.name} selected", Toast.LENGTH_SHORT).show()
+        selectMuscleGroupButton = view.findViewById(R.id.btn_muscle_group)
+        selectMuscleGroupButton.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("workoutName", workoutName)
+                putString("selectedDay", selectedDay)
+            }
+            findNavController().navigate(R.id.action_selectExerciseScreen_to_selectMuscleGroupScreen, bundle)
         }
+
+        addSelectedLayout = view.findViewById(R.id.add_selected_layout)
+        addSelectedLayout.setOnClickListener {
+            // Pass the selected exercises to the next fragment
+            val bundle = Bundle().apply {
+                putParcelableArrayList("selectedExercises", ArrayList(selectedExercises))
+                putString("workoutName", workoutName)
+                putString("selectedDay", selectedDay)
+            }
+
+            findNavController().navigate(R.id.action_selectExerciseScreen_to_workoutSummaryScreen, bundle)
+        }
+
 
         // Fetch exercises based on selected muscles
         fetchFilteredExercises(selectedMuscles)
@@ -95,6 +130,28 @@ class SelectExerciseScreen : Fragment() {
             }
         })
     }
+
+    private fun toggleExerciseSelection(exercise: Exercise, isSelected: Boolean) {
+        if (isSelected) {
+            // Add exercise to selected list
+            selectedExercises.add(exercise)
+        } else {
+            // Remove exercise from selected list
+            selectedExercises.remove(exercise)
+        }
+
+        // Update the counter text
+        val count = selectedExercises.size
+        selectedCounterText.text = if (count > 0) {
+            "$count exercises selected"
+        } else {
+            "0 exercises selected"
+        }
+    }
 }
+
+
+
+
 
 

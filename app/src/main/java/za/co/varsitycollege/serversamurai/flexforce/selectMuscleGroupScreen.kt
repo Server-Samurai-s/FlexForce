@@ -21,12 +21,31 @@ class SelectMuscleGroupScreen : Fragment() {
     private lateinit var tvClear: TextView
     private lateinit var tvApply: TextView
 
-    // Overlay ImageViews
+    // Overlay Front ImageViews
     private lateinit var overlayNeckFront: ImageView
     private lateinit var overlayShouldersFront: ImageView
+    private lateinit var overlayChestFront: ImageView
+    private lateinit var overlayBicepsFront: ImageView
+    private lateinit var overlayObliquesFront: ImageView
+    private lateinit var overlayAbsFront: ImageView
+    private lateinit var overlayInnerThighsFront: ImageView
+    private lateinit var overlayForearmsFront: ImageView
+    private lateinit var overlayQuadsFront: ImageView
+    private lateinit var overlayTibsFront: ImageView
+    private lateinit var overlayHipsFront: ImageView
 
+    // Overlay Back ImageViews
     private lateinit var overlayTrapsBack: ImageView
     private lateinit var overlayDeltoidsBack: ImageView
+    private lateinit var overlayParaBack: ImageView
+    private lateinit var overlayTricepsBack: ImageView
+    private lateinit var overlayUpperBack: ImageView
+    private lateinit var overlayLowerBack: ImageView
+    private lateinit var overlayGlutesBack: ImageView
+    private lateinit var overlayForearmsBack: ImageView
+    private lateinit var overlayHamstringsBack: ImageView
+    private lateinit var overlayCalvesBack: ImageView
+    private lateinit var overlayHipsBack: ImageView
 
 
     // Hitboxes for front view
@@ -65,9 +84,28 @@ class SelectMuscleGroupScreen : Fragment() {
         // Initialize overlay ImageViews
         overlayNeckFront = view.findViewById(R.id.overlay_neck_front)
         overlayShouldersFront = view.findViewById(R.id.overlay_shoulders_front)
+        overlayChestFront = view.findViewById(R.id.overlay_chest_front)
+        overlayBicepsFront = view.findViewById(R.id.overlay_biceps_front)
+        overlayObliquesFront = view.findViewById(R.id.overlay_obliques_front)
+        overlayAbsFront = view.findViewById(R.id.overlay_abs_front)
+        overlayInnerThighsFront = view.findViewById(R.id.overlay_inner_thighs_front)
+        overlayForearmsFront = view.findViewById(R.id.overlay_forearms_front)
+        overlayQuadsFront = view.findViewById(R.id.overlay_quads_front)
+        overlayTibsFront = view.findViewById(R.id.overlay_tibs_front)
+        overlayHipsFront = view.findViewById(R.id.overlay_hips_front)
+
 
         overlayTrapsBack = view.findViewById(R.id.overlay_traps_back)
         overlayDeltoidsBack = view.findViewById(R.id.overlay_deltoids_back)
+        overlayParaBack = view.findViewById(R.id.overlay_para_back)
+        overlayTricepsBack = view.findViewById(R.id.overlay_triceps_back)
+        overlayUpperBack = view.findViewById(R.id.overlay_upper_back)
+        overlayLowerBack = view.findViewById(R.id.overlay_lower_back)
+        overlayGlutesBack = view.findViewById(R.id.overlay_glutes_back)
+        overlayForearmsBack = view.findViewById(R.id.overlay_forearms_back)
+        overlayHamstringsBack = view.findViewById(R.id.overlay_hamstrings_back)
+        overlayCalvesBack = view.findViewById(R.id.overlay_calves_back)
+        overlayHipsBack = view.findViewById(R.id.overlay_hips_back)
 
         // Set OnTouchListeners
         ivBodyMapFront.setOnTouchListener(frontTouchListener)
@@ -171,7 +209,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.64f * drawableWidth,
             0.27f * drawableHeight
         )
-        frontHitboxes.add(Hitbox("Upper Chest", chestRect))
+        frontHitboxes.add(Hitbox("Chest", chestRect))
 
         // Forearms (Front)
         val leftForearmFrontRect = RectF(
@@ -180,7 +218,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.25f * drawableWidth,
             0.47f * drawableHeight
         )
-        frontHitboxes.add(Hitbox("Left Forearm (Front)", leftForearmFrontRect))
+        frontHitboxes.add(Hitbox("Forearms", leftForearmFrontRect))
 
         val rightForearmFrontRect = RectF(
             0.73f * drawableWidth,
@@ -188,7 +226,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.92f * drawableWidth,
             0.46f * drawableHeight
         )
-        frontHitboxes.add(Hitbox("Right Forearm (Front)", rightForearmFrontRect))
+        frontHitboxes.add(Hitbox("Forearms", rightForearmFrontRect))
 
         // Biceps (using Triceps coordinates)
         val leftBicepsRect = RectF(
@@ -197,7 +235,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.30f * drawableWidth,
             0.35f * drawableHeight
         )
-        frontHitboxes.add(Hitbox("Left Biceps", leftBicepsRect))
+        frontHitboxes.add(Hitbox("Biceps", leftBicepsRect))
 
         val rightBicepsRect = RectF(
             0.70f * drawableWidth,
@@ -205,7 +243,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.85f * drawableWidth,
             0.35f * drawableHeight
         )
-        frontHitboxes.add(Hitbox("Right Biceps", rightBicepsRect))
+        frontHitboxes.add(Hitbox("Biceps", rightBicepsRect))
 
         // Shoulders (using Rotator Cuff coordinates)
         val leftShoulderRect = RectF(
@@ -235,12 +273,44 @@ class SelectMuscleGroupScreen : Fragment() {
 
         // Abdominals (using Paravertebrals coordinates)
         val abdominalsRect = RectF(
-            0.31f * drawableWidth,
+            0.40f * drawableWidth,
             0.27f * drawableHeight,
-            0.69f * drawableWidth,
+            0.60f * drawableWidth,
             0.43f * drawableHeight
         )
         frontHitboxes.add(Hitbox("Abdominals", abdominalsRect))
+
+        val leftObliqueRect = RectF(
+            0.30f * drawableWidth,
+            0.27f * drawableHeight,
+            0.40f * drawableWidth,
+            0.43f * drawableHeight
+        )
+        frontHitboxes.add(Hitbox("Obliques", leftObliqueRect))
+
+        val rightObliqueRect = RectF(
+            0.60f * drawableWidth,
+            0.27f * drawableHeight,
+            0.70f * drawableWidth,
+            0.43f * drawableHeight
+        )
+        frontHitboxes.add(Hitbox("Obliques", rightObliqueRect))
+
+        val leftHipRect = RectF(
+            0.25f * drawableWidth,
+            0.43f * drawableHeight,
+            0.38f * drawableWidth,
+            0.50f * drawableHeight
+        )
+        frontHitboxes.add(Hitbox("Hips", leftHipRect))
+
+        val rightHipRect = RectF(
+            0.62f * drawableWidth,
+            0.43f * drawableHeight,
+            0.73f * drawableWidth,
+            0.50f * drawableHeight
+        )
+        frontHitboxes.add(Hitbox("Hips", rightHipRect))
 
         // Hip Flexors (using Gluteus coordinates)
         val hipFlexorsRect = RectF(
@@ -249,24 +319,24 @@ class SelectMuscleGroupScreen : Fragment() {
             0.60f * drawableWidth,
             0.54f * drawableHeight
         )
-        frontHitboxes.add(Hitbox("Hip Flexors", hipFlexorsRect))
+        frontHitboxes.add(Hitbox("Inner Thighs", hipFlexorsRect))
 
         // Quadriceps (using Hamstrings coordinates)
         val leftQuadricepsRect = RectF(
             0.29f * drawableWidth,
-            0.54f * drawableHeight,
+            0.50f * drawableHeight,
             0.48f * drawableWidth,
             0.69f * drawableHeight
         )
-        frontHitboxes.add(Hitbox("Left Quadriceps", leftQuadricepsRect))
+        frontHitboxes.add(Hitbox("Quadriceps", leftQuadricepsRect))
 
         val rightQuadricepsRect = RectF(
             0.52f * drawableWidth,
-            0.54f * drawableHeight,
+            0.50f * drawableHeight,
             0.68f * drawableWidth,
             0.69f * drawableHeight
         )
-        frontHitboxes.add(Hitbox("Right Quadriceps", rightQuadricepsRect))
+        frontHitboxes.add(Hitbox("Quadriceps", rightQuadricepsRect))
 
         // Calves (Front)
         val leftTibialisFrontRect = RectF(
@@ -275,7 +345,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.48f * drawableWidth,
             0.92f * drawableHeight
         )
-        frontHitboxes.add(Hitbox("Left Calf (Front)", leftTibialisFrontRect))
+        frontHitboxes.add(Hitbox("Tibialis", leftTibialisFrontRect))
 
         val rightTibialisFrontRect = RectF(
             0.52f * drawableWidth,
@@ -283,7 +353,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.70f * drawableWidth,
             0.92f * drawableHeight
         )
-        frontHitboxes.add(Hitbox("Right Calf (Front)", rightTibialisFrontRect))
+        frontHitboxes.add(Hitbox("Tibialis", rightTibialisFrontRect))
     }
 
     private fun initializeBackHitboxes() {
@@ -318,7 +388,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.25f * drawableWidth,
             0.47f * drawableHeight
         )
-        backHitboxes.add(Hitbox("Left Forearm (Back)", leftForearmBackRect))
+        backHitboxes.add(Hitbox("Forearms", leftForearmBackRect))
 
         val rightForearmBackRect = RectF(
             0.73f * drawableWidth,
@@ -326,7 +396,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.92f * drawableWidth,
             0.46f * drawableHeight
         )
-        backHitboxes.add(Hitbox("Right Forearm (Back)", rightForearmBackRect))
+        backHitboxes.add(Hitbox("Forearms", rightForearmBackRect))
 
         // Triceps
         val leftTricepsRect = RectF(
@@ -335,7 +405,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.30f * drawableWidth,
             0.35f * drawableHeight
         )
-        backHitboxes.add(Hitbox("Left Triceps", leftTricepsRect))
+        backHitboxes.add(Hitbox("Triceps", leftTricepsRect))
 
         val rightTricepsRect = RectF(
             0.70f * drawableWidth,
@@ -343,7 +413,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.85f * drawableWidth,
             0.35f * drawableHeight
         )
-        backHitboxes.add(Hitbox("Right Triceps", rightTricepsRect))
+        backHitboxes.add(Hitbox("Triceps", rightTricepsRect))
 
         // Rotator Cuff
         val leftDeltoidRect = RectF(
@@ -369,7 +439,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.69f * drawableWidth,
             0.17f * drawableHeight
         )
-        backHitboxes.add(Hitbox("Trapezius (Back)", trapeziusBackRect))
+        backHitboxes.add(Hitbox("Trapezius", trapeziusBackRect))
 
         // Paravertebrals
         val paravertebralsRect = RectF(
@@ -382,12 +452,29 @@ class SelectMuscleGroupScreen : Fragment() {
 
         // Gluteus
         val gluteusRect = RectF(
-            0.32f * drawableWidth,
+            0.38f * drawableWidth,
             0.42f * drawableHeight,
-            0.67f * drawableWidth,
+            0.62f * drawableWidth,
             0.54f * drawableHeight
         )
         backHitboxes.add(Hitbox("Gluteus", gluteusRect))
+
+        val leftHipRect = RectF(
+            0.28f * drawableWidth,
+            0.42f * drawableHeight,
+            0.38f * drawableWidth,
+            0.48f * drawableHeight
+        )
+        backHitboxes.add(Hitbox("Hips", leftHipRect))
+
+        val rightHipRect = RectF(
+            0.62f * drawableWidth,
+            0.42f * drawableHeight,
+            0.72f * drawableWidth,
+            0.48f * drawableHeight
+        )
+        backHitboxes.add(Hitbox("Hips", rightHipRect))
+
 
         // Hamstrings
         val leftHamstringRect = RectF(
@@ -396,7 +483,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.48f * drawableWidth,
             0.69f * drawableHeight
         )
-        backHitboxes.add(Hitbox("Left Hamstring", leftHamstringRect))
+        backHitboxes.add(Hitbox("Hamstrings", leftHamstringRect))
 
         val rightHamstringRect = RectF(
             0.52f * drawableWidth,
@@ -404,7 +491,7 @@ class SelectMuscleGroupScreen : Fragment() {
             0.70f * drawableWidth,
             0.69f * drawableHeight
         )
-        backHitboxes.add(Hitbox("Right Hamstring", rightHamstringRect))
+        backHitboxes.add(Hitbox("Hamstrings", rightHamstringRect))
 
         // Calves (Back)
         val leftCalfBackRect = RectF(
@@ -413,7 +500,7 @@ class SelectMuscleGroupScreen : Fragment() {
             leftHamstringRect.right,
             leftHamstringRect.bottom + 0.20f * drawableHeight
         )
-        backHitboxes.add(Hitbox("Left Calf (Back)", leftCalfBackRect))
+        backHitboxes.add(Hitbox("Calves", leftCalfBackRect))
 
         val rightCalfBackRect = RectF(
             rightHamstringRect.left,
@@ -421,7 +508,7 @@ class SelectMuscleGroupScreen : Fragment() {
             rightHamstringRect.right,
             rightHamstringRect.bottom + 0.20f * drawableHeight
         )
-        backHitboxes.add(Hitbox("Right Calf (Back)", rightCalfBackRect))
+        backHitboxes.add(Hitbox("Calves", rightCalfBackRect))
     }
 
     private fun getTouchedHitbox(
@@ -486,10 +573,33 @@ class SelectMuscleGroupScreen : Fragment() {
         when (muscleName) {
             "Neck" -> overlayNeckFront.visibility = View.VISIBLE
             "Shoulders" -> overlayShouldersFront.visibility = View.VISIBLE
+            "Chest" -> overlayChestFront.visibility = View.VISIBLE
+            "Biceps" -> overlayBicepsFront.visibility = View.VISIBLE
+            "Obliques" -> overlayObliquesFront.visibility = View.VISIBLE
+            "Abdominals" -> overlayAbsFront.visibility = View.VISIBLE
+            "Inner Thighs" -> overlayInnerThighsFront.visibility = View.VISIBLE
+            "Forearms" -> {
+                overlayForearmsFront.visibility = View.VISIBLE
+                overlayForearmsBack.visibility = View.VISIBLE
+            }
+            "Quadriceps" -> overlayQuadsFront.visibility = View.VISIBLE
+            "Tibialis" -> overlayTibsFront.visibility = View.VISIBLE
+            "Hips" -> {
+                overlayHipsFront.visibility = View.VISIBLE
+                overlayHipsBack.visibility = View.VISIBLE
+            }
 
-            "Trapezius (Back)" -> overlayTrapsBack.visibility = View.VISIBLE
+
+            "Trapezius" -> overlayTrapsBack.visibility = View.VISIBLE
             "Deltoids" -> overlayDeltoidsBack.visibility = View.VISIBLE
-            // Add other muscles as needed
+            "Paravertebrals" -> overlayParaBack.visibility = View.VISIBLE
+            "Triceps" -> overlayTricepsBack.visibility = View.VISIBLE
+            "Upper Back" -> overlayUpperBack.visibility = View.VISIBLE
+            "Lower Back" -> overlayLowerBack.visibility = View.VISIBLE
+            "Gluteus" -> overlayGlutesBack.visibility = View.VISIBLE
+            "Hamstrings" -> overlayHamstringsBack.visibility = View.VISIBLE
+            "Calves" -> overlayCalvesBack.visibility = View.VISIBLE
+
         }
     }
 
@@ -497,10 +607,31 @@ class SelectMuscleGroupScreen : Fragment() {
         when (muscleName) {
             "Neck" -> overlayNeckFront.visibility = View.GONE
             "Shoulders" -> overlayShouldersFront.visibility = View.GONE
+            "Chest" -> overlayChestFront.visibility = View.GONE
+            "Biceps" -> overlayBicepsFront.visibility = View.GONE
+            "Obliques" -> overlayObliquesFront.visibility = View.GONE
+            "Abdominals" -> overlayAbsFront.visibility = View.GONE
+            "Inner Thighs" -> overlayInnerThighsFront.visibility = View.GONE
+            "Forearms" -> {
+                overlayForearmsFront.visibility = View.GONE
+                overlayForearmsBack.visibility = View.GONE
+            }
+            "Quadriceps" -> overlayQuadsFront.visibility = View.GONE
+            "Tibialis" -> overlayTibsFront.visibility = View.GONE
+            "Hips" -> {
+                overlayHipsFront.visibility = View.GONE
+                overlayHipsBack.visibility = View.GONE
+            }
 
-            "Trapezius (Back)" -> overlayTrapsBack.visibility = View.GONE
+            "Trapezius" -> overlayTrapsBack.visibility = View.GONE
             "Deltoids" -> overlayDeltoidsBack.visibility = View.GONE
-            // Add other muscles as needed
+            "Paravertebrals" -> overlayParaBack.visibility = View.GONE
+            "Triceps" -> overlayTricepsBack.visibility = View.GONE
+            "Upper Back" -> overlayUpperBack.visibility = View.GONE
+            "Lower Back" -> overlayLowerBack.visibility = View.GONE
+            "Gluteus" -> overlayGlutesBack.visibility = View.GONE
+            "Hamstrings" -> overlayHamstringsBack.visibility = View.GONE
+            "Calves" -> overlayCalvesBack.visibility = View.GONE
         }
     }
 
@@ -519,10 +650,29 @@ class SelectMuscleGroupScreen : Fragment() {
 
         // Hide all overlays
         overlayNeckFront.visibility = View.GONE
+        overlayShouldersFront.visibility = View.GONE
+        overlayChestFront.visibility = View.GONE
+        overlayBicepsFront.visibility = View.GONE
+        overlayObliquesFront.visibility = View.GONE
+        overlayAbsFront.visibility = View.GONE
+        overlayInnerThighsFront.visibility = View.GONE
+        overlayForearmsFront.visibility = View.GONE
+        overlayQuadsFront.visibility = View.GONE
+        overlayTibsFront.visibility = View.GONE
+        overlayHipsFront.visibility = View.GONE
+
         overlayTrapsBack.visibility = View.GONE
         overlayDeltoidsBack.visibility = View.GONE
-        overlayShouldersFront.visibility = View.GONE
-        // Hide other overlays as needed
+        overlayParaBack.visibility = View.GONE
+        overlayTricepsBack.visibility = View.GONE
+        overlayUpperBack.visibility = View.GONE
+        overlayForearmsBack.visibility = View.GONE
+        overlayLowerBack.visibility = View.GONE
+        overlayGlutesBack.visibility = View.GONE
+        overlayHamstringsBack.visibility = View.GONE
+        overlayCalvesBack.visibility = View.GONE
+        overlayHipsBack.visibility = View.GONE
+
 
         Toast.makeText(context, "Selections cleared", Toast.LENGTH_SHORT).show()
     }

@@ -1,5 +1,4 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,20 +10,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingTop="24dp"
+        android:layout_marginBottom="50dp">
 
-        <!-- Header Section -->
+        <TextView
+            android:id="@+id/testapi"
+            android:layout_width="match_parent"
+            android:layout_height="111dp"
+            android:text="TextView"
+            android:textColor="@color/white"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:layout_marginBottom="24dp">
+            android:paddingEnd="16dp">
 
             <ImageButton
                 android:id="@+id/backBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginTop="7dp"
                 android:background="@drawable/round_button"
                 android:clipToOutline="true"
@@ -36,22 +41,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Beyond Barriers"
+                android:text="Beyond Barries"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textColor="@android:color/white" />
+
         </RelativeLayout>
 
-        <!-- List Items Container -->
+        <!-- List Items -->
         <LinearLayout
             android:id="@+id/listItemsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="24dp"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="16dp">
+            android:padding="16dp">
 
             <!-- List Item 1 -->
             <LinearLayout
@@ -59,27 +61,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/icon1"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/day"
-                    android:contentDescription="Monday Icon" />
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/day" />
 
                 <TextView
                     android:id="@+id/mondayChallenge"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Monday Challenge"
+                    android:text="Item 1"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/mondayRadioBtn"
@@ -95,33 +94,31 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray" />
 
+            <!-- Repeat for other list items -->
             <!-- List Item 2 -->
             <LinearLayout
                 android:id="@+id/listItem2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/icon2"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/day_6"
-                    android:contentDescription="Tuesday Icon" />
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/day_6" />
 
                 <TextView
                     android:id="@+id/tuesdayChallenge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
                     android:layout_weight="1"
-                    android:text="Tuesday Challenge"
+                    android:text="Item 2"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:gravity="center" />
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/tuesdayRadioBtn"
@@ -143,27 +140,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/icon3"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/day_5"
-                    android:contentDescription="Wednesday Icon" />
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/day_5" />
 
                 <TextView
                     android:id="@+id/wedChallenge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
                     android:layout_weight="1"
-                    android:text="Wednesday Challenge"
+                    android:text="Item 3"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:gravity="center" />
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/wednesdayRadioBtn"
@@ -185,27 +179,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/icon4"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/day_4"
-                    android:contentDescription="Thursday Icon" />
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/day_4" />
 
                 <TextView
                     android:id="@+id/thursdayChallenge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Thursday Challenge"
-                    android:layout_marginTop="13dp"
+                    android:text="Item 4"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:gravity="center" />
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/thursdayRadioBtn"
@@ -227,27 +218,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/icon5"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/day_3"
-                    android:contentDescription="Friday Icon" />
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/day_3" />
 
                 <TextView
                     android:id="@+id/fridayChallenge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
                     android:layout_weight="1"
-                    android:text="Friday Challenge"
+                    android:text="Item 5"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:gravity="center" />
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/fridayRadioBtn"
@@ -269,27 +257,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/icon6"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/day_2"
-                    android:contentDescription="Saturday Icon" />
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/day_2" />
 
                 <TextView
                     android:id="@+id/saturdayChallenge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
                     android:layout_weight="1"
-                    android:text="Saturday Challenge"
+                    android:text="Item 6"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:gravity="center" />
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/saturdayRadioBtn"
@@ -311,27 +296,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/icon7"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/day_1"
-                    android:contentDescription="Sunday Icon" />
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/day_1" />
 
                 <TextView
                     android:id="@+id/sundayChallenge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
                     android:layout_weight="1"
-                    android:text="Sunday Challenge"
+                    android:text="Item 7"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:gravity="center" />
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/sundayRadioBtn"
@@ -350,11 +332,8 @@
             android:text="Start Challenge"
             android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
             android:layout_gravity="center"
-            android:paddingHorizontal="32dp"
-            android:paddingVertical="12dp"
-            android:layout_marginBottom="32dp" />
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 </ScrollView>

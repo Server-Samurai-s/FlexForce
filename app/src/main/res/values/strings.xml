@@ -44,4 +44,9 @@
     <string name="registerSubHeading">Please register to continue</string>
     <string name="welcomebackground">Welcome Background</string>
     <string name="register_banner">register banner</string>
+    <string name="clear">CLEAR</string>
+    <string name="muscle_group">Muscle Group</string>
+    <string name="apply">APPLY</string>
+    <string name="todo">TODO</string>
+    <string name="switch_view">Switch View</string>
 </resources>

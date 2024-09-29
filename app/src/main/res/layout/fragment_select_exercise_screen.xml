@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@color/background_color"
     android:padding="16dp"
-    tools:context=".selectExerciseScreen">
+    tools:context=".SelectExerciseScreen">
 
     <!-- Top Bar with Back Button and Workout Title -->
     <RelativeLayout
@@ -79,13 +79,36 @@
         android:scrollbars="vertical"
         android:padding="8dp" />
 
+
     <!-- Add Selected Button -->
-    <Button
-        android:id="@+id/btn_add_selected"
+    <LinearLayout
+        android:id="@+id/add_selected_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Selected"
-        android:backgroundTint="@color/button_background"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="16dp" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/button_background"
+        android:padding="10dp">
+
+        <!-- Main Button Text -->
+        <TextView
+            android:id="@+id/tv_add_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Selected"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <!-- Counter Text -->
+        <TextView
+            android:id="@+id/tv_selected_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 exercises selected"
+            android:textColor="@color/yellow"
+            android:textSize="12sp"
+            android:fontFamily="@font/montserrat"/>
+    </LinearLayout>
+
 </LinearLayout>

@@ -49,7 +49,21 @@
         android:id="@+id/nav_stats"
         android:name="za.co.varsitycollege.serversamurai.flexforce.statisticScreen"
         android:label="Stats"
-        tools:layout="@layout/fragment_statistic_screen" />
+        tools:layout="@layout/fragment_statistic_screen" >
+        <action
+            android:id="@+id/action_nav_stats_to_nav_stats_view"
+            app:destination="@id/nav_profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_challenge_screen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.challengeScreen"
+        android:label="Challenge"
+        tools:layout="@layout/fragment_challenge_screen" >
+        <action
+            android:id="@+id/action_nav_challenge_to_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
 
     <!-- Challenge Fragment -->
     <fragment

@@ -62,7 +62,8 @@
                 android:drawablePadding="8dp"
                 android:fontFamily="@font/montserrat"
                 android:hint="@string/email"
-                android:textColorHint="@color/white_hint" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
         <!-- Password Input -->
             <EditText
@@ -76,7 +77,8 @@
                 android:fontFamily="@font/montserrat"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:textColorHint="@color/white_hint" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
         <!-- Register Link -->
             <TextView

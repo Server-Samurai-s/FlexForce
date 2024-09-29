@@ -32,14 +32,17 @@ class registerScreen : Fragment() {
 
         // Handle register button click
         binding.buttonRegister.setOnClickListener {
+            val name = binding.editTextName.text.toString()
+            val surname = binding.editTextSurname.text.toString()
+            val nickname = binding.editTextNickname.text.toString()
             val email = binding.editTextEmail.text.toString()
             val password = binding.editTextPassword.text.toString()
 
             // Validate input
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                registerUser(email, password)
+            if (name.isNotEmpty() && surname.isNotEmpty() && nickname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+                registerUser(name, surname, nickname, email, password)
             } else {
-                Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Please fill in all the fields", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -48,11 +51,12 @@ class registerScreen : Fragment() {
         }
     }
 
-    private fun registerUser(email: String, password: String) {
+    private fun registerUser(name: String, surname: String, nickname: String, email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Registration successful, navigate to Home
+                    // You can save additional user information (name, surname, nickname) to Firebase Database or Firestore here
                     findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
                 } else {
                     // If sign in fails, display a message to the user.

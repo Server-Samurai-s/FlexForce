@@ -8,6 +8,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
         <!-- Customize buttons -->
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="materialButtonStyle">@style/CustomButtonStyle</item>
     </style>
 

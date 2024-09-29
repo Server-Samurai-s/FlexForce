@@ -12,8 +12,12 @@
         <item name="android:padding">16dp</item>
     </style>
 
+    <style name="TransparentBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <style name="CustomAddButton">
         <item name="android:background">@drawable/plus</item>
-        <item name="android:textColor">#FFFFFF</item> <!-- White text -->
+            <item name="android:textColor">#FFFFFF</item>
     </style>
 </resources>

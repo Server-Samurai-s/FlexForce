@@ -1,30 +1,40 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
-    tools:context=".HomeInnerView">
+    tools:context=".statisticScreen">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- New LinearLayout added here -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="24dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="15dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
+
+                <TextView
+                    android:id="@+id/headerTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Your Stats"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/white" />
 
                 <ImageButton
                     android:id="@+id/user_profileBtn"
@@ -36,27 +46,31 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/profilepic" />
 
-                <TextView
-                    android:id="@+id/headerTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="Statistics"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@android:color/white" />
-
             </RelativeLayout>
 
             <!-- Other views/components go here -->
 
         </LinearLayout>
+        <!-- Profile and Header Section -->
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <!-- BMI Status Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
             android:layout_margin="16dp"
+            android:padding="24dp"
             app:cardBackgroundColor="#212121">
 
             <LinearLayout
@@ -75,7 +89,7 @@
                     android:layout_marginBottom="16dp"
                     android:text="BMI Status"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <!-- BMI Value -->
@@ -87,7 +101,7 @@
                     android:layout_marginBottom="8dp"
                     android:text="BMI: 0.0"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <!-- BMI Status -->
                 <TextView
@@ -98,7 +112,7 @@
                     android:layout_marginBottom="16dp"
                     android:text="Status: Unknown"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <!-- BMI Progress Bar -->
                 <ProgressBar
@@ -117,226 +131,221 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="Underweight: &lt; 18.5\nNormal: 18.5 - 24.9\nOverweight: 25 - 29.9\nObese: 30+"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Current Streak and High Score Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#212121"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:layout_margin="16dp"
+            android:padding="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <!-- Left part of the card -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="start">
+
+                    <TextView
+                        android:id="@+id/textViewCurrentStreak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/current_streak"
+                        android:textColor="@android:color/white"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 days"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <!-- Divider -->
+                <View
+                    android:id="@+id/viewDivider"
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@android:color/white" />
+
+                <!-- Right part of the card -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="end">
+
+                    <TextView
+                        android:id="@+id/textHighScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="High Score"
+                        android:textColor="@android:color/white"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewWeight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20 days"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"/>
+                </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <LinearLayout
+        <!-- Fitness Tracker Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewFitnessTracker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="16dp">
-            <androidx.cardview.widget.CardView
-                android:layout_width="300dp"
-                android:layout_height="150dp"
-                app:cardBackgroundColor="#212121"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+            app:cardBackgroundColor="#212121"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:layout_margin="16dp"
+            android:padding="24dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
-
-                    <!-- Left part of the card -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textViewCurrentStreak"
-                            android:layout_width="84dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/current_streak"
-                            android:textColor="@android:color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold|italic" />
-
-                        <TextView
-                            android:id="@+id/textViewDays"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 days"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <!-- Divider -->
-                    <View
-                        android:id="@+id/viewDivider"
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginHorizontal="8dp"
-                        android:background="@android:color/darker_gray" />
-
-                    <!-- Right part of the card -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textHighScore"
-                            android:layout_width="71dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/high_score_ud83c_udfc6"
-                            android:textColor="@android:color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold|italic" />
-
-                        <TextView
-                            android:id="@+id/textViewWeight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/_20_days"
-                            android:textColor="@android:color/white"
-                            android:textSize="16sp"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="16dp">
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardViewFitnessTracker"
+            <LinearLayout
+                android:id="@+id/linearLayoutFitnessTracker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#212121"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:gravity="center">
 
+                <!-- TextView -->
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Fitness Tracker"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <!-- EditText with icon 1 -->
                 <LinearLayout
-                    android:id="@+id/linearLayoutFitnessTracker"
+                    android:id="@+id/linearLayoutEditText1"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/edit_text_background"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
 
-                    <!-- TextView -->
-                    <TextView
-                        android:id="@+id/textViewTitle"
-                        android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/imageViewIcon1"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/scale_balanced_svgrepo_com" />
+
+                    <EditText
+                        android:id="@+id/editTxt_GoalWeight"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/fitness_tracker"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="Enter Goal Weight"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp" />
-
-                    <!-- EditText with icon 1 -->
-                    <LinearLayout
-                        android:id="@+id/linearLayoutEditText1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="40dp"
-                        android:background="@drawable/edit_text_background"
-                        android:orientation="horizontal"
-                        android:padding="8dp">
-
-                        <ImageView
-                            android:id="@+id/imageViewIcon1"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="8dp"
-                            android:src="@drawable/scale_balanced_svgrepo_com" />
-
-                        <EditText
-                            android:id="@+id/editTxt_GoalWeight"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:hint="@string/enter_goal_weight"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@color/white" />
-                    </LinearLayout>
-
-                    <!-- EditText with icon 2 -->
-                    <LinearLayout
-                        android:id="@+id/linearLayoutEditText2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="40dp"
-                        android:background="@drawable/edit_text_background"
-                        android:orientation="horizontal"
-                        android:padding="8dp">
-
-                        <ImageView
-                            android:id="@+id/imageViewIcon2"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="8dp"
-                            android:src="@drawable/ratio_svgrepo_com" />
-
-                        <EditText
-                            android:id="@+id/editTxt_BodyFat"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:hint="@string/enter_body_fat"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@color/white" />
-
-
-                    </LinearLayout>
-
-                    <!-- EditText with icon 2 -->
-                    <LinearLayout
-                        android:id="@+id/linearLayoutEditText3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/edit_text_background"
-                        android:orientation="horizontal"
-                        android:padding="8dp">
-
-                        <ImageView
-                            android:id="@+id/imageViewIcon3"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="8dp"
-                            android:src="@drawable/height_arrow_svgrepo_com" />
-
-                        <EditText
-                            android:id="@+id/editTxt_Height"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:hint="@string/enter_your_height"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@color/white" />
-
-
-                    </LinearLayout>
-
-                    <!-- Submit Button -->
-                    <Button
-                        android:id="@+id/buttonSubmit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/black"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/submit"
-                        android:textColor="@android:color/white" />
+                        android:textColorHint="@color/white" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
 
+                <!-- EditText with icon 2 -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutEditText2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/edit_text_background"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewIcon2"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ratio_svgrepo_com" />
+
+                    <EditText
+                        android:id="@+id/editTxt_BodyFat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="Enter Body Fat %"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@color/white" />
+                </LinearLayout>
+
+                <!-- EditText with icon 3 -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutEditText3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/edit_text_background"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewIcon3"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/height_arrow_svgrepo_com" />
+
+                    <EditText
+                        android:id="@+id/editTxt_Height"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="Enter Your Height"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@color/white" />
+                </LinearLayout>
+
+                <!-- Submit Button -->
+                <Button
+                    android:id="@+id/buttonSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="Submit"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

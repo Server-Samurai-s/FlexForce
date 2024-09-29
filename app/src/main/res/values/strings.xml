@@ -4,6 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="please_sign_in_to_continue">Please sign in to continue</string>
     <string name="login">Login</string>
+    <string name="surname">Surname</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="dont_have_an_account_register">Dont have an account? Register</string>
@@ -39,7 +40,8 @@
     <string name="high_score_ud83c_udfc6">High Score 🏆</string>
     <string name="_20_days">20 days</string>
     <string name="enter_your_height">Enter Your Height</string>
-    <string name="underweight_18_5_nnormal_18_5_24_9_noverweight_25_29_9_nobese_30"><![CDATA[Underweight: < 18.5\nNormal: 18.5 - 24.9\nOverweight: 25 - 29.9\nObese: 30+]]></string>
+    <string name="underweight_18_5_nnormal_18_5_24_9_noverweight_25_29_9_nobese_30">
+        <![CDATA[Underweight: < 18.5\nNormal: 18.5 - 24.9\nOverweight: 25 - 29.9\nObese: 30+]]></string>
     <string name="back">back</string>
     <string name="registerSubHeading">Please register to continue</string>
     <string name="welcomebackground">Welcome Background</string>

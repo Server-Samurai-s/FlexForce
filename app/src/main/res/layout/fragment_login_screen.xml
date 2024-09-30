@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="0dp"
-    android:background="@drawable/gradient_background">
+    android:background="@drawable/home_screen">
 
     <!-- Image View -->
     <ImageView

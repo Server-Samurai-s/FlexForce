@@ -9,6 +9,9 @@ Dylan Miller - ST10029256
 ## App Name: 
 FlexForce
 
+## Video Showcase
+https://youtu.be/m6WXf4y4ClE
+
 ## App Type: 
 Gym Application / Fitness Tracker
 

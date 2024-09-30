@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Home"
+                    android:text="Challenge"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@android:color/white" />
 
@@ -63,119 +63,135 @@
         <!-- First CardView with image background -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="445dp"
             android:layout_margin="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/challenge1"
-                android:padding="16dp">
+                android:layout_height="match_parent">
 
-                <!-- TextView with rounded background -->
+                <!-- ImageView to display the background image -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/chall_1" />
+
+                <!-- TextView with rounded background, over the image -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:background="@drawable/round_button"
                     android:padding="8dp"
                     android:text="Challenge Details"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:layout_centerInParent="true" />
+                    android:textSize="16sp" />
 
                 <!-- Join Button -->
                 <Button
                     android:id="@+id/challenge_1btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Join"
-                    android:backgroundTint="@color/black"
-                    android:textColor="@android:color/white"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/black"
+                    android:text="Join"
+                    android:textColor="@android:color/white" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
         <!-- Second CardView with image background -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="502dp"
             android:layout_margin="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/challenge2"
-                android:padding="16dp">
+                android:layout_height="match_parent">
 
-                <!-- TextView with rounded background -->
+                <!-- ImageView to display the background image -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/chall_2" />
+
+                <!-- TextView with rounded background, over the image -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:background="@drawable/round_button"
                     android:padding="8dp"
                     android:text="Challenge Details"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:layout_centerInParent="true" />
+                    android:textSize="16sp" />
 
                 <!-- Join Button -->
                 <Button
                     android:id="@+id/challenge_2btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Join"
-                    android:backgroundTint="@color/black"
-                    android:textColor="@android:color/white"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/black"
+                    android:text="Join"
+                    android:textColor="@android:color/white" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
         <!-- Third CardView with image background -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="580dp"
             android:layout_margin="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/challenge3"
-                android:padding="16dp">
+                android:layout_height="match_parent">
 
-                <!-- TextView with rounded background -->
+                <!-- ImageView to display the background image -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/chall_3" />
+
+                <!-- TextView with rounded background, over the image -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:background="@drawable/round_button"
                     android:padding="8dp"
                     android:text="Challenge Details"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:layout_centerInParent="true" />
+                    android:textSize="16sp" />
 
                 <!-- Join Button -->
                 <Button
                     android:id="@+id/challenge_3btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Join"
-                    android:backgroundTint="@color/black"
-                    android:textColor="@android:color/white"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/black"
+                    android:text="Join"
+                    android:textColor="@android:color/white" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+
 
     </LinearLayout>
 </ScrollView>

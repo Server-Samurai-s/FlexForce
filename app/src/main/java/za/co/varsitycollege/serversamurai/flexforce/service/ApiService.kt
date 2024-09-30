@@ -1,16 +1,37 @@
 package za.co.varsitycollege.serversamurai.flexforce.service
 
-
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import za.co.varsitycollege.serversamurai.flexforce.Exercise
+import za.co.varsitycollege.serversamurai.flexforce.Models.ApiDataModels
+
+object ApiClient {
+    private const val BASE_URL = "https://flexforce-api.vercel.app/"
+
+    private val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(logging)
+        .build()
+
+    val retrofitService: ApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
+    }
+}
 
 interface ApiService {
     @POST("api/workouts/exercises")
@@ -22,9 +43,35 @@ interface ApiService {
         @Body workoutRequest: WorkoutRequest
     ): Call<Void>
 
-    // Fixed the typo in the endpoint
     @GET("api/workouts/getUserWorkouts/{userId}")
     fun getUserWorkouts(@Path("userId") userId: String): Call<List<WorkoutRequest>>
+
+    // Fetch chest day workout MIGHT BE DELETED
+    @GET("api/workouts/chest-day")
+    fun getChestDayWorkout(): Call<ApiDataModels.Workout>
+
+    // Fetch leg day workout
+    @GET("api/workouts/leg-day")
+    fun getLegDayWorkout(): Call<ApiDataModels.Workout>
+
+    @GET("api/workouts/challengesWorkouts")
+    fun getChallengesWorkouts(): Call<ApiDataModels.ChallengeResponse>
+
+    @GET("api/workouts/challenges/{id}")
+    fun getChallengeView(@Path("id") challengeId: String): Call<ApiDataModels.Challenge>
+
+    // Save a user workout
+    @POST("save")
+    @FormUrlEncoded
+    fun saveUserWorkout(
+        @Field("userId") userId: String,
+        @Field("workoutName") workoutName: String,
+        @Field("exercises") exercises: List<ApiDataModels.Exercise>
+    ): Call<ApiDataModels.Response>
+
+    // Delete a user workout
+    @DELETE("user/{userId}/workout/{workoutId}")
+    fun deleteUserWorkout(@Path("userId") userId: String, @Path("workoutId") workoutId: String): Call<ApiDataModels.Response>
 }
 
 data class ExerciseResponse(val exercises: List<Exercise>)
@@ -37,16 +84,3 @@ data class WorkoutRequest(
     val exercises: List<Exercise>,  // Ensure this is a List
     val id: String? = null           // Optional id for workout
 )
-
-object ApiClient {
-    private const val BASE_URL = "https://flexforce-api.vercel.app/"
-
-    val retrofitService: ApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-    }
-}
-

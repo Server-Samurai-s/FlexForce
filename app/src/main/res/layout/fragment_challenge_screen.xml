@@ -187,7 +187,4 @@
                     android:textColor="@android:color/white" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-
-
-    </LinearLayout>
 </ScrollView>

@@ -6,9 +6,11 @@ David Roy Mellors - ST10241466
 Nilay Ramjee - ST10082679
 Dylan Miller - ST10029256
 
-## App Name: FlexForce
+## App Name: 
+FlexForce
 
-## App Type: Gym Application / Fitness Tracker
+## App Type: 
+Gym Application / Fitness Tracker
 
 FlexForce is a fitness application that provides a customised training experience to assist users in reaching their fitness objectives. 
 FlexForce strives to make training interesting and efficient with features including personalised routines, progress monitoring and workout challenges.

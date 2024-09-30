@@ -16,4 +16,6 @@
     <color name="button_background">#000000</color> <!-- Black button background -->
     <color name="yellow">#FFE249</color> <!-- White text color -->
     <color name="selected_background">#919191</color> <!-- Red text color -->
+    <color name="ic_launcher_background">#1F2628</color>
+
 </resources>

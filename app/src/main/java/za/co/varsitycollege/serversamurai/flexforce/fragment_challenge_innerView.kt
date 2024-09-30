@@ -15,7 +15,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import za.co.varsitycollege.serversamurai.flexforce.Models.ApiDataModels.Workout
-import za.co.varsitycollege.serversamurai.flexforce.retrofit.RetrofitClient
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,37 +59,12 @@ class fragment_challenge_innerView : Fragment() {
         }
 
         // Fetch the Chest Day workout
-        fetchChestDayWorkout()
+
 
         return view
     }
 
-    private fun fetchChestDayWorkout() {
-        RetrofitClient.instance.getChestDayWorkout().enqueue(object : Callback<Workout> {
-            override fun onResponse(call: Call<Workout>, response: Response<Workout>) {
-                if (response.isSuccessful) {
-                    val workout = response.body()
-                    workout?.let {
-                        val workoutInfo = """
-                            Exercise 1: ${it.exercise1.name}, Sets: ${it.exercise1.sets}, Reps: ${it.exercise1.reps}
-                            Exercise 2: ${it.exercise2.name}, Sets: ${it.exercise2.sets}, Reps: ${it.exercise2.reps}
-                            Exercise 3: ${it.exercise3.name}, Sets: ${it.exercise3.sets}, Reps: ${it.exercise3.reps}
-                        """.trimIndent()
-                        textView.text = workoutInfo
-                        Toast.makeText(context, "Workout data loaded", Toast.LENGTH_LONG).show()
-                    }
-                } else {
-                    textView.text = "Failed to retrieve data"
-                    Toast.makeText(context, "Failed to retrieve data", Toast.LENGTH_LONG).show()
-                }
-            }
 
-            override fun onFailure(call: Call<Workout>, t: Throwable) {
-                textView.text = "Error fetching data: ${t.message}"
-                Toast.makeText(context, "Error fetching data: ${t.message}", Toast.LENGTH_LONG).show()
-            }
-        })
-    }
     companion object {
         /**
          * Use this factory method to create a new instance of

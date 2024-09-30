@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/background_color">
+
+    <!-- Header showing the workout title -->
+    <TextView
+        android:id="@+id/workoutTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Workout 1"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:padding="16dp"/>
+
+    <!-- Button to add more exercises -->
+    <Button
+        android:id="@+id/addMoreExercisesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add More Exercises"/>
+
+    <!-- RecyclerView to show the list of exercises -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewExercises"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical"/>
+
+    <!-- Button to finish the workout -->
+    <Button
+        android:id="@+id/finishWorkoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Finish Workout"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

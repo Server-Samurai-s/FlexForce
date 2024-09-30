@@ -63,6 +63,7 @@
                 android:drawablePadding="8dp"
                 android:fontFamily="@font/montserrat"
                 android:hint="@string/name"
+                android:drawableStart="@drawable/personicon"
                 android:inputType="textPersonName"
                 android:textColorHint="@color/black" />
 
@@ -76,6 +77,7 @@
                 android:drawablePadding="8dp"
                 android:fontFamily="@font/montserrat"
                 android:hint="@string/surname"
+                android:drawableStart="@drawable/personicon"
                 android:inputType="textPersonName"
                 android:textColorHint="@color/black" />
 
@@ -89,6 +91,7 @@
                 android:drawablePadding="8dp"
                 android:fontFamily="@font/montserrat"
                 android:hint="@string/nickname"
+                android:drawableStart="@drawable/personicon"
                 android:inputType="textPersonName"
                 android:textColorHint="@color/black" />
 

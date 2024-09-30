@@ -59,10 +59,7 @@ class challengeScreen : Fragment() {
 
         profileBtn.setOnClickListener {
             // Use NavController to navigate to the target fragment
-
-            findNavController().navigate(R.id.action_nav_challenge_to_profile)
-
-
+            findNavController().navigate(R.id.action_nav_challenge_to_nav_profile)
             Toast.makeText(context, "Profile btn clicked", Toast.LENGTH_SHORT).show()
         }
         return view

@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.homeFragment)
         } else {
             // Otherwise, navigate to the login screen
-            navController.navigate(R.id.loginFragment)
+            navController.navigate(R.id.welcomeFragment)
         }
     }
 

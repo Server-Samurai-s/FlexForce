@@ -14,7 +14,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import za.co.varsitycollege.serversamurai.flexforce.Models.ApiDataModels
-import za.co.varsitycollege.serversamurai.flexforce.retrofit.RetrofitClient
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -57,7 +56,6 @@ class challengeView : Fragment() {
             Toast.makeText(context, "Back btn clicked", Toast.LENGTH_SHORT).show()
         }
 
-        fetchChallengeData(challengeId)
 
         return view
     }
@@ -68,25 +66,7 @@ class challengeView : Fragment() {
         tvTracking = view.findViewById(R.id.trackingWithTxt)
     }
 
-    private fun fetchChallengeData(challengeId: String) {
-        RetrofitClient.instance.getChallengeView(challengeId).enqueue(object : Callback<ApiDataModels.Challenge> {
-            override fun onResponse(call: Call<ApiDataModels.Challenge>, response: Response<ApiDataModels.Challenge>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        tvChallengeType.text = "Type: ${it.challengeType}"
-                        tvTimePeriod.text = "Period: ${it.timePeriod}"
-                        tvTracking.text = "Tracking: ${it.tracking}"
-                    }
-                } else {
-                    Toast.makeText(context, "Failed to retrieve challenge details", Toast.LENGTH_SHORT).show()
-                }
-            }
 
-            override fun onFailure(call: Call<ApiDataModels.Challenge>, t: Throwable) {
-                Toast.makeText(context, "Error: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
 
     companion object {
         @JvmStatic

@@ -14,7 +14,6 @@ import retrofit2.Response
 import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentWorkoutScreenBinding
 import za.co.varsitycollege.serversamurai.flexforce.service.ApiClient
 import za.co.varsitycollege.serversamurai.flexforce.service.WorkoutRequest
-
 import android.text.Editable
 import android.text.TextWatcher
 import com.google.firebase.auth.FirebaseAuth
@@ -37,7 +36,7 @@ class workoutScreen : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Initialize the RecyclerView with an empty list initially
-        workoutAdapter = WorkoutAdapter(emptyList())
+        workoutAdapter = WorkoutAdapter(emptyList(), this)
         binding.recyclerWorkouts.adapter = workoutAdapter
         binding.recyclerWorkouts.layoutManager = LinearLayoutManager(context)
 
@@ -50,13 +49,17 @@ class workoutScreen : Fragment() {
         binding.searchBar.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 // After text has changed, filter the workout list
-                workoutAdapter.filter(s.toString())
+                workoutAdapter.updateWorkoutList(workoutAdapter.workoutList.filter { workout -> workout.name.contains(s.toString(), ignoreCase = true) })
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
+        binding.workoutsProfileBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_workout_to_nav_profile)
+        }
 
         // Fetch and display the workouts
         fetchUserWorkouts()
@@ -82,7 +85,7 @@ class workoutScreen : Fragment() {
 
     private fun updateWorkouts(workouts: List<WorkoutRequest>) {
         val workoutItems = workouts.map { workout ->
-            WorkoutItem(day = workout.workoutDay, name = workout.workoutName)
+            WorkoutItem(id = workout.id ?: "", day = workout.workoutDay, name = workout.workoutName)
         }
         workoutAdapter.updateWorkoutList(workoutItems)
     }
@@ -92,4 +95,3 @@ class workoutScreen : Fragment() {
         _binding = null
     }
 }
-

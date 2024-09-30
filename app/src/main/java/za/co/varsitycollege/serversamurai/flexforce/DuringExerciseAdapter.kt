@@ -1,0 +1,54 @@
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import za.co.varsitycollege.serversamurai.flexforce.databinding.DuringItemExerciseBinding
+
+data class DuringExerciseItem(
+    val exerciseName: String,
+    val sets: Int,
+    val reps: Int,
+    val muscleGroup: String,
+    val equipment: String
+)
+
+class DuringExerciseAdapter(private var exerciseList: List<DuringExerciseItem>) : RecyclerView.Adapter<DuringExerciseAdapter.ExerciseViewHolder>() {
+
+    inner class ExerciseViewHolder(private val binding: DuringItemExerciseBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(exercise: DuringExerciseItem) {
+            // Set muscle group initial in the circular view
+            binding.tvMuscleGroup.text = exercise.muscleGroup.first().toString()
+
+            // Set exercise name, sets, reps, and equipment
+            binding.tvExerciseName.text = exercise.exerciseName
+            binding.tvSetsReps.text = "${exercise.sets} sets | ${exercise.reps} reps"
+            binding.tvEquipment.text = exercise.equipment
+
+            // Handle the plus/add button logic
+//            binding.ivAdd.setOnClickListener {
+//                // Logic for adding the exercise, e.g., marking it as completed or adding another set
+//                // You can customize the behavior here
+//                exercise.completed = true // For example
+//            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
+        val binding = DuringItemExerciseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ExerciseViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
+        holder.bind(exerciseList[position])
+    }
+
+    override fun getItemCount(): Int {
+        return exerciseList.size
+    }
+
+    // Function to update the exercise list and notify the adapter
+    fun updateExerciseList(newExercises: List<DuringExerciseItem>) {
+        exerciseList = newExercises
+        notifyDataSetChanged()
+    }
+}
+

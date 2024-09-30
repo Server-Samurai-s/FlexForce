@@ -41,6 +41,12 @@
         <action
             android:id="@+id/action_workoutScreen_to_createWorkoutFragment"
             app:destination="@id/createWorkoutFragment" />
+        <action
+            android:id="@+id/action_nav_workout_to_nav_profile"
+            app:destination="@id/nav_profile" />
+        <action
+            android:id="@+id/action_nav_workout_to_duringWorkoutScreen"
+            app:destination="@id/duringWorkoutScreen" />
     </fragment>
 
 
@@ -60,9 +66,7 @@
         android:name="za.co.varsitycollege.serversamurai.flexforce.challengeScreen"
         android:label="Challenge"
         tools:layout="@layout/fragment_challenge_screen" >
-        <action
-            android:id="@+id/action_nav_challenge_to_profile"
-            app:destination="@id/nav_profile" />
+
     </fragment>
 
     <!-- Challenge Fragment -->
@@ -74,6 +78,9 @@
         <action
             android:id="@+id/action_nav_challenge_to_nav_challenge_view"
             app:destination="@id/nav_challenge_view" />
+        <action
+            android:id="@+id/action_nav_challenge_to_nav_profile"
+            app:destination="@id/nav_profile" />
     </fragment>
 
     <!-- Challenge Fragment -->
@@ -88,6 +95,9 @@
         <action
             android:id="@+id/action_nav_challenge_view_to_nav_challenge_view_inner"
             app:destination="@id/nav_challenge_view_inner" />
+        <action
+            android:id="@+id/action_nav_challenge_view_to_nav_profile"
+            app:destination="@id/nav_profile" />
     </fragment>
 
     <!-- Challenge Fragment -->
@@ -157,5 +167,17 @@
             app:destination="@id/selectExerciseScreen" />
     </fragment>
 
+    <fragment
+        android:id="@+id/duringWorkoutScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.DuringWorkoutScreen"
+        android:label="During Workout"
+        tools:layout="@layout/fragment_during_workout">
+        <argument
+            android:name="workoutName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_duringWorkoutScreen_to_nav_workout"
+            app:destination="@id/nav_workout" />
+    </fragment>
 
 </navigation>

@@ -1,0 +1,66 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:gravity="center_vertical">
+
+    <!-- Muscle Group Circle Icon (Non-Interactive) -->
+    <TextView
+        android:id="@+id/tv_muscle_group"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:background="@drawable/circle_background"
+        android:text="B"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:layout_marginEnd="16dp" />
+
+    <!-- Exercise Details -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Equipment Tag -->
+        <TextView
+            android:id="@+id/tv_equipment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Body Weight"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <!-- Exercise Name -->
+        <TextView
+            android:id="@+id/tv_exercise_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:fontFamily="@font/montserrat_extrabold"
+            android:textColor="@android:color/white" />
+
+        <!-- Sets and Reps -->
+        <TextView
+            android:id="@+id/tv_sets_reps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+    <!-- Plus/Add Button -->
+    <ImageView
+        android:id="@+id/iv_add"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/add_button" />
+</LinearLayout>

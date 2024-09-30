@@ -39,7 +39,8 @@
                 android:text="Home"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/montserrat_semibold"/>
         </RelativeLayout>
 
     </LinearLayout>

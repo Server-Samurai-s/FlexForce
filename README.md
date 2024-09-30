@@ -12,6 +12,9 @@ FlexForce
 ## Video Showcase
 https://youtu.be/m6WXf4y4ClE
 
+## API Repository
+https://github.com/davidrmellors/flexforce-api
+
 ## App Type: 
 Gym Application / Fitness Tracker
 

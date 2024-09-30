@@ -59,6 +59,7 @@ class SelectMuscleGroupScreen : Fragment() {
     private val backHitboxes = mutableListOf<Hitbox>()
 
     private val selectedMuscles = mutableListOf<String>()
+    private var selectedExercises: MutableList<Exercise> = mutableListOf()
 
     private fun setupRecyclerView() {
         rvMuscleGroups.layoutManager = LinearLayoutManager(context)
@@ -74,6 +75,7 @@ class SelectMuscleGroupScreen : Fragment() {
         // Retrieve workout name and day from arguments
         workoutName = arguments?.getString("workoutName") ?: "Default Workout"
         selectedDay = arguments?.getString("selectedDay") ?: "Monday"
+        selectedExercises = arguments?.getParcelableArrayList("selectedExercises") ?: mutableListOf()
 
         // Initialize views
         ivBodyMapFront = view.findViewById(R.id.iv_body_map_front)
@@ -151,6 +153,7 @@ class SelectMuscleGroupScreen : Fragment() {
                 putString("workoutName", workoutName)
                 putString("selectedDay", selectedDay)
                 putStringArrayList("selectedMuscles", ArrayList(selectedMuscles))
+                putParcelableArrayList("selectedExercises", ArrayList(selectedExercises))
             }
 
             findNavController().navigate(R.id.action_selectMuscleGroupScreen_to_selectExerciseScreen, bundle)

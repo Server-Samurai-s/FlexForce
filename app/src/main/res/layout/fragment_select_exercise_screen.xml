@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background_color"
     android:padding="16dp"
     tools:context=".SelectExerciseScreen">
 
@@ -18,7 +17,7 @@
 
         <!-- Back Button -->
         <ImageView
-            android:id="@+id/iv_back"
+            android:id="@+id/selectExerciseBackBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/arrow_left"
@@ -27,27 +26,31 @@
 
         <!-- Title -->
         <TextView
-            android:id="@+id/tv_workout_title"
+            android:id="@+id/selectExerciseWorkoutName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="WORKOUT 1"
-            android:textSize="18sp"
+            android:text="New Workout"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
+            android:textSize="24sp"
+            android:fontFamily="@font/montserrat_semibold"
             android:layout_centerInParent="true" />
     </RelativeLayout>
 
     <!-- Search Bar -->
     <EditText
-        android:id="@+id/search_bar"
+        android:id="@+id/selectExerciseSearchBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="Search by exercise"
-        android:paddingStart="16dp"
-        android:textColor="@android:color/white"
         android:background="@drawable/search_bar_background"
-        android:drawableStart="@android:drawable/ic_menu_search"
-        android:layout_marginBottom="16dp" />
+        android:paddingStart="16dp"
+        android:textSize="14sp"
+        android:fontFamily="@font/montserrat"
+        android:drawableStart="@drawable/ic_search"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="10dp" />
+
 
     <!-- Muscle Group Button -->
     <Button

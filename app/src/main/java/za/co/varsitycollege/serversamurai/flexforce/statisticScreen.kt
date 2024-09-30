@@ -23,10 +23,8 @@ class statisticScreen : Fragment() {
     private lateinit var bmiStatusTextView: TextView
     private lateinit var bmiProgressBar: ProgressBar
     private lateinit var weightTextView: TextView
+    private lateinit var goalWeightTextView: TextView
     private lateinit var bodyFatTextView: TextView
-
-    // UI elements for goal data
-    private lateinit var weightProgressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +41,8 @@ class statisticScreen : Fragment() {
         bmiStatusTextView = view.findViewById(R.id.textViewBmiStatus)
         bmiProgressBar = view.findViewById(R.id.progressBarBmi)
         weightTextView = view.findViewById(R.id.currentWeightValue)
+        goalWeightTextView = view.findViewById(R.id.goalWeightValue)
         bodyFatTextView = view.findViewById(R.id.currentBodyFatValue)
-
-        // Find views for goal data
-        weightProgressBar = view.findViewById(R.id.progressBarWeight)
 
         // Fetch fitness and goal data
         fetchFitnessData()
@@ -112,19 +108,14 @@ class statisticScreen : Fragment() {
                 .get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        // Use .toString() to ensure compatibility and then convert to Double
-                        val goalWeightString = document.get("goalWeight").toString()
-                        val goalBodyFatString = document.get("goalBodyFat").toString()
+                        val goalWeightString = document.getString("goalWeight")
+                        val goalWeight = goalWeightString?.toDoubleOrNull()
 
-                        // Safely convert to Double, and handle potential errors
-                        val goalWeight = goalWeightString.toDoubleOrNull()
-                        val goalBodyFat = goalBodyFatString.toDoubleOrNull()
-
-                        // Check if the conversion succeeded and update the UI
-                        if (goalWeight != null && goalBodyFat != null) {
-                            displayGoalStatistics(goalWeight, goalBodyFat)
+                        if (goalWeight != null) {
+                            // Display goal weight in grey next to current weight
+                            goalWeightTextView.text = String.format("(%.1f kg)", goalWeight)
                         } else {
-                            Toast.makeText(context, "Invalid goal data format.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Invalid goal weight data.", Toast.LENGTH_SHORT).show()
                         }
                     } else {
                         Toast.makeText(context, "Goal data not found.", Toast.LENGTH_SHORT).show()
@@ -138,18 +129,11 @@ class statisticScreen : Fragment() {
         }
     }
 
-
     private fun calculateAndDisplayBMI(weight: Double, height: Double) {
-        // Convert height to meters
         val heightInMeters = height / 100
-
-        // Calculate BMI
         val bmi = weight / (heightInMeters.pow(2))
-
-        // Update BMI value text
         bmiValueTextView.text = String.format("BMI: %.2f", bmi)
 
-        // Update BMI status and progress bar
         val bmiStatus = when {
             bmi < 18.5 -> "Underweight"
             bmi < 24.9 -> "Normal"
@@ -157,29 +141,12 @@ class statisticScreen : Fragment() {
             else -> "Obese"
         }
         bmiStatusTextView.text = "Status: $bmiStatus"
-
-        // Update progress bar
         bmiProgressBar.progress = bmi.toInt()
     }
 
     private fun displayBodyStatistics(weight: Double, bodyFat: Double) {
-        // Set weight and body fat statistics
         weightTextView.text = String.format("%.1f kg", weight)
         bodyFatTextView.text = String.format("%.1f%%", bodyFat)
     }
-
-    private fun displayGoalStatistics(goalWeight: Double, goalBodyFat: Double) {
-        // Set the goal weight and body fat values
-
-        // Assuming you already have the current weight and body fat, calculate progress
-        val currentWeight = weightTextView.text.toString().replace(" kg", "").toDoubleOrNull()
-        val currentBodyFat = bodyFatTextView.text.toString().replace("%", "").toDoubleOrNull()
-
-        // Calculate the progress towards the goal weight if available
-        if (currentWeight != null) {
-            val weightProgress = ((currentWeight / goalWeight) * 100).toInt()
-            weightProgressBar.progress = weightProgress
-        }
-
-    }
 }
+

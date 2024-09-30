@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
     tools:context=".homeInnerScreen"
     android:orientation="vertical"
     android:gravity="top|center_horizontal">
@@ -29,9 +28,9 @@
                     android:layout_centerInParent="true"
                     android:text="Challenges"
                     android:textSize="24sp"
-                    android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:fontFamily="@font/montserrat_semibold"/>
 
                 <ImageButton
                     android:id="@+id/user_profileBtn"
@@ -62,11 +61,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome to the Challenge"
+            android:text="Ready for a challenge ?"
             android:textColor="@android:color/white"
             android:textSize="22sp"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/montserrat_medium"/>
 
         <!-- First CardView with image background -->
         <androidx.cardview.widget.CardView

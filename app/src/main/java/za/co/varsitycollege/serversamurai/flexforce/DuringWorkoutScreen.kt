@@ -1,12 +1,11 @@
 package za.co.varsitycollege.serversamurai.flexforce
 
-import DuringExerciseAdapter
-import DuringExerciseItem
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -14,18 +13,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class DuringWorkoutScreen : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var duringExerciseAdapter: DuringExerciseAdapter
-    private lateinit var addMoreExercisesButton: Button
     private lateinit var finishWorkoutButton: Button
     private lateinit var workoutTitleTextView: TextView
+    private lateinit var duringWorkoutBackBtn: ImageView
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private var workoutId: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +35,7 @@ class DuringWorkoutScreen : Fragment() {
         val view = inflater.inflate(R.layout.fragment_during_workout, container, false)
 
         // Retrieve the workout ID and workout name from the arguments bundle
-        val workoutId = arguments?.getString("workoutId") ?: "Unknown Workout"
+        workoutId = arguments?.getString("workoutId") ?: "Unknown Workout"
 
         // Initialize Firebase
         firestore = FirebaseFirestore.getInstance()
@@ -43,8 +44,8 @@ class DuringWorkoutScreen : Fragment() {
         // Initialize views
         workoutTitleTextView = view.findViewById(R.id.workoutTitle)
         recyclerView = view.findViewById(R.id.recyclerViewExercises)
-        addMoreExercisesButton = view.findViewById(R.id.addMoreExercisesButton)
         finishWorkoutButton = view.findViewById(R.id.finishWorkoutButton)
+        duringWorkoutBackBtn = view.findViewById(R.id.duringWorkoutBackBtn)
 
         // Set up RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -52,17 +53,18 @@ class DuringWorkoutScreen : Fragment() {
         // Fetch exercises for the selected workout using workoutId
         fetchExercises(workoutId)
 
-        // Handle "Add More Exercises" button click
-        addMoreExercisesButton.setOnClickListener {
-            // Add logic to add more exercises
-            Toast.makeText(context, "Add more exercises clicked", Toast.LENGTH_SHORT).show()
-        }
-
         // Handle "Finish Workout" button click
         finishWorkoutButton.setOnClickListener {
-            // Add logic to finish the workout
-            Toast.makeText(context, "Workout finished", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_duringWorkoutScreen_to_nav_workout)
+            if (duringExerciseAdapter.areAllExercisesCompleted()) {
+                // Increment the completion count if all exercises are completed
+                incrementWorkoutCompletionCount()
+            } else {
+                Toast.makeText(context, "Please complete all exercises before finishing", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        duringWorkoutBackBtn.setOnClickListener{
+            findNavController().popBackStack()
         }
 
         return view
@@ -119,5 +121,37 @@ class DuringWorkoutScreen : Fragment() {
             Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
         }
     }
-}
 
+    private fun incrementWorkoutCompletionCount() {
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val workoutRef = firestore.collection("users")
+                .document(userId)
+                .collection("workouts")
+                .document(workoutId)
+
+            // Get the current date
+            val currentDate = com.google.firebase.Timestamp.now()
+
+            // Create a map with the fields to update
+            val updates = mapOf(
+                "completionCount" to FieldValue.increment(1),  // Increment completion count
+                "completionDate" to currentDate  // Store the date when the workout was completed
+            )
+
+            // Update Firestore with the new fields
+            workoutRef.update(updates)
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Workout completed successfully!", Toast.LENGTH_SHORT).show()
+                    // Navigate to another screen if needed
+                    findNavController().navigate(R.id.action_duringWorkoutScreen_to_nav_workout)
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(context, "Error completing workout: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+}

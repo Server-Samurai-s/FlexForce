@@ -1,17 +1,17 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@drawable/home_screen">
 
-    <!-- Fragment container for the Bottom Navigation -->
+    <!-- Fragment container for the content above the navbar -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_home"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"
         app:navGraph="@navigation/nav_home"
         app:defaultNavHost="true" />
 
@@ -20,8 +20,10 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        android:background="@color/nav_background" />
-</LinearLayout>
+        android:background="@android:color/transparent" />
+
+</RelativeLayout>

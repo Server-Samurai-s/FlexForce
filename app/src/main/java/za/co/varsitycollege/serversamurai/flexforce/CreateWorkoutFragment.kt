@@ -53,5 +53,9 @@ class CreateWorkoutFragment : Fragment() {
                 findNavController().navigate(R.id.action_createWorkoutFragment_to_selectExerciseScreen, bundle)
             }
         }
+
+        binding.createWorkoutBackBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 }

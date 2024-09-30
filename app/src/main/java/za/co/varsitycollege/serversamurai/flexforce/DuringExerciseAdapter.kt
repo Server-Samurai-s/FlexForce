@@ -1,6 +1,9 @@
+package za.co.varsitycollege.serversamurai.flexforce
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import za.co.varsitycollege.serversamurai.flexforce.R
 import za.co.varsitycollege.serversamurai.flexforce.databinding.DuringItemExerciseBinding
 
 data class DuringExerciseItem(
@@ -13,22 +16,35 @@ data class DuringExerciseItem(
 
 class DuringExerciseAdapter(private var exerciseList: List<DuringExerciseItem>) : RecyclerView.Adapter<DuringExerciseAdapter.ExerciseViewHolder>() {
 
+    private val completedExercises = mutableSetOf<Int>()
+
     inner class ExerciseViewHolder(private val binding: DuringItemExerciseBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(exercise: DuringExerciseItem) {
             // Set muscle group initial in the circular view
-            binding.tvMuscleGroup.text = exercise.muscleGroup.first().toString()
-
+            binding.tvMuscleGroup.text = exercise.muscleGroup
             // Set exercise name, sets, reps, and equipment
             binding.tvExerciseName.text = exercise.exerciseName
             binding.tvSetsReps.text = "${exercise.sets} sets | ${exercise.reps} reps"
             binding.tvEquipment.text = exercise.equipment
 
-            // Handle the plus/add button logic
-//            binding.ivAdd.setOnClickListener {
-//                // Logic for adding the exercise, e.g., marking it as completed or adding another set
-//                // You can customize the behavior here
-//                exercise.completed = true // For example
-//            }
+            // Get the adapter position using adapterPosition
+            val position = adapterPosition
+
+            if (completedExercises.contains(position)) {
+                binding.ivTodo.setImageResource(R.drawable.ic_check) // Checked icon
+            } else {
+                binding.ivTodo.setImageResource(R.drawable.ic_todo) // Todo icon
+            }
+
+            // Mark exercise as completed/uncompleted on click
+            binding.ivTodo.setOnClickListener {
+                if (completedExercises.contains(position)) {
+                    completedExercises.remove(position)
+                } else {
+                    completedExercises.add(position)
+                }
+                notifyItemChanged(position)
+            }
         }
     }
 
@@ -50,5 +66,9 @@ class DuringExerciseAdapter(private var exerciseList: List<DuringExerciseItem>) 
         exerciseList = newExercises
         notifyDataSetChanged()
     }
-}
 
+    // Function to check if all exercises are completed
+    fun areAllExercisesCompleted(): Boolean {
+        return completedExercises.size == exerciseList.size
+    }
+}

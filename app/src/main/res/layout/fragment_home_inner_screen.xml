@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="top|center_horizontal"
-    tools:context=".homeInnerScreen"
-    android:background="@drawable/gradient_background">
+    tools:context=".homeInnerScreen">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +37,6 @@
                 android:layout_centerInParent="true"
                 android:text="Home"
                 android:textSize="24sp"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:fontFamily="@font/montserrat_semibold"/>
         </RelativeLayout>

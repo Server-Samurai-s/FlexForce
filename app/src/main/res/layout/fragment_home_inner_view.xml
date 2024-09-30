@@ -29,72 +29,28 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:padding="16dp">
 
                     <!-- Left part of the card -->
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/textViewCurrentStreak"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="start"
-                        android:orientation="vertical">
+                        android:text="@string/current_streak"
+                        android:textColor="@android:color/white"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/textViewCurrentStreak"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="start"
-                            android:text="@string/current_streak"
-                            android:textColor="@android:color/white"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textViewDays"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="start"
-                            android:text="0 days"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                    <!-- Divider -->
-                    <View
-                        android:id="@+id/viewDivider"
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginHorizontal="16dp"
-                        android:background="@android:color/white" />
-
-                    <!-- Right part of the card -->
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/textViewDays"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textViewWeightLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/weight"
-                            android:textColor="@android:color/white"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textViewWeight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="0 kgs"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
-                    </LinearLayout>
+                        android:gravity="start"
+                        android:text="0 days"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -117,6 +73,7 @@
                 android:padding="24dp">
 
                 <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -142,24 +99,25 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                        <!-- Circular TextView on top -->
+                        <!-- Circular TextView for the day -->
                         <TextView
-                            android:id="@+id/textViewCircular"
+                            android:id="@+id/tv_favorite_workout_day"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="@drawable/circular_background"
                             android:gravity="center"
-                            android:text="@string/mon"
+                            android:text=""
                             android:textColor="@android:color/black"
-                            android:textSize="18sp" />
+                            android:textSize="16sp"
+                            android:fontFamily="@font/montserrat_medium"/>
 
-                        <!-- Regular TextView 2 -->
+                        <!-- Workout name TextView -->
                         <TextView
-                            android:id="@+id/favoriteWorkoutTxt"
+                            android:id="@+id/tv_favorite_workout_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:text="Chest Day"
+                            android:text=""
                             android:textColor="@android:color/white"
                             android:textSize="18sp"
                             android:gravity="center"/>

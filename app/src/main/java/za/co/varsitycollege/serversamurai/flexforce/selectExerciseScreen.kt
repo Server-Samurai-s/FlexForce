@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -47,6 +48,10 @@ class SelectExerciseScreen : Fragment() {
     private lateinit var workoutName: String
     private lateinit var selectedDay: String
 
+    private lateinit var selectExerciseBackBtn: ImageView
+
+    private lateinit var selectExerciseWorkoutName: TextView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,6 +61,10 @@ class SelectExerciseScreen : Fragment() {
         // Retrieve workout name and selected day from arguments
         workoutName = arguments?.getString("workoutName") ?: "Default Workout"
         selectedDay = arguments?.getString("selectedDay") ?: "Monday"
+        selectedExercises = arguments?.getParcelableArrayList("selectedExercises") ?: mutableListOf()
+
+        selectExerciseWorkoutName = view.findViewById(R.id.selectExerciseWorkoutName)
+        selectExerciseWorkoutName.text = workoutName
 
         // Initialize RecyclerView
         rvExerciseList = view.findViewById(R.id.rv_exercise_list)
@@ -64,6 +73,8 @@ class SelectExerciseScreen : Fragment() {
         // Get the text views for the Add Selected button and the counter
         addSelectedText = view.findViewById(R.id.tv_add_selected)
         selectedCounterText = view.findViewById(R.id.tv_selected_counter)
+
+        selectedCounterText.text = selectedExercises.size.toString() + " exercises selected"
 
         // Get selected muscles from arguments (from previous fragment)
         selectedMuscles = arguments?.getStringArrayList("selectedMuscles") ?: listOf() // default example
@@ -77,7 +88,7 @@ class SelectExerciseScreen : Fragment() {
         apiService = retrofit.create(ApiService::class.java)
 
         // Set up the adapter with a callback for exercise selection
-        rvExerciseList.adapter = ExerciseAdapter(emptyList()) { exercise, isSelected ->
+        rvExerciseList.adapter = ExerciseAdapter(emptyList(), selectedExercises) { exercise, isSelected ->
             toggleExerciseSelection(exercise, isSelected)
         }
 
@@ -86,6 +97,7 @@ class SelectExerciseScreen : Fragment() {
             val bundle = Bundle().apply {
                 putString("workoutName", workoutName)
                 putString("selectedDay", selectedDay)
+                putParcelableArrayList("selectedExercises", ArrayList(selectedExercises))
             }
             findNavController().navigate(R.id.action_selectExerciseScreen_to_selectMuscleGroupScreen, bundle)
         }
@@ -100,6 +112,11 @@ class SelectExerciseScreen : Fragment() {
             }
 
             findNavController().navigate(R.id.action_selectExerciseScreen_to_workoutSummaryScreen, bundle)
+        }
+
+        selectExerciseBackBtn = view.findViewById(R.id.selectExerciseBackBtn)
+        selectExerciseBackBtn.setOnClickListener {
+            findNavController().popBackStack()
         }
 
 

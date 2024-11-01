@@ -76,4 +76,35 @@ dependencies {
     implementation("androidx.room:room-ktx:2.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+    // Core libraries
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.fragment.ktx)
+
+    // Firebase and Firestore
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.com.google.firebase.firebase.auth)
+    implementation(libs.firebase.firestore.ktx)
+
+    // Retrofit and networking
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor.v500alpha10) // or latest version
+
+    // Biometric Authentication
+    implementation(libs.androidx.biometric.v110)
+    implementation (libs.androidx.security.crypto) // latest version
+
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }

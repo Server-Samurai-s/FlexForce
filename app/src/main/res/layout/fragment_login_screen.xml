@@ -104,22 +104,34 @@
 
         </LinearLayout>
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_weight="1"
-        android:gravity="bottom">
-        <!-- Login Button -->
-        <Button
-            android:id="@+id/button_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_black_button"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="@string/loginbtn"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:gravity="bottom">
+
+    <!-- Login Button -->
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_black_button"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/loginbtn"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginEnd="8dp" />
+
+    <!-- Fingerprint Button -->
+    <ImageButton
+        android:id="@+id/bioAuthBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/fingerprint"
+        android:layout_marginStart="8dp"
+        />
+</LinearLayout>
 
 </LinearLayout>

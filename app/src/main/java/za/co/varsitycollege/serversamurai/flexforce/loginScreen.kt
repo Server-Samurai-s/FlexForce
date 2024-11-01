@@ -10,12 +10,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import za.co.varsitycollege.serversamurai.flexforce.auth.BiometricHelper
 import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentLoginScreenBinding
+import za.co.varsitycollege.serversamurai.flexforce.utils.UserSecrets
 
-class loginScreen : Fragment() {
+class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
     private lateinit var binding: FragmentLoginScreenBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var biometricHelper: BiometricHelper
+    private lateinit var userSecrets: UserSecrets
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +33,12 @@ class loginScreen : Fragment() {
 
         // Initialize SharedPreferences
         sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+
+        // Initialize Biometric Helper
+        biometricHelper = BiometricHelper(requireActivity(), this)
+
+        // Initialize UserSecrets utility for encrypted preferences
+        userSecrets = UserSecrets()
 
         return binding.root
     }
@@ -49,9 +59,19 @@ class loginScreen : Fragment() {
             }
         }
 
+        // Handle biometric authentication button click
+        binding.bioAuthBtn.setOnClickListener {
+            biometricHelper.authenticate()
+        }
+
         // Handle register link click
         binding.registerLink.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+
+        // Automatically trigger biometric authentication if previously logged in
+        if (sharedPreferences.getBoolean("rememberMe", false)) {
+            biometricHelper.authenticate()
         }
     }
 
@@ -59,8 +79,15 @@ class loginScreen : Fragment() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Login successful
-                    handleRememberMe(email)
+                    // Store the credentials after a successful login
+                    storeCredentials(email, password)
+
+                    // Optionally mark that biometric login is available
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("rememberMe", true)
+                    editor.apply()
+
+                    // Navigate to home screen
                     findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 } else {
                     // If sign-in fails, display a message to the user.
@@ -69,13 +96,36 @@ class loginScreen : Fragment() {
             }
     }
 
-    private fun handleRememberMe(email: String) {
-        // If the user checked "Remember Me"
-        if (binding.checkboxRememberMe.isChecked) {
-            val editor = sharedPreferences.edit()
-            editor.putBoolean("rememberMe", true)
-            editor.putString("email", email)  // Optionally save the email
-            editor.apply()  // Commit changes
+    private fun storeCredentials(email: String, password: String) {
+        // Store email and password securely using EncryptedSharedPreferences
+        val encryptedPrefs = userSecrets.getEncryptedSharedPreferences(requireContext())
+        with(encryptedPrefs.edit()) {
+            putString("email", email)
+            putString("password", password)
+            apply()
         }
+    }
+
+    // Biometric authentication callbacks
+    override fun onSuccess() {
+        // Retrieve encrypted credentials on biometric success
+        val encryptedPrefs = userSecrets.getEncryptedSharedPreferences(requireContext())
+        val email = encryptedPrefs.getString("email", null)
+        val password = encryptedPrefs.getString("password", null)
+
+        if (email != null && password != null) {
+            // Log in with the retrieved credentials
+            loginUser(email, password)
+        } else {
+            Toast.makeText(context, "No saved login credentials found.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onError(error: String) {
+        Toast.makeText(context, "Biometric authentication error: $error", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onFailure() {
+        Toast.makeText(context, "Biometric authentication failed. Please try again.", Toast.LENGTH_SHORT).show()
     }
 }

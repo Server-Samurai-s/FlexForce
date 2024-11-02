@@ -62,12 +62,39 @@ interface ApiService {
     @GET("api/workouts/getUserWorkouts/{userId}")
     fun getUserWorkouts(@Path("userId") userId: String): Call<List<WorkoutRequest>>
 
+    @GET("api/workouts/chest-day")
+    fun getChestDayWorkout(): Call<ApiDataModels.Workout>
+
+    @GET("api/workouts/leg-day")
+    fun getLegDayWorkout(): Call<ApiDataModels.Workout>
+
     @GET("api/workouts/challengesWorkouts")
     fun getChallengesWorkouts(): Call<ChallengeResponse>
 
     @GET("api/workouts/challenges/{id}")
     fun getChallengeView(@Path("id") challengeId: String): Call<Challenge>
 
+    // New Challenge Endpoints
+
+    // Initialize challenges (one-time setup, no auth required)
+    @POST("api/workouts/initialize-challenges")
+    fun initializeChallenges(): Call<Void>
+
+    // Get challenges for a specific user
+    @GET("api/workouts/user/{userId}/challenges")
+    fun getUserChallenges(
+        @Path("userId") userId: String
+    ): Call<List<ApiDataModels.Challenge>>
+
+    // Update user challenge status (e.g., started, completed, left)
+    @POST("api/workouts/user/{userId}/challenges/update")
+    fun updateUserChallengeStatus(
+        @Path("userId") userId: String,
+        @Body request: UpdateChallengeStatusRequest
+    ): Call<Void>
+
+
+    // Save a user workout
     @POST("save")
     @FormUrlEncoded
     fun saveUserWorkout(
@@ -76,9 +103,13 @@ interface ApiService {
         @Field("exercises") exercises: List<Exercise>
     ): Call<Response>
 
+    // Delete a user workout
     @DELETE("user/{userId}/workout/{workoutId}")
     fun deleteUserWorkout(@Path("userId") userId: String, @Path("workoutId") workoutId: String): Call<Response>
 }
+
+
+data class ExerciseResponse(val exercises: List<Exercise>)
 
 data class MuscleRequest(val muscles: List<String>)
 
@@ -87,4 +118,9 @@ data class WorkoutRequest(
     val workoutDay: String,
     val exercises: List<Exercise>,
     val id: String? = null
+)
+
+data class UpdateChallengeStatusRequest(
+    val challengeId: String,
+    val status: String
 )

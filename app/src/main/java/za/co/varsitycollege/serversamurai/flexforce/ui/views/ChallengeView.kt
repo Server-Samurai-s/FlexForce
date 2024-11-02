@@ -11,17 +11,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import za.co.varsitycollege.serversamurai.flexforce.R
 import za.co.varsitycollege.serversamurai.flexforce.data.models.Challenge
 import za.co.varsitycollege.serversamurai.flexforce.network.ApiClient
+import za.co.varsitycollege.serversamurai.flexforce.Models.ApiDataModels
+import za.co.varsitycollege.serversamurai.flexforce.service.ApiClient
+import za.co.varsitycollege.serversamurai.flexforce.service.UpdateChallengeStatusRequest
 
 class challengeView : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
-
     private lateinit var tvChallengeType: TextView
     private lateinit var tvTimePeriod: TextView
     private lateinit var tvTracking: TextView
@@ -43,18 +44,16 @@ class challengeView : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("challengeView", "onCreateView: started")
         val view = inflater.inflate(R.layout.fragment_challenge_view, container, false)
 
         initializeTextViews(view)
         val challengeId = arguments?.getString("challengeId") ?: "defaultChallengeId"
-        Log.d("challengeView", "onCreateView: challengeId=$challengeId")
 
         val startChallengeBtn: Button = view.findViewById(R.id.buttonStartChallenge)
         val backBtn: ImageButton = view.findViewById(R.id.backBtnC)
 
         startChallengeBtn.setOnClickListener {
-            Log.d("challengeView", "startChallengeBtn: clicked")
+            startChallenge(challengeId)
             findNavController().navigate(R.id.action_nav_challenge_view_to_nav_challenge_view_inner)
             Toast.makeText(context, "Start challenge btn clicked", Toast.LENGTH_SHORT).show()
         }
@@ -84,9 +83,10 @@ class challengeView : Fragment() {
         ApiClient.retrofitService.getChallengeView(challengeId).enqueue(object :
             Callback<Challenge> {
             override fun onResponse(call: Call<Challenge>, response: Response<Challenge>) {
+        ApiClient.retrofitService.getChallengeView(challengeId).enqueue(object : Callback<ApiDataModels.Challenge> {
+            override fun onResponse(call: Call<ApiDataModels.Challenge>, response: Response<ApiDataModels.Challenge>) {
                 if (response.isSuccessful) {
                     response.body()?.let {
-                        Log.d("challengeView", "fetchChallengeData: response successful")
                         tvChallengeType.text = "Type: ${it.challengeType}"
                         tvTimePeriod.text = "Period: ${it.timePeriod}"
                         tvTracking.text = "Tracking: ${it.tracking}"
@@ -102,6 +102,7 @@ class challengeView : Fragment() {
                         "Failed to retrieve challenge details",
                         Toast.LENGTH_SHORT
                     ).show()
+                    Toast.makeText(context, "Failed to retrieve challenge details", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -113,6 +114,16 @@ class challengeView : Fragment() {
         Log.d("challengeView", "fetchChallengeData: completed")
     }
 
+    private fun startChallenge(challengeId: String) {
+        // Get the current logged-in user's ID from Firebase
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userId == null) {
+            Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val updateRequest = UpdateChallengeStatusRequest(challengeId = challengeId, status = "started")
 
     companion object {
 
@@ -125,7 +136,19 @@ class challengeView : Fragment() {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
+        // Call the Retrofit method with userId as a path parameter
+        ApiClient.retrofitService.updateUserChallengeStatus(userId, updateRequest).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(context, "Challenge started successfully", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Failed to start challenge", Toast.LENGTH_SHORT).show()
                 }
             }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(context, "Error: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

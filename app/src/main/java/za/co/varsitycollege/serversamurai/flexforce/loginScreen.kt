@@ -2,6 +2,9 @@ package za.co.varsitycollege.serversamurai.flexforce
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +12,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import za.co.varsitycollege.serversamurai.flexforce.Models.AppDatabase
+import za.co.varsitycollege.serversamurai.flexforce.Models.User
 import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentLoginScreenBinding
 
 class loginScreen : Fragment() {
     private lateinit var binding: FragmentLoginScreenBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var database: AppDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +40,12 @@ class loginScreen : Fragment() {
         // Initialize SharedPreferences
         sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
+        // Initialize Room Database
+        database = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java, "flexforce-database"
+        ).build()
+
         return binding.root
     }
 
@@ -43,7 +59,11 @@ class loginScreen : Fragment() {
 
             // Validate input
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                loginUser(email, password)
+                if (isConnected()) {
+                    loginUserOnline(email, password)
+                } else {
+                    loginUserOffline(email, password)
+                }
             } else {
                 Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
             }
@@ -55,18 +75,37 @@ class loginScreen : Fragment() {
         }
     }
 
-    private fun loginUser(email: String, password: String) {
+    private fun isConnected(): Boolean {
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        val activeNetwork = cm?.activeNetwork
+        val networkCapabilities = cm?.getNetworkCapabilities(activeNetwork)
+        return networkCapabilities != null && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
+    private fun loginUserOnline(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Login successful
                     handleRememberMe(email)
                     findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 } else {
-                    // If sign-in fails, display a message to the user.
                     Toast.makeText(context, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun loginUserOffline(email: String, password: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.userDao().getUser(email, password)
+            CoroutineScope(Dispatchers.Main).launch {
+                if (user != null) {
+                    handleRememberMe(email)
+                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                } else {
+                    Toast.makeText(context, "Login failed: Invalid credentials", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun handleRememberMe(email: String) {

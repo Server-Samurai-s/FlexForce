@@ -1,5 +1,6 @@
 package za.co.varsitycollege.serversamurai.flexforce.service
 
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -17,10 +18,18 @@ import za.co.varsitycollege.serversamurai.flexforce.Models.ApiDataModels
 
 object ApiClient {
     private const val BASE_URL = "https://flexforce-api.vercel.app/"
+    private var authToken: String? = null
 
     private val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
     private val client = OkHttpClient.Builder()
         .addInterceptor(logging)
+        .addInterceptor(Interceptor { chain ->
+            val request = chain.request().newBuilder()
+            authToken?.let {
+                request.addHeader("Authorization", "Bearer $it")
+            }
+            chain.proceed(request.build())
+        })
         .build()
 
     val retrofitService: ApiService by lazy {
@@ -30,6 +39,10 @@ object ApiClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
+    }
+
+    fun setAuthToken(token: String) {
+        authToken = token
     }
 }
 
@@ -46,11 +59,9 @@ interface ApiService {
     @GET("api/workouts/getUserWorkouts/{userId}")
     fun getUserWorkouts(@Path("userId") userId: String): Call<List<WorkoutRequest>>
 
-    // Fetch chest day workout MIGHT BE DELETED
     @GET("api/workouts/chest-day")
     fun getChestDayWorkout(): Call<ApiDataModels.Workout>
 
-    // Fetch leg day workout
     @GET("api/workouts/leg-day")
     fun getLegDayWorkout(): Call<ApiDataModels.Workout>
 
@@ -60,7 +71,6 @@ interface ApiService {
     @GET("api/workouts/challenges/{id}")
     fun getChallengeView(@Path("id") challengeId: String): Call<ApiDataModels.Challenge>
 
-    // Save a user workout
     @POST("save")
     @FormUrlEncoded
     fun saveUserWorkout(
@@ -69,7 +79,6 @@ interface ApiService {
         @Field("exercises") exercises: List<ApiDataModels.Exercise>
     ): Call<ApiDataModels.Response>
 
-    // Delete a user workout
     @DELETE("user/{userId}/workout/{workoutId}")
     fun deleteUserWorkout(@Path("userId") userId: String, @Path("workoutId") workoutId: String): Call<ApiDataModels.Response>
 }
@@ -81,6 +90,6 @@ data class MuscleRequest(val muscles: List<String>)
 data class WorkoutRequest(
     val workoutName: String,
     val workoutDay: String,
-    val exercises: List<Exercise>,  // Ensure this is a List
-    val id: String? = null           // Optional id for workout
+    val exercises: List<Exercise>,
+    val id: String? = null
 )

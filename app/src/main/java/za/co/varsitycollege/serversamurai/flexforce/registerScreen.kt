@@ -7,14 +7,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import za.co.varsitycollege.serversamurai.flexforce.Models.AppDatabase
+import za.co.varsitycollege.serversamurai.flexforce.Models.User
 import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentRegisterScreenBinding
 
 class registerScreen : Fragment() {
     private lateinit var binding: FragmentRegisterScreenBinding
+    private lateinit var database: AppDatabase
     private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,11 +28,14 @@ class registerScreen : Fragment() {
         // Initialize View Binding
         binding = FragmentRegisterScreenBinding.inflate(inflater, container, false)
 
+        // Initialize Room Database
+        database = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java, "flexforce-database"
+        ).build()
+
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
-
-        // Initialize Firestore
-        firestore = FirebaseFirestore.getInstance()
 
         return binding.root
     }
@@ -57,41 +65,24 @@ class registerScreen : Fragment() {
     }
 
     private fun registerUser(name: String, surname: String, nickname: String, email: String, password: String) {
-        // Step 1: Register the user
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Reload the current user to ensure authentication is fully propagated
-                    auth.currentUser?.reload()?.addOnCompleteListener {
-                        // Get the newly registered user's ID
-                        val userId = auth.currentUser?.uid
+        val user = User(
+            uid = email,
+            name = name,
+            surname = surname,
+            nickname = nickname,
+            email = email,
+            password = password
+        )
 
-                        if (userId != null) {
-                            val userDetails = hashMapOf(
-                                "name" to name,
-                                "surname" to surname,
-                                "nickname" to nickname
-                            )
-
-                            // Write to Firestore
-                            firestore.collection("users")
-                                .document(userId)
-                                .collection("userDetails")
-                                .document("details")
-                                .set(userDetails)
-                                .addOnSuccessListener {
-                                    Toast.makeText(context, "User details saved successfully", Toast.LENGTH_SHORT).show()
-                                    findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
-                                }
-                                .addOnFailureListener { e ->
-                                    Toast.makeText(context, "Error saving user details: ${e.message}", Toast.LENGTH_SHORT).show()
-                                }
-                        } else {
-                            Toast.makeText(context, "User authentication failed", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                } else {
-                    Toast.makeText(context, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+        CoroutineScope(Dispatchers.IO).launch {
+            database.userDao().insert(user)
+            CoroutineScope(Dispatchers.Main).launch {
+                Toast.makeText(
+                    context,
+                    "User registered locally. Will sync when online.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
             }
         }
     }

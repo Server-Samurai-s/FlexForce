@@ -1,56 +1,81 @@
 package za.co.varsitycollege.serversamurai.flexforce
 
+import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.SharedPreferences
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.appcompat.widget.Toolbar
+import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import za.co.varsitycollege.serversamurai.flexforce.Models.AppDatabase
+import za.co.varsitycollege.serversamurai.flexforce.Models.User
+import java.io.Console
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var database: AppDatabase
+    private lateinit var auth: FirebaseAuth
+    private lateinit var connectivityReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Initialize Room Database
+        database = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "flexforce-database"
+        ).build()
+
         // Initialize Firebase Auth
-        FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
 
-        // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
-
-        // Set up the toolbar
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        // Set up navigation controller
-        val navController = findNavController(R.id.nav_host_fragment)
-
-        // Check if the user is remembered
-        checkRememberedLogin(navController)
-
-        setupActionBarWithNavController(navController)
-    }
-
-    // Function to check if the user is remembered and navigate accordingly
-    private fun checkRememberedLogin(navController: androidx.navigation.NavController) {
-        val isRemembered = sharedPreferences.getBoolean("rememberMe", false)
-
-        if (isRemembered) {
-            // If "Remember Me" is true, navigate directly to the home screen
-            navController.navigate(R.id.homeFragment)
-        } else {
-            // Otherwise, navigate to the login screen
-            navController.navigate(R.id.welcomeFragment)
+        // Register connectivity receiver
+        connectivityReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val activeNetwork = cm.activeNetwork
+                val isConnected = activeNetwork != null
+                if (isConnected) {
+                    syncPendingRegistrations()
+                }
+            }
         }
+        registerReceiver(connectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp() || super.onSupportNavigateUp()
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(connectivityReceiver)
+    }
+
+    private fun syncPendingRegistrations() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val pendingUsers = database.userDao().getAllUsers()
+            Log.e("RegistrationSync", "Pending users: ${pendingUsers.size}");
+            for (user in pendingUsers) {
+                auth.createUserWithEmailAndPassword(user.email, user.password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                database.userDao().delete(user)
+                            }
+                        } else {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                val errorMessage = task.exception?.message ?: "Unknown error"
+                                Log.e("RegistrationSync", "Failed to sync user: ${user.email}. Error: $errorMessage");
+                                Toast.makeText(applicationContext, "Failed to sync user: ${user.email}. Error: $errorMessage", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+            }
+        }
     }
 }

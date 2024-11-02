@@ -77,28 +77,38 @@ class WorkoutSummaryScreen : Fragment() {
     }
 
     private fun saveWorkout() {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: "default_user_id"
-        Log.e("WORKOUT_SAVE", "User ID: $userId")
-        Log.e("WORKOUT_SAVE", "Workout Name: $workoutName")
-        Log.e("WORKOUT_SAVE", "Exercises: $selectedExercises")
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.getIdToken(true)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val idToken = task.result?.token
+                // Set the auth token in ApiClient
+                ApiClient.setAuthToken(idToken ?: "")
 
-        val workoutRequest = WorkoutRequest(workoutName = workoutName, workoutDay = selectedDay, exercises = selectedExercises)
+                val userId = user.uid
+                val workoutRequest = WorkoutRequest(workoutName = workoutName, workoutDay = selectedDay, exercises = selectedExercises)
 
-        ApiClient.retrofitService.addWorkout(userId, workoutRequest).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    Toast.makeText(context, "Workout saved successfully!", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_workoutSummaryScreen_to_nav_workout)
-                } else {
-                    Log.e("API_ERROR", "Failed to save workout. Response code: ${response.code()}, message: ${response.message()}")
-                    Toast.makeText(context, "Failed to save workout", Toast.LENGTH_SHORT).show()
-                }
+                // Now make the API call
+                ApiClient.retrofitService.addWorkout(userId, workoutRequest).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(context, "Workout saved successfully!", Toast.LENGTH_SHORT).show()
+                            findNavController().navigate(R.id.action_workoutSummaryScreen_to_nav_workout)
+                        } else {
+                            Log.e("API_ERROR", "Failed to save workout. Response code: ${response.code()}, message: ${response.message()}")
+                            Toast.makeText(context, "Failed to save workout", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Log.e("API_ERROR", "Error saving workout: ${t.message}", t)
+                        Toast.makeText(context, "Error saving workout", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            } else {
+                // Handle error
+                Log.e("AUTH_ERROR", "Error getting ID token: ${task.exception?.message}")
+                Toast.makeText(context, "Authentication error", Toast.LENGTH_SHORT).show()
             }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.e("API_ERROR", "Error saving workout: ${t.message}", t)
-                Toast.makeText(context, "Error saving workout", Toast.LENGTH_SHORT).show()
-            }
-        })
+        }
     }
 }

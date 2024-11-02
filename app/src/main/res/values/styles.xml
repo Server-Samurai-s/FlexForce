@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Custom View Style -->
-    <style name="Widget.Theme.FlexForce.MyView" parent="Theme.MaterialComponents.DayNight">
+    <style name="Widget.Theme.FlexForce.MyView" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@color/gray_400</item>
         <item name="exampleColor">@color/light_blue_400</item>
         <item name="buttonStyle">@style/Widget.AppCompat.Button</item>

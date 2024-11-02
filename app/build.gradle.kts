@@ -6,7 +6,6 @@ plugins {
 }
 
 android {
-
     viewBinding {
         enable = true
     }
@@ -45,7 +44,6 @@ android {
             freeCompilerArgs += "-Xallow-break-and-continue-in-lambdas"
         }
     }
-
 }
 
 dependencies {
@@ -57,15 +55,17 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(platform(libs.firebase.bom))
-    implementation(libs.com.google.firebase.firebase.auth)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.analytics)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor.v491)
-    implementation(libs.firebase.firestore.ktx) // Add this line
+    implementation(libs.logging.interceptor)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

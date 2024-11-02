@@ -316,9 +316,8 @@
 
         </LinearLayout>
 
-        <!-- Start Challenge Button -->
         <Button
-            android:id="@+id/buttonStartChallenge"
+            android:id="@+id/buttonLeaveChallenge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Leave Challenge"
@@ -326,6 +325,7 @@
             android:textColor="@android:color/white"
             android:layout_gravity="center"
             android:layout_marginTop="16dp" />
+
 
     </LinearLayout>
 </ScrollView>

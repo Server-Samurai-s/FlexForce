@@ -34,6 +34,8 @@ object ApiClient {
 }
 
 interface ApiService {
+
+    // Existing Endpoints
     @POST("api/workouts/exercises")
     fun getExercisesByMuscles(@Body request: MuscleRequest): Call<ExerciseResponse>
 
@@ -46,11 +48,9 @@ interface ApiService {
     @GET("api/workouts/getUserWorkouts/{userId}")
     fun getUserWorkouts(@Path("userId") userId: String): Call<List<WorkoutRequest>>
 
-    // Fetch chest day workout MIGHT BE DELETED
     @GET("api/workouts/chest-day")
     fun getChestDayWorkout(): Call<ApiDataModels.Workout>
 
-    // Fetch leg day workout
     @GET("api/workouts/leg-day")
     fun getLegDayWorkout(): Call<ApiDataModels.Workout>
 
@@ -59,6 +59,26 @@ interface ApiService {
 
     @GET("api/workouts/challenges/{id}")
     fun getChallengeView(@Path("id") challengeId: String): Call<ApiDataModels.Challenge>
+
+    // New Challenge Endpoints
+
+    // Initialize challenges (one-time setup, no auth required)
+    @POST("api/workouts/initialize-challenges")
+    fun initializeChallenges(): Call<Void>
+
+    // Get challenges for a specific user
+    @GET("api/workouts/user/{userId}/challenges")
+    fun getUserChallenges(
+        @Path("userId") userId: String
+    ): Call<List<ApiDataModels.Challenge>>
+
+    // Update user challenge status (e.g., started, completed, left)
+    @POST("api/workouts/user/{userId}/challenges/update")
+    fun updateUserChallengeStatus(
+        @Path("userId") userId: String,
+        @Body request: UpdateChallengeStatusRequest
+    ): Call<Void>
+
 
     // Save a user workout
     @POST("save")
@@ -74,6 +94,7 @@ interface ApiService {
     fun deleteUserWorkout(@Path("userId") userId: String, @Path("workoutId") workoutId: String): Call<ApiDataModels.Response>
 }
 
+
 data class ExerciseResponse(val exercises: List<Exercise>)
 
 data class MuscleRequest(val muscles: List<String>)
@@ -83,4 +104,9 @@ data class WorkoutRequest(
     val workoutDay: String,
     val exercises: List<Exercise>,  // Ensure this is a List
     val id: String? = null           // Optional id for workout
+)
+
+data class UpdateChallengeStatusRequest(
+    val challengeId: String,
+    val status: String
 )

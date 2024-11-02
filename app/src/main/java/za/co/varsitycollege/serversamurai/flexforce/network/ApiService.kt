@@ -93,6 +93,14 @@ interface ApiService {
         @Body request: UpdateChallengeStatusRequest
     ): Call<Void>
 
+    // Get the status of a specific user challenge
+    @GET("api/workouts/user/{userId}/challenges/{challengeId}/status")
+    fun getUserChallengeStatus(
+        @Path("userId") userId: String,
+        @Path("challengeId") challengeId: String
+    ): Call<ChallengeStatusResponse>
+
+
 
     // Save a user workout
     @POST("save")
@@ -124,3 +132,8 @@ data class UpdateChallengeStatusRequest(
     val challengeId: String,
     val status: String
 )
+
+data class ChallengeStatusResponse(
+    val status: String
+)
+

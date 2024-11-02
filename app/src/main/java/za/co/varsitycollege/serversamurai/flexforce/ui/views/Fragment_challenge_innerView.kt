@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +19,12 @@ import za.co.varsitycollege.serversamurai.flexforce.R
 import za.co.varsitycollege.serversamurai.flexforce.data.models.ChallengeExercise
 import za.co.varsitycollege.serversamurai.flexforce.data.models.ChallengeResponse
 import za.co.varsitycollege.serversamurai.flexforce.network.ApiClient
+import za.co.varsitycollege.serversamurai.flexforce.Models.ApiDataModels
+import za.co.varsitycollege.serversamurai.flexforce.service.ApiClient
+import za.co.varsitycollege.serversamurai.flexforce.service.UpdateChallengeStatusRequest
+
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
 class fragment_challenge_innerView : Fragment() {
     private lateinit var tvMonday: TextView
@@ -26,7 +34,7 @@ class fragment_challenge_innerView : Fragment() {
     private lateinit var tvFriday: TextView
     private lateinit var tvSaturday: TextView
     private lateinit var tvSunday: TextView
-    private lateinit var tvTest: TextView // New TextView
+    private lateinit var challengeId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +42,11 @@ class fragment_challenge_innerView : Fragment() {
     ): View? {
         Log.d("FragmentChallengeInnerView", "onCreateView: started")
         val view = inflater.inflate(R.layout.fragment_challenge_inner_view, container, false)
+
+        // Retrieve challengeId from arguments
+        arguments?.let {
+            challengeId = it.getString("challengeId") ?: "defaultChallengeId"
+        }
 
         // Initialize TextViews for each day
         tvMonday = view.findViewById(R.id.mondayChallenge)
@@ -55,6 +68,13 @@ class fragment_challenge_innerView : Fragment() {
             findNavController().navigate(R.id.action_nav_challenge_view_inner_to_nav_challenge_view)
             Toast.makeText(context, "Back button clicked", Toast.LENGTH_SHORT).show()
         }
+
+        val leaveChallengeBtn: Button = view.findViewById(R.id.buttonLeaveChallenge)
+
+        leaveChallengeBtn.setOnClickListener {
+            leaveChallenge(challengeId)
+        }
+
 
         Log.d("FragmentChallengeInnerView", "onCreateView: completed")
         return view
@@ -129,6 +149,34 @@ class fragment_challenge_innerView : Fragment() {
         })
         Log.d("FragmentChallengeInnerView", "fetchWeeklyWorkoutPlan: completed")
     }
+
+    private fun leaveChallenge(challengeId: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userId == null) {
+            Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val updateRequest = UpdateChallengeStatusRequest(challengeId = challengeId, status = "Challenge Left")
+
+        // Call the Retrofit method with userId as a path parameter
+        ApiClient.retrofitService.updateUserChallengeStatus(userId, updateRequest).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(context, "Challenge left successfully", Toast.LENGTH_SHORT).show()
+                    //tvChallengeProgress.text = "Status: Left" // Update the status directly after leaving
+                } else {
+                    Toast.makeText(context, "Failed to leave challenge", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(context, "Error: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 
     companion object {
         private const val ARG_PARAM1 = "param1"

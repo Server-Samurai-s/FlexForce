@@ -21,12 +21,14 @@ import za.co.varsitycollege.serversamurai.flexforce.network.ApiClient
 import za.co.varsitycollege.serversamurai.flexforce.Models.ApiDataModels
 import za.co.varsitycollege.serversamurai.flexforce.service.ApiClient
 import za.co.varsitycollege.serversamurai.flexforce.service.UpdateChallengeStatusRequest
+import za.co.varsitycollege.serversamurai.flexforce.service.ChallengeStatusResponse
 
 class challengeView : Fragment() {
     private lateinit var tvChallengeType: TextView
     private lateinit var tvTimePeriod: TextView
     private lateinit var tvTracking: TextView
     private lateinit var tvDescription: TextView
+    private lateinit var tvChallengeProgress: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -51,12 +53,19 @@ class challengeView : Fragment() {
 
         val startChallengeBtn: Button = view.findViewById(R.id.buttonStartChallenge)
         val backBtn: ImageButton = view.findViewById(R.id.backBtnC)
+        val NextPage : Button = view.findViewById(R.id.NextPageBtn)
 
         startChallengeBtn.setOnClickListener {
             startChallenge(challengeId)
             findNavController().navigate(R.id.action_nav_challenge_view_to_nav_challenge_view_inner)
             Toast.makeText(context, "Start challenge btn clicked", Toast.LENGTH_SHORT).show()
+            //findNavController().navigate(R.id.action_nav_challenge_view_to_nav_challenge_view_inner)
         }
+
+        NextPage.setOnClickListener {
+            navigateWithPayload(challengeId, R.id.action_nav_challenge_view_to_nav_challenge_view_inner)
+        }
+
 
         backBtn.setOnClickListener {
             Log.d("challengeView", "backBtn: clicked")
@@ -66,6 +75,7 @@ class challengeView : Fragment() {
 
         fetchChallengeData(challengeId)
         Log.d("challengeView", "onCreateView: completed")
+        fetchChallengeStatus(challengeId) // Fetch the challenge status on view creation
         return view
     }
 
@@ -76,6 +86,7 @@ class challengeView : Fragment() {
         tvTracking = view.findViewById(R.id.trackingWithTxt)
         tvDescription = view.findViewById(R.id.descriptionTxt)
         Log.d("challengeView", "initializeTextViews: completed")
+        tvChallengeProgress = view.findViewById(R.id.ChallengeProgress) // Initialize the ChallengeProgress TextView
     }
 
     private fun fetchChallengeData(challengeId: String) {
@@ -114,8 +125,41 @@ class challengeView : Fragment() {
         Log.d("challengeView", "fetchChallengeData: completed")
     }
 
+    private fun navigateWithPayload(challengeId: String, actionId: Int) {
+        val bundle = Bundle()
+        bundle.putString("challengeId", challengeId)
+        findNavController().navigate(actionId, bundle)
+        Toast.makeText(context, "$challengeId button clicked", Toast.LENGTH_LONG).show()
+    }
+
+    private fun fetchChallengeStatus(challengeId: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userId == null) {
+            Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        ApiClient.retrofitService.getUserChallengeStatus(userId, challengeId).enqueue(object : Callback<ChallengeStatusResponse> {
+            override fun onResponse(call: Call<ChallengeStatusResponse>, response: Response<ChallengeStatusResponse>) {
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        tvChallengeProgress.text = "Status: ${it.status}" // Set the challenge status in the TextView
+                    }
+                } else {
+                    tvChallengeProgress.text = "Status: Not Started"
+                    Toast.makeText(context, "Failed to retrieve challenge status", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ChallengeStatusResponse>, t: Throwable) {
+                tvChallengeProgress.text = "Status: Not Started"
+                Toast.makeText(context, "Error: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
     private fun startChallenge(challengeId: String) {
-        // Get the current logged-in user's ID from Firebase
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 
         if (userId == null) {
@@ -141,6 +185,7 @@ class challengeView : Fragment() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Challenge started successfully", Toast.LENGTH_SHORT).show()
+                    tvChallengeProgress.text = "Status: Started" // Update the status directly after starting
                 } else {
                     Toast.makeText(context, "Failed to start challenge", Toast.LENGTH_SHORT).show()
                 }

@@ -220,6 +220,16 @@
 
         <!-- Start Challenge Button -->
         <Button
+            android:id="@+id/ChallengeProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/black"
+            android:text="Challenge Progress"
+            android:textColor="@android:color/white" />
+
+        <Button
             android:id="@+id/buttonStartChallenge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -227,6 +237,16 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/black"
             android:text="@string/start_challenge"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/NextPageBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/black"
+            android:text="View Challenge"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

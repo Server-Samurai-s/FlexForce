@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -18,26 +19,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d("FCM Service", "Message received from: ${remoteMessage.from}")
 
-        // Check if message contains a notification payload
-        remoteMessage.notification?.let {
-            Log.d("FCM Service", "Notification Message Body: ${it.body}")
-            sendNotification(it.body ?: "New message")
-        }
+        val title = remoteMessage.notification?.title ?: getString(R.string.flexforce_title)
+        val messageBody = remoteMessage.notification?.body ?: getString(R.string.default_message)
 
-        // Check if message contains data payload (custom data handling)
-        remoteMessage.data.let {
-            if (it.isNotEmpty()) {
-                Log.d("FCM Service", "Data Payload: $it")
-            }
-        }
+        sendCustomNotification(title, messageBody)
     }
 
     override fun onNewToken(token: String) {
-        Log.d("FCM Service", "New FCM token generated: $token")
-        // You can save this token to the server if needed
+        super.onNewToken(token)
+        Log.d("FCM Service", "New token: $token")
+        // Send the new token to your server if needed
     }
 
-    private fun sendNotification(messageBody: String) {
+    private fun sendCustomNotification(title: String, messageBody: String) {
         val intent = Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
@@ -50,24 +44,31 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         )
 
         val channelId = getString(R.string.default_notification_channel_id)
+
+        val notificationLayout = RemoteViews(packageName, R.layout.notification_custom)
+        notificationLayout.setTextViewText(R.id.title, title)
+        notificationLayout.setTextViewText(R.id.message, messageBody)
+
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.notification_icon)
-            .setContentTitle(getString(R.string.app_name))
-            .setContentText(messageBody)
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setCustomContentView(notificationLayout)
+            .setCustomBigContentView(notificationLayout)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
-                "Default Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
+                getString(R.string.notification_centre),
+                NotificationManager.IMPORTANCE_HIGH
             )
             notificationManager.createNotificationChannel(channel)
         }
 
-        notificationManager.notify(0, notificationBuilder.build())
-        Log.d("FCM Service", "Notification sent with body: $messageBody")
+        notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
     }
 }

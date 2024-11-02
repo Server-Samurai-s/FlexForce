@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
 
     <application
         android:allowBackup="true"
@@ -27,10 +28,9 @@
         <!-- Firebase Messaging Service -->
         <service
             android:name=".service.MyFirebaseMessagingService"
-            android:exported="true">
+            android:exported="false"> <!-- Exported set to false for security -->
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </service>
 

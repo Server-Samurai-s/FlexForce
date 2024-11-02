@@ -3,74 +3,77 @@ package za.co.varsitycollege.serversamurai.flexforce
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log // Import Log to use for logging
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.appcompat.widget.Toolbar
-import com.google.firebase.analytics.FirebaseAnalytics // Import FirebaseAnalytics for tracking
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.messaging.FirebaseMessaging // Import FirebaseMessaging for push notifications
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var firebaseAnalytics: FirebaseAnalytics // Declare FirebaseAnalytics instance
-    private lateinit var firebaseAuth: FirebaseAuth // Declare FirebaseAuth instance
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize Firebase Auth
-        firebaseAuth = FirebaseAuth.getInstance()
+        // Initialize Firebase services
+        initializeFirebaseServices()
 
-        // Initialize Firebase Analytics
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-
-        // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
-
-        // Set up the toolbar
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        // Set up toolbar
+        setupToolbar()
 
         // Set up navigation controller
-        val navController = findNavController(R.id.nav_host_fragment)
+        setupNavigation()
 
-        // Check if the user is remembered
-        checkRememberedLogin(navController)
-
-        setupActionBarWithNavController(navController)
-
-        // Get FCM token
+        // Fetch FCM token
         fetchFCMToken()
     }
 
-    // Function to check if the user is remembered and navigate accordingly
-    private fun checkRememberedLogin(navController: androidx.navigation.NavController) {
-        val isRemembered = sharedPreferences.getBoolean("rememberMe", false)
-
-        if (isRemembered) {
-            // If "Remember Me" is true, navigate directly to the home screen
-            navController.navigate(R.id.homeFragment)
-        } else {
-            // Otherwise, navigate to the login screen
-            navController.navigate(R.id.welcomeFragment)
-        }
+    private fun initializeFirebaseServices() {
+        sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        Log.d("FirebaseInit", "Firebase services initialized.")
     }
 
-    // Function to fetch the FCM Token
+    private fun setupToolbar() {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        Log.d("ToolbarSetup", "Toolbar has been set up.")
+    }
+
+    private fun setupNavigation() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        setupActionBarWithNavController(navController)
+
+        // Check if the user is remembered
+        val isRemembered = sharedPreferences.getBoolean("rememberMe", false)
+        val targetFragment = if (isRemembered) R.id.homeFragment else R.id.welcomeFragment
+
+        navController.navigate(targetFragment)
+        Log.d("Navigation", "Navigating to ${if (isRemembered) "Home" else "Welcome"} Fragment based on rememberMe preference.")
+    }
+
     private fun fetchFCMToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
+            if (task.isSuccessful) {
+                val token = task.result
+                token?.let {
+                    sharedPreferences.edit().putString("fcmToken", it).apply()
+                    Log.d("FCM Token", "FCM Token: $it")
+                    Toast.makeText(this, "FCM Token: $it", Toast.LENGTH_SHORT).show()
+                }
+            } else {
                 Log.w("FCM Token", "Fetching FCM registration token failed", task.exception)
-                return@addOnCompleteListener
+                Toast.makeText(this, "Failed to fetch FCM token", Toast.LENGTH_SHORT).show()
             }
-
-            // Get the FCM token
-            val token = task.result
-            Log.d("FCM Token", "FCM Token: $token")
         }
     }
 

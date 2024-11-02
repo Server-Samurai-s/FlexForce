@@ -13,21 +13,35 @@ import com.google.firebase.messaging.RemoteMessage
 import za.co.varsitycollege.serversamurai.flexforce.MainActivity
 import za.co.varsitycollege.serversamurai.flexforce.R
 
-class FirebaseMessagingService : FirebaseMessagingService() {
+class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        Log.d("FCM Service", "Message received from: ${remoteMessage.from}")
+
+        // Check if message contains a notification payload
         remoteMessage.notification?.let {
-            sendNotification(it.body)
+            Log.d("FCM Service", "Notification Message Body: ${it.body}")
+            sendNotification(it.body ?: "New message")
+        }
+
+        // Check if message contains data payload (custom data handling)
+        remoteMessage.data.let {
+            if (it.isNotEmpty()) {
+                Log.d("FCM Service", "Data Payload: $it")
+            }
         }
     }
 
     override fun onNewToken(token: String) {
-        Log.d("FCM Token", "Refreshed token: $token")
+        Log.d("FCM Service", "New FCM token generated: $token")
+        // You can save this token to the server if needed
     }
 
-    private fun sendNotification(messageBody: String?) {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    private fun sendNotification(messageBody: String) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
+
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
@@ -44,16 +58,16 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             .setContentIntent(pendingIntent)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
-                "Channel Title",
+                "Default Channel",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
             notificationManager.createNotificationChannel(channel)
         }
 
         notificationManager.notify(0, notificationBuilder.build())
+        Log.d("FCM Service", "Notification sent with body: $messageBody")
     }
 }

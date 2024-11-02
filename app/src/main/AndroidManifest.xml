@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Permissions for internet access, wake lock, and Firebase messaging -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
 
     <application
         android:allowBackup="true"
@@ -11,23 +14,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FlexForce">
 
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <!-- Firebase Messaging Service -->
         <service
-            android:name=".service.FirebaseMessagingService"
-            android:exported="false">
+            android:name=".service.MyFirebaseMessagingService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </service>
+
+        <!-- Optional: Firebase Analytics or Crashlytics Initialization (if used) -->
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="true"/>
+
+        <!-- Required: Default notification channel for Android O and above -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id"/>
 
     </application>
 </manifest>

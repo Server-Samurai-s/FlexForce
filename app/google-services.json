@@ -1,8 +1,9 @@
 {
   "project_info": {
     "project_number": "7419107632",
+    "firebase_url": "https://flexforce-5aad9-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "flexforce-5aad9",
-    "storage_bucket": "flexforce-5aad9.appspot.com"
+    "storage_bucket": "flexforce-5aad9.firebasestorage.app"
   },
   "client": [
     {

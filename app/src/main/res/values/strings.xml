@@ -41,7 +41,7 @@
     <string name="_20_days">20 days</string>
     <string name="enter_your_height">Enter Your Height</string>
     <string name="underweight_18_5_nnormal_18_5_24_9_noverweight_25_29_9_nobese_30">
-        <![CDATA[Underweight: < 18.5\nNormal: 18.5 - 24.9\nOverweight: 25 - 29.9\nObese: 30+]]></string>
+        <![CDATA[Underweight: < 18.5\nNormal: 18.5 – 24.9\nOverweight: 25 – 29.9\nObese: 30+]]></string>
     <string name="back">back</string>
     <string name="registerSubHeading">Please register to continue</string>
     <string name="welcomebackground">Welcome Background</string>
@@ -51,4 +51,9 @@
     <string name="apply">APPLY</string>
     <string name="todo">TODO</string>
     <string name="switch_view">Switch View</string>
+    <string name="default_notification_channel_id">flexforce_channel</string>
+    <string name="notification_centre">Notification Centre</string>
+    <string name="icon_description">FlexForce icon</string>
+    <string name="flexforce_title">FlexForce</string>
+    <string name="default_message">New friend suggestion</string>
 </resources>

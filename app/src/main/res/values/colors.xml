@@ -17,5 +17,7 @@
     <color name="yellow">#FFE249</color> <!-- White text color -->
     <color name="selected_background">#919191</color> <!-- Red text color -->
     <color name="ic_launcher_background">#1F2628</color>
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EA</color>
 
 </resources>

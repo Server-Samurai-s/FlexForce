@@ -19,7 +19,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import za.co.varsitycollege.serversamurai.flexforce.service.AppDatabase
+import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
+import za.co.varsitycollege.serversamurai.flexforce.service.SyncManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var connectivityReceiver: BroadcastReceiver
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var syncManager: SyncManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,9 @@ class MainActivity : AppCompatActivity() {
         fetchFCMToken()
 
         setupNavigation()
+
+        syncManager = SyncManager(this)
+        syncManager.syncData()
 
         // Register connectivity receiver
         connectivityReceiver = object : BroadcastReceiver() {

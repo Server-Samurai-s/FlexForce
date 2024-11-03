@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home_inner"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.homeInnerScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.home.homeInnerScreen"
         android:label="Home"
         tools:layout="@layout/fragment_home_inner_screen">
         <!-- Action to navigate to Profile Fragment -->
@@ -19,7 +19,7 @@
     <!-- Profile Fragment -->
     <fragment
         android:id="@+id/nav_profile"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.ProfileScreenView"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.profile.ProfileScreenFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile_screen_view">
         <!-- Action to navigate back to Home Inner Fragment -->
@@ -35,7 +35,7 @@
     <!-- Workout Fragment -->
     <fragment
         android:id="@+id/nav_workout"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.workoutScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout.workoutScreen"
         android:label="Workout"
         tools:layout="@layout/fragment_workout_screen">
         <action
@@ -53,7 +53,7 @@
     <!-- Stats Fragment -->
     <fragment
         android:id="@+id/nav_stats"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.statisticScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.stats.statisticScreen"
         android:label="Stats"
         tools:layout="@layout/fragment_statistic_screen" >
         <action
@@ -63,7 +63,7 @@
 
     <fragment
         android:id="@+id/nav_challenge_screen"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.challengeScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.challenge.challengeScreen"
         android:label="Challenge"
         tools:layout="@layout/fragment_challenge_screen" >
 
@@ -72,7 +72,7 @@
     <!-- Challenge Fragment -->
     <fragment
         android:id="@+id/nav_challenge"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.challengeScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.challenge.challengeScreen"
         android:label="Challenge"
         tools:layout="@layout/fragment_challenge_screen" >
         <action
@@ -86,7 +86,7 @@
     <!-- Challenge Fragment -->
     <fragment
         android:id="@+id/nav_challenge_view"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.challengeView"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.views.challengeView"
         android:label="Challenge"
         tools:layout="@layout/fragment_challenge_view" >
         <action
@@ -103,7 +103,7 @@
     <!-- Challenge Fragment -->
     <fragment
         android:id="@+id/nav_challenge_view_inner"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.fragment_challenge_innerView"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.views.fragment_challenge_innerView"
         android:label="Challenge"
         tools:layout="@layout/fragment_challenge_inner_view" >
         <action
@@ -118,7 +118,7 @@
     <!-- Create Workout Fragment -->
     <fragment
         android:id="@+id/createWorkoutFragment"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.CreateWorkoutFragment"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout.CreateWorkoutFragment"
         android:label="New Workout"
         tools:layout="@layout/fragment_create_workout">
 
@@ -130,7 +130,7 @@
 
     <fragment
         android:id="@+id/selectExerciseScreen"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.SelectExerciseScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.exercise.SelectExerciseScreen"
         android:label="Select Exercise"
         tools:layout="@layout/fragment_select_exercise_screen">
 
@@ -145,7 +145,7 @@
 
     <fragment
         android:id="@+id/selectMuscleGroupScreen"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.SelectMuscleGroupScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout.SelectMuscleGroupScreen"
         android:label="Select Muscle Group"
         tools:layout="@layout/fragment_select_muscle_group_screen">
         <action
@@ -155,7 +155,7 @@
 
     <fragment
         android:id="@+id/workoutSummaryScreen"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.WorkoutSummaryScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout.WorkoutSummaryScreen"
         android:label="Workout Summary"
         tools:layout="@layout/fragment_workout_summary_screen">
 
@@ -169,7 +169,7 @@
 
     <fragment
         android:id="@+id/duringWorkoutScreen"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.DuringWorkoutScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout.DuringWorkoutScreen"
         android:label="During Workout"
         tools:layout="@layout/fragment_during_workout">
         <argument

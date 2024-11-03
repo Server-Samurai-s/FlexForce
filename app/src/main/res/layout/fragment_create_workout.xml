@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".CreateWorkoutFragment">
+    tools:context=".ui.fragments.workout.CreateWorkoutFragment">
 
     <!-- App Bar with Back Button -->
     <RelativeLayout

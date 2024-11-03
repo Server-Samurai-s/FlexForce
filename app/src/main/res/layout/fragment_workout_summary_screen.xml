@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".WorkoutSummaryScreen">
+    tools:context=".ui.fragments.workout.WorkoutSummaryScreen">
 
     <!-- Top Bar with Back Button and Workout Title -->
     <RelativeLayout

@@ -8,7 +8,7 @@
     <!-- Welcome Fragment -->
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.welcomeScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout.welcomeScreen"
         android:label="Welcome"
         tools:layout="@layout/fragment_welcome_screen">
         <action
@@ -22,7 +22,7 @@
     <!-- Login Fragment -->
     <fragment
         android:id="@+id/loginFragment"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.loginScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.auth.loginScreen"
         android:label="Login"
         tools:layout="@layout/fragment_login_screen">
         <action
@@ -36,7 +36,7 @@
     <!-- Register Fragment -->
     <fragment
         android:id="@+id/registerFragment"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.registerScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.auth.registerScreen"
         android:label="Register"
         tools:layout="@layout/fragment_register_screen">
         <action

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".SelectMuscleGroupScreen">
+    tools:context=".ui.fragments.workout.SelectMuscleGroupScreen">
 
     <!-- Top Bar with Clear and Apply Buttons -->
     <RelativeLayout
@@ -191,7 +191,7 @@
                     android:visibility="gone" />
 
                 <!-- Overlay for hitbox visualization (Optional) -->
-                <za.co.varsitycollege.serversamurai.flexforce.HitboxOverlayView
+                <za.co.varsitycollege.serversamurai.flexforce.ui.views.HitboxOverlayView
                     android:id="@+id/overlay_front"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -325,7 +325,7 @@
                     android:visibility="gone" />
 
                 <!-- Overlay for hitbox visualization (Optional) -->
-                <za.co.varsitycollege.serversamurai.flexforce.HitboxOverlayView
+                <za.co.varsitycollege.serversamurai.flexforce.ui.views.HitboxOverlayView
                     android:id="@+id/overlay_back"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

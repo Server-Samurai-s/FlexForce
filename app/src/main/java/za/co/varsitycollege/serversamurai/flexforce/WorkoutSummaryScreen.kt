@@ -1,5 +1,10 @@
 package za.co.varsitycollege.serversamurai.flexforce
 
+import za.co.varsitycollege.serversamurai.flexforce.service.AppDatabase
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +24,10 @@ import retrofit2.Response
 import za.co.varsitycollege.serversamurai.flexforce.service.ApiClient
 import za.co.varsitycollege.serversamurai.flexforce.service.WorkoutRequest
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import za.co.varsitycollege.serversamurai.flexforce.Models.WorkoutEntity
 
 class WorkoutSummaryScreen : Fragment() {
 
@@ -29,13 +38,16 @@ class WorkoutSummaryScreen : Fragment() {
     private lateinit var btnDone: Button
     private lateinit var btnAddMoreExercises: Button
     private lateinit var workoutSummaryScreenBackBtn: ImageView
-
+    private lateinit var database: AppDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_workout_summary_screen, container, false)
+
+        // Initialize the Room database using the singleton pattern
+        database = AppDatabase.getDatabase(requireContext())
 
         // Retrieve selected exercises, workout name, and selected day from arguments
         workoutName = arguments?.getString("workoutName") ?: "Default Workout"
@@ -78,37 +90,65 @@ class WorkoutSummaryScreen : Fragment() {
 
     private fun saveWorkout() {
         val user = FirebaseAuth.getInstance().currentUser
-        user?.getIdToken(true)?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val idToken = task.result?.token
-                // Set the auth token in ApiClient
-                ApiClient.setAuthToken(idToken ?: "")
+        if (requireContext().isConnected()) {
+            user?.getIdToken(true)?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val idToken = task.result?.token
+                    ApiClient.setAuthToken(idToken ?: "")
 
-                val userId = user.uid
-                val workoutRequest = WorkoutRequest(workoutName = workoutName, workoutDay = selectedDay, exercises = selectedExercises)
+                    val userId = user.uid
+                    val workoutRequest = WorkoutRequest(workoutName = workoutName, workoutDay = selectedDay, exercises = selectedExercises)
 
-                // Now make the API call
-                ApiClient.retrofitService.addWorkout(userId, workoutRequest).enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(context, "Workout saved successfully!", Toast.LENGTH_SHORT).show()
-                            findNavController().navigate(R.id.action_workoutSummaryScreen_to_nav_workout)
-                        } else {
-                            Log.e("API_ERROR", "Failed to save workout. Response code: ${response.code()}, message: ${response.message()}")
-                            Toast.makeText(context, "Failed to save workout", Toast.LENGTH_SHORT).show()
+                    ApiClient.retrofitService.addWorkout(userId, workoutRequest).enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(context, "Workout saved successfully!", Toast.LENGTH_SHORT).show()
+                                findNavController().navigate(R.id.action_workoutSummaryScreen_to_nav_workout)
+                            } else {
+                                Log.e("API_ERROR", "Failed to save workout. Response code: ${response.code()}, message: ${response.message()}")
+                                Toast.makeText(context, "Failed to save workout", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                    }
 
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Log.e("API_ERROR", "Error saving workout: ${t.message}", t)
-                        Toast.makeText(context, "Error saving workout", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            } else {
-                // Handle error
-                Log.e("AUTH_ERROR", "Error getting ID token: ${task.exception?.message}")
-                Toast.makeText(context, "Authentication error", Toast.LENGTH_SHORT).show()
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            Log.e("API_ERROR", "Error saving workout: ${t.message}", t)
+                            Toast.makeText(context, "Error saving workout", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                } else {
+                    Log.e("AUTH_ERROR", "Error getting ID token: ${task.exception?.message}")
+                    Toast.makeText(context, "Authentication error", Toast.LENGTH_SHORT).show()
+                }
             }
+        } else {
+            // Save workout locally
+            val workout = WorkoutEntity(workoutName = workoutName, workoutDay = selectedDay, exercises = selectedExercises)
+            CoroutineScope(Dispatchers.IO).launch {
+                database.workoutDao().insert(workout)
+                CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(context, "Workout saved locally!", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_workoutSummaryScreen_to_nav_workout)
+                }
+            }
+        }
+    }
+
+    fun Context.isConnected(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return when {
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            val networkInfo = connectivityManager.activeNetworkInfo ?: return false
+            @Suppress("DEPRECATION")
+            return networkInfo.isConnected
         }
     }
 }

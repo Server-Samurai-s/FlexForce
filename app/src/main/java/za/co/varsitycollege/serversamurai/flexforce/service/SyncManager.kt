@@ -6,8 +6,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import za.co.varsitycollege.serversamurai.flexforce.Models.AppDatabase
-import za.co.varsitycollege.serversamurai.flexforce.Models.User
 
 class SyncManager(private val context: Context) {
     private val database: AppDatabase = Room.databaseBuilder(

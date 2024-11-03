@@ -1,19 +1,21 @@
 package za.co.varsitycollege.serversamurai.flexforce.Models
 
 class ApiDataModels {
-    data class Workout(
-        val exercise1: Exercise,
-        val exercise2: Exercise,
-        val exercise3: Exercise
+    data class ExerciseResponse(val exercises: List<MuscleGroup>)
+
+    data class MuscleGroup(
+        val muscleGroup: String,
+        val exercises: List<Exercise>
     )
 
     data class Exercise(
         val name: String,
         val sets: Int,
-        val reps: Int
+        val reps: Int,
+        val equipment: String
     )
 
-data class ChallengeResponse(
+    data class ChallengeResponse(
     val Monday: List<ChallengeExercise>?,
     val Tuesday: List<ChallengeExercise>?,
     val Wednesday: List<ChallengeExercise>?,

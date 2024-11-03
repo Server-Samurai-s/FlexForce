@@ -22,15 +22,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
-import za.co.varsitycollege.serversamurai.flexforce.Exercise
-import za.co.varsitycollege.serversamurai.flexforce.service.ExerciseResponse
+import za.co.varsitycollege.serversamurai.flexforce.Models.ApiDataModels
 
 // Define data classes for API request and response
 data class MuscleRequest(val muscles: List<String>)
 
 interface ApiService {
     @POST("api/workouts/exercises")
-    fun getExercisesByMuscles(@Body request: MuscleRequest): Call<ExerciseResponse>
+    fun getExercisesByMuscles(@Body request: MuscleRequest): Call<ApiDataModels.ExerciseResponse>
 }
 
 class SelectExerciseScreen : Fragment() {
@@ -44,7 +43,6 @@ class SelectExerciseScreen : Fragment() {
     private lateinit var selectedCounterText: TextView
     private lateinit var selectMuscleGroupButton: Button
     private lateinit var addSelectedLayout: View
-
     private lateinit var workoutName: String
     private lateinit var selectedDay: String
 
@@ -61,7 +59,7 @@ class SelectExerciseScreen : Fragment() {
         // Retrieve workout name and selected day from arguments
         workoutName = arguments?.getString("workoutName") ?: "Default Workout"
         selectedDay = arguments?.getString("selectedDay") ?: "Monday"
-        selectedExercises = arguments?.getParcelableArrayList("selectedExercises") ?: mutableListOf()
+        selectedExercises = arguments?.getParcelableArrayList<Exercise>("selectedExercises") ?: mutableListOf()
 
         selectExerciseWorkoutName = view.findViewById(R.id.selectExerciseWorkoutName)
         selectExerciseWorkoutName.text = workoutName
@@ -97,7 +95,7 @@ class SelectExerciseScreen : Fragment() {
             val bundle = Bundle().apply {
                 putString("workoutName", workoutName)
                 putString("selectedDay", selectedDay)
-                putParcelableArrayList("selectedExercises", ArrayList(selectedExercises))
+                putParcelableArrayList("selectedExercises", ArrayList<Exercise>(selectedExercises))
             }
             findNavController().navigate(R.id.action_selectExerciseScreen_to_selectMuscleGroupScreen, bundle)
         }
@@ -106,7 +104,7 @@ class SelectExerciseScreen : Fragment() {
         addSelectedLayout.setOnClickListener {
             // Pass the selected exercises to the next fragment
             val bundle = Bundle().apply {
-                putParcelableArrayList("selectedExercises", ArrayList(selectedExercises))
+                putParcelableArrayList("selectedExercises", ArrayList<Exercise>(selectedExercises))
                 putString("workoutName", workoutName)
                 putString("selectedDay", selectedDay)
             }
@@ -119,7 +117,6 @@ class SelectExerciseScreen : Fragment() {
             findNavController().popBackStack()
         }
 
-
         // Fetch exercises based on selected muscles
         fetchFilteredExercises(selectedMuscles)
 
@@ -128,20 +125,30 @@ class SelectExerciseScreen : Fragment() {
 
     private fun fetchFilteredExercises(muscles: List<String>) {
         val request = MuscleRequest(muscles)
-        apiService.getExercisesByMuscles(request).enqueue(object : Callback<ExerciseResponse> {
-            override fun onResponse(call: Call<ExerciseResponse>, response: Response<ExerciseResponse>) {
+        apiService.getExercisesByMuscles(request).enqueue(object : Callback<ApiDataModels.ExerciseResponse> {
+            override fun onResponse(call: Call<ApiDataModels.ExerciseResponse>, response: Response<ApiDataModels.ExerciseResponse>) {
                 if (response.isSuccessful) {
-                    // Extract the exercises list from the response
-                    val exercises = response.body()?.exercises ?: emptyList()
+                    // Extract all exercises from each muscle group
+                    val allExercises = response.body()?.exercises?.flatMap { muscleGroup ->
+                        muscleGroup.exercises.map { exercise ->
+                            Exercise(
+                                name = exercise.name,
+                                sets = exercise.sets,
+                                reps = exercise.reps,
+                                muscleGroup = muscleGroup.muscleGroup,
+                                equipment = exercise.equipment
+                            )
+                        }
+                    } ?: emptyList()
 
-                    // Update the RecyclerView with filtered exercises
-                    (rvExerciseList.adapter as ExerciseAdapter).updateExercises(exercises)
+                    // Update the RecyclerView with all exercises
+                    (rvExerciseList.adapter as ExerciseAdapter).updateExercises(allExercises)
                 } else {
                     Toast.makeText(context, "Failed to load exercises", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<ExerciseResponse>, t: Throwable) {
+            override fun onFailure(call: Call<ApiDataModels.ExerciseResponse>, t: Throwable) {
                 Log.e("API_ERROR", "Error fetching data", t)
                 Toast.makeText(context, "Error fetching exercises", Toast.LENGTH_SHORT).show()
             }
@@ -166,9 +173,3 @@ class SelectExerciseScreen : Fragment() {
         }
     }
 }
-
-
-
-
-
-

@@ -2,11 +2,10 @@ package za.co.varsitycollege.serversamurai.flexforce
 
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -15,15 +14,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.analytics.FirebaseAnalytics
-import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import za.co.varsitycollege.serversamurai.flexforce.Models.AppDatabase
-import za.co.varsitycollege.serversamurai.flexforce.Models.User
-import java.io.Console
+import za.co.varsitycollege.serversamurai.flexforce.service.AppDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,11 +34,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize Room Database
-        database = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "flexforce-database"
-        ).build()
+        // Initialize the Room database
+        database = AppDatabase.getDatabase(applicationContext)
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
@@ -61,8 +54,7 @@ class MainActivity : AppCompatActivity() {
         // Register connectivity receiver
         connectivityReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                val cm =
-                    context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                 val activeNetwork = cm.activeNetwork
                 val isConnected = activeNetwork != null
                 if (isConnected) {
@@ -70,10 +62,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        registerReceiver(
-            connectivityReceiver,
-            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        )
+        registerReceiver(connectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
 
     private fun initializeFirebaseServices() {
@@ -103,23 +92,7 @@ class MainActivity : AppCompatActivity() {
         val targetFragment = if (isRemembered) R.id.homeFragment else R.id.welcomeFragment
 
         navController.navigate(targetFragment)
-        Log.d(
-            "Navigation",
-            "Navigating to ${if (isRemembered) "Home" else "Welcome"} Fragment based on rememberMe preference."
-        )
-    }
-
-    // Function to check if the user is remembered and navigate accordingly
-    private fun checkRememberedLogin(navController: androidx.navigation.NavController) {
-        val isRemembered = sharedPreferences.getBoolean("rememberMe", false)
-
-        if (isRemembered) {
-            // If "Remember Me" is true, navigate directly to the home screen
-            navController.navigate(R.id.homeFragment)
-        } else {
-            // Otherwise, navigate to the login screen
-            navController.navigate(R.id.welcomeFragment)
-        }
+        Log.d("Navigation", "Navigating to ${if (isRemembered) "Home" else "Welcome"} Fragment based on rememberMe preference.")
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -146,7 +119,7 @@ class MainActivity : AppCompatActivity() {
     private fun syncPendingRegistrations() {
         CoroutineScope(Dispatchers.IO).launch {
             val pendingUsers = database.userDao().getAllUsers()
-            Log.e("RegistrationSync", "Pending users: ${pendingUsers.size}");
+            Log.e("RegistrationSync", "Pending users: ${pendingUsers.size}")
             for (user in pendingUsers) {
                 auth.createUserWithEmailAndPassword(user.email, user.password)
                     .addOnCompleteListener { task ->
@@ -157,15 +130,8 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             CoroutineScope(Dispatchers.Main).launch {
                                 val errorMessage = task.exception?.message ?: "Unknown error"
-                                Log.e(
-                                    "RegistrationSync",
-                                    "Failed to sync user: ${user.email}. Error: $errorMessage"
-                                );
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Failed to sync user: ${user.email}. Error: $errorMessage",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                Log.e("RegistrationSync", "Failed to sync user: ${user.email}. Error: $errorMessage")
+                                Toast.makeText(applicationContext, "Failed to sync user: ${user.email}. Error: $errorMessage", Toast.LENGTH_LONG).show()
                             }
                         }
                     }

@@ -1,10 +1,10 @@
 package za.co.varsitycollege.serversamurai.flexforce
 
+import za.co.varsitycollege.serversamurai.flexforce.service.AppDatabase
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +17,6 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import za.co.varsitycollege.serversamurai.flexforce.Models.AppDatabase
-import za.co.varsitycollege.serversamurai.flexforce.Models.User
 import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentLoginScreenBinding
 
 class loginScreen : Fragment() {

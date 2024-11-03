@@ -48,7 +48,7 @@ object ApiClient {
 
 interface ApiService {
     @POST("api/workouts/exercises")
-    fun getExercisesByMuscles(@Body request: MuscleRequest): Call<ExerciseResponse>
+    fun getExercisesByMuscles(@Body request: MuscleRequest): Call<ApiDataModels.ExerciseResponse>
 
     @POST("api/workouts/saveWorkout/{userId}")
     fun addWorkout(
@@ -58,12 +58,6 @@ interface ApiService {
 
     @GET("api/workouts/getUserWorkouts/{userId}")
     fun getUserWorkouts(@Path("userId") userId: String): Call<List<WorkoutRequest>>
-
-    @GET("api/workouts/chest-day")
-    fun getChestDayWorkout(): Call<ApiDataModels.Workout>
-
-    @GET("api/workouts/leg-day")
-    fun getLegDayWorkout(): Call<ApiDataModels.Workout>
 
     @GET("api/workouts/challengesWorkouts")
     fun getChallengesWorkouts(): Call<ApiDataModels.ChallengeResponse>
@@ -82,8 +76,6 @@ interface ApiService {
     @DELETE("user/{userId}/workout/{workoutId}")
     fun deleteUserWorkout(@Path("userId") userId: String, @Path("workoutId") workoutId: String): Call<ApiDataModels.Response>
 }
-
-data class ExerciseResponse(val exercises: List<Exercise>)
 
 data class MuscleRequest(val muscles: List<String>)
 

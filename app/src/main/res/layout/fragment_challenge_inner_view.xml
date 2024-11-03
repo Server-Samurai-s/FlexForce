@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Beyond Barries"
+                android:text="@string/beyond_barries"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/white" />
 
@@ -68,7 +68,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Item 1"
+                    android:text="@string/item_1"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -108,7 +108,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Item 2"
+                    android:text="@string/item_2"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -147,7 +147,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Item 3"
+                    android:text="@string/item_3"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -186,7 +186,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Item 4"
+                    android:text="@string/item_4"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -225,7 +225,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Item 5"
+                    android:text="@string/item_5"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -264,7 +264,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Item 6"
+                    android:text="@string/item_6"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -303,7 +303,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Item 7"
+                    android:text="@string/item_7"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -321,7 +321,7 @@
             android:id="@+id/buttonStartChallenge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Challenge"
+            android:text="@string/start_challenge"
             android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
             android:layout_gravity="center"

@@ -65,7 +65,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor.v491)
-    implementation(libs.firebase.firestore.ktx) // Add this line
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.androidx.recyclerview) // Add this line
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -11,7 +11,7 @@
         android:id="@+id/tv_exercise_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Exercises"
+        android:text="@string/select_exercises"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center"
@@ -22,7 +22,7 @@
         android:id="@+id/search_exercise"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search by exercise"
+        android:hint="@string/search_by_exercise"
         android:layout_margin="16dp" />
 
     <!-- Exercise RecyclerView -->
@@ -38,7 +38,7 @@
         android:id="@+id/btn_add_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Selected"
+        android:text="@string/add_selected"
         android:layout_gravity="center"
         android:layout_margin="16dp"/>
 </LinearLayout>

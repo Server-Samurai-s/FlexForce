@@ -56,6 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat_semibold"
-        android:text="Finish Workout"
+        android:text="@string/finish_workout"
         android:textAllCaps="false" />
 </LinearLayout>

@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:hint="Workout"
+            android:hint="@string/workout"
             android:textSize="24sp"
             android:fontFamily="@font/montserrat_semibold"
             android:textColor="@android:color/white"
@@ -42,7 +42,7 @@
         android:id="@+id/btn_add_more_exercises"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add More Exercises"
+        android:text="@string/add_more_exercises"
         android:backgroundTint="@color/button_background"
         android:textColor="@android:color/white"
         android:layout_marginBottom="16dp" />
@@ -61,7 +61,7 @@
         android:id="@+id/btn_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Done"
+        android:text="@string/done"
         android:backgroundTint="@color/button_background"
         android:textColor="@android:color/white"
         android:layout_marginTop="16dp" />

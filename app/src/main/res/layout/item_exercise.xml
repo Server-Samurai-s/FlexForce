@@ -14,7 +14,7 @@
     android:layout_width="52dp"
     android:layout_height="52dp"
     android:background="@drawable/circle_background"
-    android:text="B"
+    android:text="@string/b"
     android:textColor="@android:color/black"
     android:gravity="center"
     android:textSize="10sp"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Body Weight"
+        android:text="@string/body_weight"
         android:textColor="@android:color/white"
         android:textSize="12sp" />
 

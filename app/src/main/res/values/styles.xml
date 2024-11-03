@@ -25,5 +25,9 @@
         <item name="itemTextColor">@color/nav_item_color</item>
     </style>
 
+    <style name="SpinnerPopupTheme" parent="Theme.AppCompat.Light">
+        <item name="android:popupBackground">#ffffff</item>
+    </style>
+
 
 </resources>

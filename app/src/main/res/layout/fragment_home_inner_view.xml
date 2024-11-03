@@ -48,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:text="0 days"
+                        android:text="@string/zero_days"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
 
@@ -158,7 +158,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="Fitness Tracker"
+                        android:text="@string/fitness_tracker"
                         android:textColor="@android:color/white"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -168,7 +168,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_semibold"
-                        android:text="Current Weight"
+                        android:text="@string/current_weight"
                         android:textColor="@color/white"
                         android:layout_gravity="start"
                         android:layout_marginBottom="5dp" />
@@ -195,7 +195,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="Enter Current Weight"
+                            android:hint="@string/enter_current_weight"
                             android:textSize="14dp"
                             android:textColor="@android:color/white"
                             android:textColorHint="#919191" />
@@ -206,7 +206,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_semibold"
-                        android:text="Current Body Fat"
+                        android:text="@string/current_body_fat"
                         android:textColor="@color/white"
                         android:layout_gravity="start"
                         android:layout_marginBottom="5dp" />
@@ -233,7 +233,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="Enter Body Fat %"
+                            android:hint="@string/enter_body_fat_percentage"
                             android:textSize="14dp"
                             android:textColor="@android:color/white"
                             android:textColorHint="#919191" />
@@ -244,7 +244,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_semibold"
-                        android:text="Height"
+                        android:text="@string/height"
                         android:textColor="@color/white"
                         android:layout_gravity="start"
                         android:layout_marginBottom="5dp"/>
@@ -272,7 +272,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="Enter Your Height"
+                            android:hint="@string/enter_your_height"
                             android:textSize="14dp"
                             android:textColor="@android:color/white"
                             android:textColorHint="#919191" />
@@ -284,7 +284,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"
-                        android:text="Submit"
+                        android:text="@string/submit"
                         android:textColor="@android:color/black"
                         android:layout_gravity="center"/>
                 </LinearLayout>
@@ -322,7 +322,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="10dp"
-                        android:text="Set Your Goals"
+                        android:text="@string/set_your_goals"
                         android:textColor="@android:color/white"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -332,7 +332,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_semibold"
-                        android:text="Goal Weight"
+                        android:text="@string/goal_weight"
                         android:textColor="@color/white"
                         android:layout_gravity="start"
                         android:layout_marginBottom="5dp" />
@@ -359,7 +359,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="Enter Goal Weight"
+                            android:hint="@string/enter_goal_weight"
                             android:textSize="14dp"
                             android:textColor="@android:color/white"
                             android:textColorHint="#919191" />
@@ -370,7 +370,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_semibold"
-                        android:text="Goal Body Fat %"
+                        android:text="@string/goal_body_fat_percentage"
                         android:textColor="@color/white"
                         android:layout_gravity="start"
                         android:layout_marginBottom="5dp" />
@@ -397,7 +397,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="Enter Goal Body Fat %"
+                            android:hint="@string/enter_goal_body_fat_percentage"
                             android:textSize="14dp"
                             android:textColor="@android:color/white"
                             android:textColorHint="#919191" />
@@ -409,7 +409,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"
-                        android:text="Submit"
+                        android:text="@string/submit"
                         android:textColor="@android:color/black"
                         android:layout_gravity="center"/>
                 </LinearLayout>

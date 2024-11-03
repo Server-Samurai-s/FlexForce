@@ -7,10 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -54,6 +57,9 @@ class ProfileScreenView : Fragment() {
 
         sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
+        // Setup language selection
+        setupLanguageSelection(view)
+
         // Fetch user details from Firestore
         fetchUserProfile()
 
@@ -69,6 +75,41 @@ class ProfileScreenView : Fragment() {
         }
 
         return view
+    }
+
+    private fun setupLanguageSelection(view: View) {
+        // Get the language selection spinner from the layout
+        val languageSpinner: Spinner = view.findViewById(R.id.language_spinner)
+        // Define the list of languages and their corresponding language codes
+        val languages = listOf("English", "Afrikaans", "Zulu")
+        val languageCodes = listOf("en", "af", "zu")
+        // Set up the adapter to display the languages in the spinner
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, languages)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        languageSpinner.adapter = adapter
+
+        val currentLanguage = sharedPreferences.getString("language", "en") ?: "en"
+        languageSpinner.setSelection(languageCodes.indexOf(currentLanguage))
+        // Set a listener for when an item in the spinner is selected
+        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedLanguage = languageCodes[position]
+                if (selectedLanguage != currentLanguage) {
+                    changeLanguage(selectedLanguage)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
+
+    private fun changeLanguage(languageCode: String) {
+        sharedPreferences.edit().putString("language", languageCode).apply()
+
+        // Restart the activity to apply the new language
+        val intent = requireActivity().intent
+        requireActivity().finish()
+        startActivity(intent)
     }
 
     private fun fetchUserProfile() {

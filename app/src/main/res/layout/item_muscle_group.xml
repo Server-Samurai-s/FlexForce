@@ -9,7 +9,7 @@
         android:id="@+id/tv_muscle_group_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Muscle Group"
+        android:text="@string/muscle_group"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:textSize="18sp" />

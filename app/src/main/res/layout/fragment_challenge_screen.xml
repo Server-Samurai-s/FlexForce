@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Challenge"
+                android:text="@string/challenge"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/white"
                 android:fontFamily="@font/montserrat_semibold"/>
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ready for a challenge ?"
+            android:text="@string/ready_for_a_challenge"
             android:textColor="@android:color/white"
             android:textSize="22sp"
             android:layout_gravity="center"
@@ -81,7 +81,7 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/round_button"
                     android:padding="8dp"
-                    android:text="Challenge Details"
+                    android:text="@string/challenge_details"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -94,7 +94,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/black"
-                    android:text="Join"
+                    android:text="@string/join"
                     android:textColor="@android:color/white" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -125,7 +125,7 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/round_button"
                     android:padding="8dp"
-                    android:text="Challenge Details"
+                    android:text="@string/challenge_details"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -138,7 +138,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/black"
-                    android:text="Join"
+                    android:text="@string/join"
                     android:textColor="@android:color/white" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -169,7 +169,7 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/round_button"
                     android:padding="8dp"
-                    android:text="Challenge Details"
+                    android:text="@string/challenge_details"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -182,7 +182,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/black"
-                    android:text="Join"
+                    android:text="@string/join"
                     android:textColor="@android:color/white" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

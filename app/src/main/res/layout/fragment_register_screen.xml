@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_light"
-                android:text="Already have an account? Login"
+                android:text="@string/already_have_an_account_login"
                 android:textColor="@color/white" />
         </LinearLayout>
     </ScrollView>
@@ -166,7 +166,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_black_button"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Register"
+            android:text="@string/register"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>

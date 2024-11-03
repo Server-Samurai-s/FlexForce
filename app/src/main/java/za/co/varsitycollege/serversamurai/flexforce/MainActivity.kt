@@ -56,17 +56,13 @@ class MainActivity : AppCompatActivity() {
         // Fetch FCM token
         fetchFCMToken()
 
-        private fun initializeFirebaseServices() {
-            sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
-            firebaseAuth = FirebaseAuth.getInstance()
-            firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-            Log.d("FirebaseInit", "Firebase services initialized.")
-        }
+        setupNavigation()
 
         // Register connectivity receiver
         connectivityReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val cm =
+                    context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                 val activeNetwork = cm.activeNetwork
                 val isConnected = activeNetwork != null
                 if (isConnected) {
@@ -74,7 +70,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        registerReceiver(connectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        registerReceiver(
+            connectivityReceiver,
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
+    }
+
+    private fun initializeFirebaseServices() {
+        sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        Log.d("FirebaseInit", "Firebase services initialized.")
     }
 
     private fun setupToolbar() {
@@ -97,9 +103,11 @@ class MainActivity : AppCompatActivity() {
         val targetFragment = if (isRemembered) R.id.homeFragment else R.id.welcomeFragment
 
         navController.navigate(targetFragment)
-        Log.d("Navigation", "Navigating to ${if (isRemembered) "Home" else "Welcome"} Fragment based on rememberMe preference.")
+        Log.d(
+            "Navigation",
+            "Navigating to ${if (isRemembered) "Home" else "Welcome"} Fragment based on rememberMe preference."
+        )
     }
-}
 
     // Function to check if the user is remembered and navigate accordingly
     private fun checkRememberedLogin(navController: androidx.navigation.NavController) {
@@ -119,41 +127,49 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-private fun fetchFCMToken() {
-    FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-        if (task.isSuccessful) {
-            val token = task.result
-            token?.let {
-                sharedPreferences.edit().putString("fcmToken", it).apply()
-                Log.d("FCM Token", "FCM Token: $it")
-                Toast.makeText(this, "FCM Token: $it", Toast.LENGTH_SHORT).show()
+    private fun fetchFCMToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                token?.let {
+                    sharedPreferences.edit().putString("fcmToken", it).apply()
+                    Log.d("FCM Token", "FCM Token: $it")
+                    Toast.makeText(this, "FCM Token: $it", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Log.w("FCM Token", "Fetching FCM registration token failed", task.exception)
+                Toast.makeText(this, "Failed to fetch FCM token", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Log.w("FCM Token", "Fetching FCM registration token failed", task.exception)
-            Toast.makeText(this, "Failed to fetch FCM token", Toast.LENGTH_SHORT).show()
         }
     }
-}
 
-private fun syncPendingRegistrations() {
-    CoroutineScope(Dispatchers.IO).launch {
-        val pendingUsers = database.userDao().getAllUsers()
-        Log.e("RegistrationSync", "Pending users: ${pendingUsers.size}");
-        for (user in pendingUsers) {
-            auth.createUserWithEmailAndPassword(user.email, user.password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            database.userDao().delete(user)
-                        }
-                    } else {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            val errorMessage = task.exception?.message ?: "Unknown error"
-                            Log.e("RegistrationSync", "Failed to sync user: ${user.email}. Error: $errorMessage");
-                            Toast.makeText(applicationContext, "Failed to sync user: ${user.email}. Error: $errorMessage", Toast.LENGTH_LONG).show()
+    private fun syncPendingRegistrations() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val pendingUsers = database.userDao().getAllUsers()
+            Log.e("RegistrationSync", "Pending users: ${pendingUsers.size}");
+            for (user in pendingUsers) {
+                auth.createUserWithEmailAndPassword(user.email, user.password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                database.userDao().delete(user)
+                            }
+                        } else {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                val errorMessage = task.exception?.message ?: "Unknown error"
+                                Log.e(
+                                    "RegistrationSync",
+                                    "Failed to sync user: ${user.email}. Error: $errorMessage"
+                                );
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Failed to sync user: ${user.email}. Error: $errorMessage",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
                     }
-                }
+            }
         }
     }
 }

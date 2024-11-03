@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Custom View Style -->
+    <style name="Widget.Theme.FlexForce.MyView" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:background">@color/gray_400</item>
+        <item name="exampleColor">@color/light_blue_400</item>
+        <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
+    </style>
+
+    <!-- Custom Button Style -->
+    <style name="CustomButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textColor">#FFFFFF</item> <!-- White text -->
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <!-- Custom Add Button -->
+    <style name="CustomAddButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/plus</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="CustomBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/nav_item_color</item>
+        <item name="itemTextColor">@color/nav_item_color</item>
+    </style>
+
+
+</resources>

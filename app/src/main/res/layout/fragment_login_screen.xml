@@ -123,6 +123,19 @@
         android:textSize="20sp"
         android:layout_marginEnd="8dp" />
 
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/googleSignInBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_black_button"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/loginbtn"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp" />
+
     <!-- Fingerprint Button -->
     <ImageButton
         android:id="@+id/bioAuthBtn"

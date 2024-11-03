@@ -73,7 +73,10 @@ dependencies {
 
     // Biometric Authentication
     implementation(libs.androidx.biometric.v110)
-    implementation (libs.androidx.security.crypto) // latest version
+    implementation(libs.androidx.security.crypto) // latest version
+
+    // Google login
+    implementation("com.google.android.gms:play-services-auth:20.5.0")
 
     // Testing
     testImplementation(libs.junit)

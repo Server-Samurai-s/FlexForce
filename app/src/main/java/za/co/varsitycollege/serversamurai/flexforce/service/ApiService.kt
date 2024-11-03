@@ -60,12 +60,6 @@ interface ApiService {
     @GET("api/workouts/challenges/{id}")
     fun getChallengeView(@Path("id") challengeId: String): Call<ApiDataModels.Challenge>
 
-    // New Challenge Endpoints
-
-    // Initialize challenges (one-time setup, no auth required)
-    @POST("api/workouts/initialize-challenges")
-    fun initializeChallenges(): Call<Void>
-
     // Get challenges for a specific user
     @GET("api/workouts/user/{userId}/challenges")
     fun getUserChallenges(

@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Body Weight"
+            android:text="@string/body_weight"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 

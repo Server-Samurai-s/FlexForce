@@ -3,8 +3,10 @@ package za.co.varsitycollege.serversamurai.flexforce
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +17,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
+import java.util.Locale
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +25,7 @@ import kotlinx.coroutines.launch
 import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
 import za.co.varsitycollege.serversamurai.flexforce.service.SyncManager
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var database: AppDatabase
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var syncManager: SyncManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -77,6 +81,8 @@ class MainActivity : AppCompatActivity() {
         Log.d("FirebaseInit", "Firebase services initialized.")
     }
 
+        setContentView(R.layout.activity_main)
+        // Set up the toolbar
     private fun setupToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -104,6 +110,24 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
+
+    override fun attachBaseContext(newBase: Context) {
+        // Attach a base context with the updated locale settings
+        super.attachBaseContext(updateLocale(newBase))
+    }
+
+    private fun updateLocale(context: Context): Context {
+        //val languageCode = sharedPreferences.getString("language", "en") ?: "en"
+        val locale = Locale("en")
+        // Set this locale as the default for the application
+        Locale.setDefault(locale)
+
+        val config = context.resources.configuration
+        config.setLocale(locale)
+        // Return a new context with the updated locale configuration
+        return context.createConfigurationContext(config)
+    }
+}
 
     private fun fetchFCMToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->

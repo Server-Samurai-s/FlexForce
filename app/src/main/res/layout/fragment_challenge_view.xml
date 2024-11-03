@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Beyond Barries"
+                android:text="@string/beyond_barries"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/white" />
 
@@ -76,7 +76,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Period"
+                            android:text="@string/period"
                             android:textColor="@android:color/white"
                             android:textSize="16sp" />
 
@@ -84,7 +84,7 @@
                             android:id="@+id/timePeriodTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Element 1"
+                            android:text="@string/element_1"
                             android:textColor="@android:color/white"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -118,7 +118,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Challenge type"
+                            android:text="@string/challenge_type"
                             android:textColor="@android:color/white"
                             android:textSize="16sp" />
 
@@ -126,7 +126,7 @@
                             android:id="@+id/challengeTypeTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Element 2"
+                            android:text="@string/element_2"
                             android:textColor="@android:color/white"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -160,7 +160,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tracking with"
+                            android:text="@string/tracking_with"
                             android:textColor="@android:color/white"
                             android:textSize="16sp" />
 
@@ -168,7 +168,7 @@
                             android:id="@+id/trackingWithTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Element 3"
+                            android:text="@string/element_3"
                             android:textColor="@android:color/white"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -207,7 +207,7 @@
                             android:id="@+id/descriptionTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Description"
+                            android:text="@string/description"
                             android:textColor="@android:color/white"
                             android:textSize="16sp" />
 
@@ -226,7 +226,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/black"
-            android:text="Start Challenge"
+            android:text="@string/start_challenge"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

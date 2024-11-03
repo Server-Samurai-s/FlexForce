@@ -1,5 +1,8 @@
 package za.co.varsitycollege.serversamurai.flexforce
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +18,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import za.co.varsitycollege.serversamurai.flexforce.service.AppDatabase
 
 class DuringWorkoutScreen : Fragment() {
 
@@ -27,6 +33,7 @@ class DuringWorkoutScreen : Fragment() {
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: AppDatabase
     private var workoutId: String = ""
 
     override fun onCreateView(
@@ -42,6 +49,9 @@ class DuringWorkoutScreen : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
+        // Initialize Room database
+        database = AppDatabase.getDatabase(requireContext())
+
         // Initialize views
         workoutTitleTextView = view.findViewById(R.id.workoutTitle)
         recyclerView = view.findViewById(R.id.recyclerViewExercises)
@@ -52,7 +62,7 @@ class DuringWorkoutScreen : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         // Fetch exercises for the selected workout using workoutId
-        fetchExercises(workoutId)
+        fetchLocalExercises(workoutId)
 
         // Handle "Finish Workout" button click
         finishWorkoutButton.setOnClickListener {
@@ -71,32 +81,49 @@ class DuringWorkoutScreen : Fragment() {
         return view
     }
 
-    private fun fetchExercises(workoutId: String) {
+    private fun fetchLocalExercises(workoutId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val workout = database.workoutDao().getWorkout(workoutId)
+            CoroutineScope(Dispatchers.Main).launch {
+                val localExercises = workout?.exercises ?: emptyList()
+                updateExercises(localExercises.map { exercise ->
+                    DuringExerciseItem(
+                        exerciseName = exercise.name,
+                        sets = exercise.sets,
+                        reps = exercise.reps,
+                        muscleGroup = exercise.muscleGroup,
+                        equipment = exercise.equipment
+                    )
+                })
+                if (requireContext().isConnected()) {
+                    fetchRemoteExercises(workoutId)
+                }
+            }
+        }
+    }
+
+    private fun fetchRemoteExercises(workoutId: String) {
         val userId = auth.currentUser?.uid
         if (userId != null) {
             firestore.collection("users")
                 .document(userId)
                 .collection("workouts")
-                .document(workoutId)  // Use workoutId to find the specific workout
+                .document(workoutId)
                 .get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        // Retrieve the workout name and set it in the workout title TextView
                         val workoutName = document.getString("workoutName") ?: ""
-                        workoutTitleTextView.text = workoutName  // Dynamically set the workout name
+                        workoutTitleTextView.text = workoutName
 
-                        // Safely cast exercises to a List<Map<String, Any>> and filter them
                         val exercises = document.get("exercises") as? List<Map<String, Any>>
                         exercises?.let {
                             val exerciseItems = exercises.mapNotNull { exerciseMap ->
-                                // Extract exercise details safely
                                 val exerciseName = exerciseMap["name"] as? String ?: return@mapNotNull null
                                 val sets = (exerciseMap["sets"] as? Long)?.toInt() ?: return@mapNotNull null
                                 val reps = (exerciseMap["reps"] as? Long)?.toInt() ?: return@mapNotNull null
                                 val muscleGroup = exerciseMap["muscleGroup"] as? String ?: return@mapNotNull null
                                 val equipment = exerciseMap["equipment"] as? String ?: return@mapNotNull null
 
-                                // Return an exercise item
                                 DuringExerciseItem(
                                     exerciseName = exerciseName,
                                     sets = sets,
@@ -105,9 +132,7 @@ class DuringWorkoutScreen : Fragment() {
                                     equipment = equipment
                                 )
                             }
-                            // Initialize adapter with fetched exercises
-                            duringExerciseAdapter = DuringExerciseAdapter(exerciseItems)
-                            recyclerView.adapter = duringExerciseAdapter
+                            updateExercises(exerciseItems)
                         } ?: run {
                             Toast.makeText(context, "No exercises found", Toast.LENGTH_SHORT).show()
                         }
@@ -123,6 +148,11 @@ class DuringWorkoutScreen : Fragment() {
         }
     }
 
+    private fun updateExercises(exercises: List<DuringExerciseItem>) {
+        duringExerciseAdapter = DuringExerciseAdapter(exercises)
+        recyclerView.adapter = duringExerciseAdapter
+    }
+
     private fun incrementWorkoutCompletionCount() {
         val userId = auth.currentUser?.uid
         if (userId != null) {
@@ -131,20 +161,16 @@ class DuringWorkoutScreen : Fragment() {
                 .collection("workouts")
                 .document(workoutId)
 
-            // Get the current date
             val currentDate = com.google.firebase.Timestamp.now()
 
-            // Create a map with the fields to update
             val updates = mapOf(
-                "completionCount" to FieldValue.increment(1),  // Increment completion count
-                "completionDate" to currentDate  // Store the date when the workout was completed
+                "completionCount" to FieldValue.increment(1),
+                "completionDate" to currentDate
             )
 
-            // Update Firestore with the new fields
             workoutRef.update(updates)
                 .addOnSuccessListener {
                     Toast.makeText(context, "Workout completed successfully!", Toast.LENGTH_SHORT).show()
-                    // Navigate to another screen if needed
                     findNavController().navigate(R.id.action_duringWorkoutScreen_to_nav_workout)
                 }
                 .addOnFailureListener { e ->
@@ -155,4 +181,10 @@ class DuringWorkoutScreen : Fragment() {
         }
     }
 
+    private fun Context.isConnected(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
 }

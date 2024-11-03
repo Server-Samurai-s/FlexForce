@@ -1,6 +1,9 @@
 package za.co.varsitycollege.serversamurai.flexforce
 
+import android.content.Context
 import android.graphics.Color
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.Layout
 import android.util.Log
@@ -123,36 +126,65 @@ class SelectExerciseScreen : Fragment() {
         return view
     }
 
+    private fun Context.isConnected(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
     private fun fetchFilteredExercises(muscles: List<String>) {
-        val request = MuscleRequest(muscles)
-        apiService.getExercisesByMuscles(request).enqueue(object : Callback<ApiDataModels.ExerciseResponse> {
-            override fun onResponse(call: Call<ApiDataModels.ExerciseResponse>, response: Response<ApiDataModels.ExerciseResponse>) {
-                if (response.isSuccessful) {
-                    // Extract all exercises from each muscle group
-                    val allExercises = response.body()?.exercises?.flatMap { muscleGroup ->
-                        muscleGroup.exercises.map { exercise ->
-                            Exercise(
-                                name = exercise.name,
-                                sets = exercise.sets,
-                                reps = exercise.reps,
-                                muscleGroup = muscleGroup.muscleGroup,
-                                equipment = exercise.equipment
-                            )
-                        }
-                    } ?: emptyList()
+        if (requireContext().isConnected()) {
+            val request = MuscleRequest(muscles)
+            apiService.getExercisesByMuscles(request).enqueue(object : Callback<ApiDataModels.ExerciseResponse> {
+                override fun onResponse(call: Call<ApiDataModels.ExerciseResponse>, response: Response<ApiDataModels.ExerciseResponse>) {
+                    if (response.isSuccessful) {
+                        // Extract all exercises from each muscle group
+                        val allExercises = response.body()?.exercises?.flatMap { muscleGroup ->
+                            muscleGroup.exercises.map { exercise ->
+                                Exercise(
+                                    name = exercise.name,
+                                    sets = exercise.sets,
+                                    reps = exercise.reps,
+                                    muscleGroup = muscleGroup.muscleGroup,
+                                    equipment = exercise.equipment
+                                )
+                            }
+                        } ?: emptyList()
 
-                    // Update the RecyclerView with all exercises
-                    (rvExerciseList.adapter as ExerciseAdapter).updateExercises(allExercises)
-                } else {
-                    Toast.makeText(context, "Failed to load exercises", Toast.LENGTH_SHORT).show()
+                        // Update the RecyclerView with all exercises
+                        (rvExerciseList.adapter as ExerciseAdapter).updateExercises(allExercises)
+                    } else {
+                        Toast.makeText(context, "Failed to load exercises", Toast.LENGTH_SHORT).show()
+                        loadStaticExercises()
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ApiDataModels.ExerciseResponse>, t: Throwable) {
-                Log.e("API_ERROR", "Error fetching data", t)
-                Toast.makeText(context, "Error fetching exercises", Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onFailure(call: Call<ApiDataModels.ExerciseResponse>, t: Throwable) {
+                    Log.e("API_ERROR", "Error fetching data", t)
+                    Toast.makeText(context, "Error fetching exercises", Toast.LENGTH_SHORT).show()
+                    loadStaticExercises()
+                }
+            })
+        } else {
+            loadStaticExercises()
+        }
+    }
+
+    private fun loadStaticExercises() {
+        val staticExercises = listOf(
+            Exercise("Push Up", 3, 12, "Chest", "None"),
+            Exercise("Squat", 3, 15, "Legs", "None"),
+            Exercise("Pull Up", 3, 10, "Back", "Pull-up bar"),
+            Exercise("Plank", 3, 60, "Core", "None"),
+            Exercise("Lunge", 3, 15, "Legs", "None"),
+            Exercise("Bicep Curl", 3, 12, "Arms", "Dumbbells"),
+            Exercise("Tricep Dip", 3, 12, "Arms", "None"),
+            Exercise("Deadlift", 3, 10, "Back", "Barbell"),
+            Exercise("Bench Press", 3, 10, "Chest", "Barbell"),
+            Exercise("Shoulder Press", 3, 12, "Shoulders", "Dumbbells")
+        )
+        (rvExerciseList.adapter as ExerciseAdapter).updateExercises(staticExercises)
     }
 
     private fun toggleExerciseSelection(exercise: Exercise, isSelected: Boolean) {

@@ -90,6 +90,16 @@ class WorkoutSummaryScreen : Fragment() {
 
     private fun saveWorkout() {
         val user = FirebaseAuth.getInstance().currentUser
+        val workout = WorkoutEntity(workoutName = workoutName, workoutDay = selectedDay, exercises = selectedExercises)
+
+        // Save workout locally
+        CoroutineScope(Dispatchers.IO).launch {
+            database.workoutDao().insert(workout)
+            CoroutineScope(Dispatchers.Main).launch {
+                Toast.makeText(context, "Workout saved locally!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         if (requireContext().isConnected()) {
             user?.getIdToken(true)?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -121,15 +131,7 @@ class WorkoutSummaryScreen : Fragment() {
                 }
             }
         } else {
-            // Save workout locally
-            val workout = WorkoutEntity(workoutName = workoutName, workoutDay = selectedDay, exercises = selectedExercises)
-            CoroutineScope(Dispatchers.IO).launch {
-                database.workoutDao().insert(workout)
-                CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(context, "Workout saved locally!", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_workoutSummaryScreen_to_nav_workout)
-                }
-            }
+            Log.e("NETWORK_ERROR", "Device is offline, cannot save workout to remote storage")
         }
     }
 

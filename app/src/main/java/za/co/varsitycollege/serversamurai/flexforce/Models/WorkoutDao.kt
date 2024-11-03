@@ -12,4 +12,7 @@ interface WorkoutDao {
 
     @Query("SELECT * FROM WorkoutEntity")
     fun getAllWorkouts(): List<WorkoutEntity>
+
+    @Query("SELECT * FROM WorkoutEntity WHERE id = :workoutId")
+    fun getWorkout(workoutId: String): WorkoutEntity
 }

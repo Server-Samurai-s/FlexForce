@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".CreateWorkoutFragment">
+
+    <!-- App Bar with Back Button -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/createWorkoutBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_left"
+            android:contentDescription="Back"
+            android:layout_alignParentStart="true" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NEW WORKOUT"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_centerInParent="true"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- Spacer -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+    <!-- "Name your Workout" Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name your Workout"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/darker_gray"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Workout Name Input -->
+    <EditText
+        android:id="@+id/et_workout_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="WORKOUT 1"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:background="@null" />
+
+    <!-- Day Selection (Spinner) with Icon -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="32dp"
+        android:paddingHorizontal="16dp">
+
+        <!-- Calendar Icon -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Calendar Icon" />
+
+        <!-- Spinner for Day Selection -->
+        <Spinner
+            android:id="@+id/spinner_day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:background="@drawable/spinner_background" />
+    </LinearLayout>
+
+    <!-- Create Workout Button -->
+    <Button
+        android:id="@+id/btn_create_workout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Workout"
+        android:textSize="18sp"
+        android:paddingVertical="12dp"
+        android:background="@drawable/button_background"
+        android:textColor="@android:color/white"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

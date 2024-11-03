@@ -1,0 +1,269 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".statisticScreen">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="24dp"
+            android:layout_marginBottom="15dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:id="@+id/headerTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Statistics"
+                    android:textSize="24sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/white"
+                    android:fontFamily="@font/montserrat_semibold"/>
+
+                <ImageButton
+                    android:id="@+id/user_profileBtn"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/round_button"
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profilepic" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!-- Scrollable Content -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- BMI Status Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp"
+                    android:layout_margin="16dp"
+                    app:cardBackgroundColor="#212121">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- Title -->
+                        <TextView
+                            android:id="@+id/textViewBmiTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="16dp"
+                            android:text="BMI Status"
+                            android:textColor="@android:color/white"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/montserrat_medium"/>
+
+                        <!-- BMI Value -->
+                        <TextView
+                            android:id="@+id/textViewBmiValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="8dp"
+                            android:text="BMI: 0.0"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/montserrat"/>
+
+                        <!-- BMI Status -->
+                        <TextView
+                            android:id="@+id/textViewBmiStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="16dp"
+                            android:text="Status: Unknown"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/montserrat_medium"/>
+
+                        <!-- BMI Progress Bar -->
+                        <ProgressBar
+                            android:id="@+id/progressBarBmi"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:max="40"
+                            android:progress="0"
+                            android:progressTint="@android:color/holo_blue_light" />
+
+                        <!-- BMI Range Description -->
+                        <TextView
+                            android:id="@+id/textViewBmiRangeDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Underweight: &lt; 18.5\nNormal: 18.5 - 24.9\nOverweight: 25 - 29.9\nObese: 30+"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/montserrat"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Current Weight and Body Fat Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp"
+                    android:layout_margin="16dp"
+                    app:cardBackgroundColor="#212121">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:padding="16dp">
+
+                        <!-- Scale Image for Weight -->
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/scale"
+                            android:layout_weight="1"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:orientation="vertical">
+
+                            <!-- Current Weight -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Current Weight"
+                                android:textColor="@android:color/white"
+                                android:textSize="22sp"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/montserrat_medium"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <!-- Current Weight Value -->
+                                <TextView
+                                    android:id="@+id/currentWeightValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0 kgs"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/montserrat"/>
+
+                                <!-- Goal Weight Value (in grey) -->
+                                <TextView
+                                    android:id="@+id/goalWeightValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="(0 kgs)"
+                                    android:textColor="@color/gray_600"
+                                    android:textSize="18sp"
+                                    android:layout_marginStart="8dp"
+                                    android:fontFamily="@font/montserrat"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <!-- Body Fat Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp"
+                    android:layout_margin="16dp"
+                    android:padding="24dp"
+                    app:cardBackgroundColor="#212121">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:padding="16dp">
+
+                        <!-- Percent Image for Body Fat -->
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/ratio_svgrepo_com"
+                            android:layout_weight="1"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:orientation="vertical">
+
+                            <!-- Current Body Fat -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Current Body Fat"
+                                android:textColor="@android:color/white"
+                                android:textSize="22sp"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/montserrat_medium"/>
+
+                            <TextView
+                                android:id="@+id/currentBodyFatValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 %"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/montserrat"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Progress Toward Goals -->
+
+
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>

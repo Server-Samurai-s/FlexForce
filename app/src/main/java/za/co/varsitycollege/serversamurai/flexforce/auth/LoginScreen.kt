@@ -1,6 +1,7 @@
 package za.co.varsitycollege.serversamurai.flexforce.auth
 
 import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
+import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
@@ -10,14 +11,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import za.co.varsitycollege.serversamurai.flexforce.R
+import com.google.firebase.auth.GoogleAuthProvider
 import za.co.varsitycollege.serversamurai.flexforce.auth.BiometricHelper
 import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentLoginScreenBinding
 import za.co.varsitycollege.serversamurai.flexforce.utils.UserSecrets
@@ -29,13 +37,23 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
     private lateinit var database: AppDatabase
     private lateinit var biometricHelper: BiometricHelper
     private lateinit var userSecrets: UserSecrets
+    private lateinit var googleSignOnClient: GoogleSignInClient
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginScreenBinding.inflate(inflater, container, false)
+
         auth = FirebaseAuth.getInstance()
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignOnClient = GoogleSignIn.getClient(requireActivity(), gso)
+
         sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
         database = Room.databaseBuilder(
             requireContext(),
@@ -69,17 +87,18 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
             }
         }
 
-        // Handle biometric authentication button click
         binding.bioAuthBtn.setOnClickListener {
             biometricHelper.authenticate()
         }
 
-        // Handle register link click
         binding.registerLink.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
-        // Automatically trigger biometric authentication if previously logged in
+        binding.googleSignInBtn.setOnClickListener {
+            signInWithGoogle()
+        }
+
         if (sharedPreferences.getBoolean("rememberMe", false)) {
             biometricHelper.authenticate()
         }
@@ -99,13 +118,7 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
                     handleRememberMe(email)
                     // Store the credentials after a successful login
                     storeCredentials(email, password)
-
-                    // Optionally mark that biometric login is available
-                    val editor = sharedPreferences.edit()
-                    editor.putBoolean("rememberMe", true)
-                    editor.apply()
-
-                    // Navigate to home screen
+                    sharedPreferences.edit().putBoolean("rememberMe", true).apply()
                     findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 } else {
                     Toast.makeText(context, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
@@ -134,7 +147,6 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
             editor.putString("email", email)
             editor.apply()
     private fun storeCredentials(email: String, password: String) {
-        // Store email and password securely using EncryptedSharedPreferences
         val encryptedPrefs = userSecrets.getEncryptedSharedPreferences(requireContext())
         with(encryptedPrefs.edit()) {
             putString("email", email)
@@ -143,7 +155,42 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
         }
     }
 
-    // Biometric authentication callbacks
+    private fun signInWithGoogle() {
+        val signInIntent = googleSignOnClient.signInIntent
+        launcher.launch(signInIntent)
+    }
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { results ->
+        if (results.resultCode == Activity.RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(results.data)
+            handleResults(task)
+        }
+    }
+
+    private fun handleResults(task: Task<GoogleSignInAccount>) {
+        if (task.isSuccessful) {
+            val account: GoogleSignInAccount? = task.result
+            if (account != null) {
+                updateUI(account)
+            }
+        } else {
+            Toast.makeText(context, "Google sign in failed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateUI(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                    Toast.makeText(context, "Google Sign-In successful", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Firebase Authentication failed.", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
     override fun onSuccess() {
         // Retrieve encrypted credentials on biometric success
         val encryptedPrefs = userSecrets.getEncryptedSharedPreferences(requireContext())

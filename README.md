@@ -2,6 +2,8 @@
 
 **FlexForce** is a comprehensive fitness application designed to offer a customized training experience that assists users in achieving their fitness goals. From personalized routines to progress tracking and workout challenges, FlexForce makes training engaging and effective.
 
+Heres the link to our youtube video that walksthrough the entire application- 
+
 ## 👥 Members
 * **Aidan Keith Naidoo** - ST10109482
 * **David Roy Mellors** - ST10241466
@@ -96,6 +98,42 @@ FlexForce uses Firebase Cloud Messaging (FCM) to provide real-time notifications
 
 6. **Verify Notification**:
    * Confirm the notification appears on the device with the correct title and body.
+---
+ 
+ ## 🔐 Setting up Fingerprint Authentication in FlexForce
+
+Follow these steps to enable and set up fingerprint authentication in FlexForce:
+
+### Step 1: Device Prerequisites
+
+1. **Check Device Compatibility**:
+   - Ensure your Android device has a fingerprint sensor and runs Android 6.0 or higher.
+   - Register at least one fingerprint in the device settings under **Settings > Security > Fingerprint** (or **Biometrics**).
+
+### Step 2: Enable Fingerprint Authentication in FlexForce
+
+1. **Open FlexForce and Log In**:
+   - Launch FlexForce and log in with your email and password.
+
+2. **Enable Fingerprint in Settings**:
+   - Go to the **Settings** page and enable **Fingerprint Authentication** for future logins.
+
+### Step 3: Test Fingerprint Authentication
+
+1. **Attempt Login with Fingerprint**:
+   - Ensure a fingerprint is registered on the device, then try logging in with fingerprint authentication.
+
+2. **Handle Errors**:
+   - For issues like fingerprint not recognized or authentication errors, ensure permissions are granted, and the device’s fingerprint sensor is clean and functional.
+
+### Troubleshooting
+
+- **Re-enable Fingerprint if Removed**: If a user removes their fingerprint from the device, FlexForce may prompt them to re-enable fingerprint authentication.
+- **Sensor and Permission Issues**: Confirm permissions for biometrics are enabled in the app’s device settings.
+
+---
+
+These steps provide a straightforward guide for setting up and using fingerprint authentication in FlexForce.
 
 ## 🏃 Getting Started
 1. Clone the repository from GitHub: 
@@ -142,7 +180,7 @@ During the completion of this assessment, AI tools played a supportive role in e
 ### AI as a Teaching Tool
    - Throughout the assessment, ChatGPT also acted as an educational resource, providing contextual explanations for unfamiliar coding concepts or error messages. For example, when we encountered issues related to Android’s view binding, ChatGPT provided explanations on how to inspect and resolve binding inconsistencies. This not only helped solve immediate problems but also deepened our understanding of Android development.
 
-## Conclusion
+### Conclusion
 ChatGPT was acknowledged within our team as a valuable resource, enhancing our project’s efficiency and accuracy. By acting as a coding assistant, debugging aid, and knowledge source, ChatGPT enabled us to complete our tasks more effectively while adhering to project requirements and best practices. All instances of AI support were carefully reviewed and adapted to align with our project’s unique needs, ensuring that we maintained a high standard of work.
 
 ---

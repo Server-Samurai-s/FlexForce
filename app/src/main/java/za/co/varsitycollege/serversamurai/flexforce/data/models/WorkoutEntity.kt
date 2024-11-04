@@ -10,5 +10,7 @@ data class WorkoutEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0, // Default value for id
     val workoutName: String,
     val workoutDay: String,
-    @TypeConverters(Converters::class) val exercises: List<Exercise>
+    val completionDate: String,
+    val completionCount: Int,
+    @TypeConverters(Converters::class) val exerciseEntities: List<ExerciseEntity>
 )

@@ -53,7 +53,7 @@
     <!-- Stats Fragment -->
     <fragment
         android:id="@+id/nav_stats"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.stats.statisticScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.stats.StatisticScreen"
         android:label="Stats"
         tools:layout="@layout/fragment_statistic_screen" >
         <action
@@ -63,7 +63,7 @@
 
     <fragment
         android:id="@+id/nav_challenge_screen"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.challenge.challengeScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.challenge.ChallengeScreen"
         android:label="Challenge"
         tools:layout="@layout/fragment_challenge_screen" >
 

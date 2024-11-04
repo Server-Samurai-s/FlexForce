@@ -9,10 +9,7 @@ import kotlinx.coroutines.launch
 import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
 
 class SyncManager(private val context: Context) {
-    private val database: AppDatabase = Room.databaseBuilder(
-        context,
-        AppDatabase::class.java, "flexforce-database"
-    ).build()
+    private val database: AppDatabase = AppDatabase.getDatabase(context)
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun syncData() {

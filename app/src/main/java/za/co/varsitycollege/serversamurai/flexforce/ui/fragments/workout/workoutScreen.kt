@@ -84,12 +84,10 @@ class workoutScreen : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val localWorkouts = database.workoutDao().getAllWorkouts()
             CoroutineScope(Dispatchers.Main).launch {
-                updateWorkouts(localWorkouts.map { workout ->
-                    WorkoutItem(id = workout.id.toString(), day = workout.workoutDay, name = workout.workoutName)
-                })
-                if (requireContext().isConnected()) {
-                    syncLocalWorkoutsToRemote(localWorkouts)
-                    fetchRemoteWorkouts()
+                if (localWorkouts != null) {
+                    updateWorkouts(localWorkouts.map { workout ->
+                        WorkoutItem(id = workout.id.toString(), day = workout.workoutDay, name = workout.workoutName)
+                    })
                 }
             }
         }
@@ -113,7 +111,7 @@ class workoutScreen : Fragment() {
 
                                 if (!workoutExists) {
                                     // If the workout does not exist, add it to the remote server
-                                    val workoutRequest = WorkoutRequest(workoutName = workout.workoutName, workoutDay = workout.workoutDay, exercises = workout.exercises)
+                                    val workoutRequest = WorkoutRequest(workoutName = workout.workoutName, workoutDay = workout.workoutDay, exerciseEntities = workout.exerciseEntities)
                                     ApiClient.retrofitService.addWorkout(userId, workoutRequest).enqueue(object : Callback<Void> {
                                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
                                             if (response.isSuccessful) {

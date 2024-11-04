@@ -12,8 +12,11 @@ interface WorkoutDao {
     fun insert(workout: WorkoutEntity)
 
     @Query("SELECT * FROM WorkoutEntity")
-    fun getAllWorkouts(): List<WorkoutEntity>
+    fun getAllWorkouts(): List<WorkoutEntity>?
 
     @Query("SELECT * FROM WorkoutEntity WHERE id = :workoutId")
-    fun getWorkout(workoutId: String): WorkoutEntity
+    fun getWorkout(workoutId: String): WorkoutEntity?
+
+    @Query("SELECT * FROM WorkoutEntity ORDER BY completionCount DESC LIMIT 1")
+    fun getFavouriteWorkout(): WorkoutEntity?
 }

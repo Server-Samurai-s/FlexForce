@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.serversamurai.flexforce.R
-import za.co.varsitycollege.serversamurai.flexforce.data.models.Exercise
+import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseEntity
 import za.co.varsitycollege.serversamurai.flexforce.ui.adapters.MuscleGroupAdapter
 import za.co.varsitycollege.serversamurai.flexforce.ui.views.HitboxOverlayView
 
@@ -63,7 +63,7 @@ class SelectMuscleGroupScreen : Fragment() {
     private val backHitboxes = mutableListOf<Hitbox>()
 
     private val selectedMuscles = mutableListOf<String>()
-    private var selectedExercises: MutableList<Exercise> = mutableListOf()
+    private var selectedExerciseEntities: MutableList<ExerciseEntity> = mutableListOf()
 
     private fun setupRecyclerView() {
         rvMuscleGroups.layoutManager = LinearLayoutManager(context)
@@ -79,7 +79,7 @@ class SelectMuscleGroupScreen : Fragment() {
         // Retrieve workout name and day from arguments
         workoutName = arguments?.getString("workoutName") ?: "Default Workout"
         selectedDay = arguments?.getString("selectedDay") ?: "Monday"
-        selectedExercises = arguments?.getParcelableArrayList("selectedExercises") ?: mutableListOf()
+        selectedExerciseEntities = arguments?.getParcelableArrayList("selectedExercises") ?: mutableListOf()
 
         // Initialize views
         ivBodyMapFront = view.findViewById(R.id.iv_body_map_front)
@@ -157,7 +157,7 @@ class SelectMuscleGroupScreen : Fragment() {
                 putString("workoutName", workoutName)
                 putString("selectedDay", selectedDay)
                 putStringArrayList("selectedMuscles", ArrayList(selectedMuscles))
-                putParcelableArrayList("selectedExercises", ArrayList(selectedExercises))
+                putParcelableArrayList("selectedExercises", ArrayList(selectedExerciseEntities))
             }
 
             findNavController().navigate(R.id.action_selectMuscleGroupScreen_to_selectExerciseScreen, bundle)

@@ -1,16 +1,20 @@
 package za.co.varsitycollege.serversamurai.flexforce.data.models
-
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.UUID
 
-data class Exercise(
-    val id: String,
+@Entity(tableName = "exercises")
+data class ExerciseEntity(
+    @PrimaryKey val id: String = UUID.randomUUID().toString(),
     val name: String,
     val sets: Int,
     val reps: Int,
     val equipment: String,
     val muscleGroup: String
 ) : Parcelable {
+    // Implement Parcelable methods
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -29,16 +33,14 @@ data class Exercise(
         parcel.writeString(muscleGroup)
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents(): Int = 0
 
-    companion object CREATOR : Parcelable.Creator<Exercise> {
-        override fun createFromParcel(parcel: Parcel): Exercise {
-            return Exercise(parcel)
+    companion object CREATOR : Parcelable.Creator<ExerciseEntity> {
+        override fun createFromParcel(parcel: Parcel): ExerciseEntity {
+            return ExerciseEntity(parcel)
         }
 
-        override fun newArray(size: Int): Array<Exercise?> {
+        override fun newArray(size: Int): Array<ExerciseEntity?> {
             return arrayOfNulls(size)
         }
     }

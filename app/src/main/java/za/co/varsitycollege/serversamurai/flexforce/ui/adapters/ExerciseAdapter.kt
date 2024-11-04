@@ -6,17 +6,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.serversamurai.flexforce.R
-import za.co.varsitycollege.serversamurai.flexforce.data.models.Exercise
+import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseEntity
 
 
 class ExerciseAdapter(
-    private var exercises: List<Exercise>,
-    private val selectedExercises: List<Exercise>,  // Pass in the selected exercises
-    private val onExerciseSelected: (Exercise, Boolean) -> Unit // Callback for selected exercise and its selection state
+    private var exercises: List<ExerciseEntity>,
+    private val selectedExercises: List<ExerciseEntity>,
+    private val onExerciseSelected: (ExerciseEntity, Boolean) -> Unit
 ) : RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>() {
 
     // Tracks selected exercises
-    private val selectedExercisesSet: MutableSet<Exercise> = selectedExercises.toMutableSet()
+    private val selectedExercisesSet: MutableSet<ExerciseEntity> = selectedExercises.toMutableSet()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_exercise, parent, false)
@@ -57,8 +57,8 @@ class ExerciseAdapter(
         return exercises.size
     }
 
-    fun updateExercises(newExercises: List<Exercise>) {
-        exercises = newExercises
+    fun updateExercises(newExercises: List<ExerciseEntity>?) {
+        exercises = newExercises ?: emptyList()
         notifyDataSetChanged()
     }
 

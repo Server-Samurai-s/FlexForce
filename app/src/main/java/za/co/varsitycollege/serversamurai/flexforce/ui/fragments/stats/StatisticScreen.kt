@@ -10,16 +10,18 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import za.co.varsitycollege.serversamurai.flexforce.R
+import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
 import kotlin.math.pow
 import java.io.File
 
-class statisticScreen : Fragment() {
-    private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
+class StatisticScreen : Fragment() {
+    private lateinit var database: AppDatabase
 
     // UI elements for fitness data
     private lateinit var bmiValueTextView: TextView
@@ -35,9 +37,8 @@ class statisticScreen : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_statistic_screen, container, false)
 
-        // Initialize Firebase Auth and Firestore
-        auth = FirebaseAuth.getInstance()
-        firestore = FirebaseFirestore.getInstance()
+        // Initialize Room database
+        database = AppDatabase.getDatabase(requireContext())
 
         // Find views for fitness data
         bmiValueTextView = view.findViewById(R.id.textViewBmiValue)
@@ -76,70 +77,40 @@ class statisticScreen : Fragment() {
     }
 
     private fun fetchFitnessData() {
-        val userId = auth.currentUser?.uid
-        if (userId != null) {
-            firestore.collection("users")
-                .document(userId)
-                .collection("userDetails")
-                .document("details")
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val fitnessEntries = document.get("fitnessEntries") as? List<Map<String, Any>>
-                        if (!fitnessEntries.isNullOrEmpty()) {
-                            val latestEntry = fitnessEntries.last()
-                            val weight = latestEntry["currentWeight"].toString().toDoubleOrNull()
-                            val height = latestEntry["height"].toString().toDoubleOrNull()
-                            val bodyFat = latestEntry["currentBodyFat"].toString().toDoubleOrNull()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val latestEntry = database.fitnessEntryDao().getLatestEntry()
+            latestEntry?.let {
+                val weight = it.currentWeight
+                val height = it.height
+                val bodyFat = it.currentBodyFat
 
-                            if (weight != null && height != null && height > 0 && bodyFat != null) {
-                                calculateAndDisplayBMI(weight, height)
-                                displayBodyStatistics(weight, bodyFat)
-                            } else {
-                                Toast.makeText(context, "Invalid weight, height, or body fat data.", Toast.LENGTH_SHORT).show()
-                            }
-                        } else {
-                            Toast.makeText(context, "No fitness data found.", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Toast.makeText(context, "User profile not found.", Toast.LENGTH_SHORT).show()
+                if (weight != null && height != null && height > 0 && bodyFat != null) {
+                    withContext(Dispatchers.Main) {
+                        calculateAndDisplayBMI(weight, height)
+                        displayBodyStatistics(weight, bodyFat)
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Invalid weight, height, or body fat data.", Toast.LENGTH_SHORT).show()
                     }
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(context, "Error fetching user data: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
+            } ?: withContext(Dispatchers.Main) {
+                Toast.makeText(context, "No fitness data found.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun fetchGoalData() {
-        val userId = auth.currentUser?.uid
-        if (userId != null) {
-            firestore.collection("users")
-                .document(userId)
-                .collection("userDetails")
-                .document("goals")
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val goalWeightString = document.getString("goalWeight")
-                        val goalWeight = goalWeightString?.toDoubleOrNull()
-
-                        if (goalWeight != null) {
-                            goalWeightTextView.text = String.format("(%.1f kg)", goalWeight)
-                        } else {
-                            Toast.makeText(context, "Invalid goal weight data.", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Toast.makeText(context, "Goal data not found.", Toast.LENGTH_SHORT).show()
-                    }
+        lifecycleScope.launch(Dispatchers.IO) {
+            val latestGoal = database.goalDao().getLatestGoal()
+            latestGoal?.let {
+                val goalWeight = it.goalWeight
+                withContext(Dispatchers.Main) {
+                    goalWeightTextView.text = String.format("(%.1f kg)", goalWeight)
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(context, "Error fetching goal data: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
+            } ?: withContext(Dispatchers.Main) {
+                Toast.makeText(context, "Goal data not found.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

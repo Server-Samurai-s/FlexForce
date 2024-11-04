@@ -20,8 +20,16 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        // Add this to enable schema export
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas"
+            }
+        }
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildTypes {
         release {

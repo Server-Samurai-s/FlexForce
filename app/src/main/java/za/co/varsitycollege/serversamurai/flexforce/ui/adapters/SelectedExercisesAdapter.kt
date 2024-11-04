@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import za.co.varsitycollege.serversamurai.flexforce.R
-import za.co.varsitycollege.serversamurai.flexforce.data.models.Exercise
+import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseEntity
 
-class SelectedExerciseAdapter(private val exercises: List<Exercise>) :
+class SelectedExerciseAdapter(private val exerciseEntities: List<ExerciseEntity>) :
     RecyclerView.Adapter<SelectedExerciseAdapter.ExerciseViewHolder>() {
 
     class ExerciseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -22,13 +22,13 @@ class SelectedExerciseAdapter(private val exercises: List<Exercise>) :
     }
 
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
-        val exercise = exercises[position]
+        val exercise = exerciseEntities[position]
         holder.tvExerciseName.text = exercise.name
         holder.tvSetsReps.text = "${exercise.sets} sets x ${exercise.reps} reps"
     }
 
     override fun getItemCount(): Int {
-        return exercises.size
+        return exerciseEntities.size
     }
 }
 

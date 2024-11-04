@@ -27,14 +27,16 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import za.co.varsitycollege.serversamurai.flexforce.R
-import za.co.varsitycollege.serversamurai.flexforce.data.models.Exercise
+import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseEntity
 import za.co.varsitycollege.serversamurai.flexforce.data.models.WorkoutEntity
 import za.co.varsitycollege.serversamurai.flexforce.ui.adapters.SelectedExerciseAdapter
+import java.util.Date
 
 class WorkoutSummaryScreen : Fragment() {
 
-    private lateinit var selectedExercises: MutableList<Exercise> // The list of selected exercises
+    private lateinit var selectedExerciseEntities: MutableList<ExerciseEntity> // The list of selected exercises
     private lateinit var workoutName: String
     private lateinit var selectedDay: String
     private lateinit var rvSelectedExercises: RecyclerView
@@ -55,12 +57,12 @@ class WorkoutSummaryScreen : Fragment() {
         // Retrieve selected exercises, workout name, and selected day from arguments
         workoutName = arguments?.getString("workoutName") ?: "Default Workout"
         selectedDay = arguments?.getString("selectedDay") ?: "Monday"
-        selectedExercises = arguments?.getParcelableArrayList("selectedExercises") ?: mutableListOf()
+        selectedExerciseEntities = arguments?.getParcelableArrayList("selectedExercises") ?: mutableListOf()
 
         // Initialize RecyclerView
         rvSelectedExercises = view.findViewById(R.id.rv_selected_exercises)
         rvSelectedExercises.layoutManager = LinearLayoutManager(context)
-        rvSelectedExercises.adapter = SelectedExerciseAdapter(selectedExercises)
+        rvSelectedExercises.adapter = SelectedExerciseAdapter(selectedExerciseEntities)
 
         // Set workout name in the title
         val tvWorkoutTitle: TextView = view.findViewById(R.id.tv_workout_title)
@@ -77,7 +79,7 @@ class WorkoutSummaryScreen : Fragment() {
         btnAddMoreExercises.setOnClickListener {
             // Navigate to add more exercises screen and pass the current exercises and workout details
             val bundle = Bundle().apply {
-                putParcelableArrayList("selectedExercises", ArrayList(selectedExercises)) // Pass previously selected exercises
+                putParcelableArrayList("selectedExercises", ArrayList(selectedExerciseEntities)) // Pass previously selected exercises
                 putString("workoutName", workoutName)
                 putString("selectedDay", selectedDay)
             }
@@ -92,68 +94,20 @@ class WorkoutSummaryScreen : Fragment() {
     }
 
     private fun saveWorkout() {
-        val user = FirebaseAuth.getInstance().currentUser
-        val workout = WorkoutEntity(workoutName = workoutName, workoutDay = selectedDay, exercises = selectedExercises)
+        val workout = WorkoutEntity(
+            workoutName = workoutName,
+            workoutDay = selectedDay,
+            exerciseEntities = selectedExerciseEntities,
+            completionDate = Date().toString(),
+            completionCount = 0
+        )
 
-        // Save workout locally
         CoroutineScope(Dispatchers.IO).launch {
             database.workoutDao().insert(workout)
-            CoroutineScope(Dispatchers.Main).launch {
-                Toast.makeText(context, "Workout saved locally!", Toast.LENGTH_SHORT).show()
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "Workout saved successfully!", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_workoutSummaryScreen_to_nav_workout)
             }
-        }
-
-        if (requireContext().isConnected()) {
-            user?.getIdToken(true)?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val idToken = task.result?.token
-                    ApiClient.setAuthToken(idToken ?: "")
-
-                    val userId = user.uid
-                    val workoutRequest = WorkoutRequest(workoutName = workoutName, workoutDay = selectedDay, exercises = selectedExercises)
-
-                    ApiClient.retrofitService.addWorkout(userId, workoutRequest).enqueue(object : Callback<Void> {
-                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                            if (response.isSuccessful) {
-                                Toast.makeText(context, "Workout saved successfully!", Toast.LENGTH_SHORT).show()
-                                findNavController().navigate(R.id.action_workoutSummaryScreen_to_nav_workout)
-                            } else {
-                                Log.e("API_ERROR", "Failed to save workout. Response code: ${response.code()}, message: ${response.message()}")
-                                Toast.makeText(context, "Failed to save workout", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        override fun onFailure(call: Call<Void>, t: Throwable) {
-                            Log.e("API_ERROR", "Error saving workout: ${t.message}", t)
-                            Toast.makeText(context, "Error saving workout", Toast.LENGTH_SHORT).show()
-                        }
-                    })
-                } else {
-                    Log.e("AUTH_ERROR", "Error getting ID token: ${task.exception?.message}")
-                    Toast.makeText(context, "Authentication error", Toast.LENGTH_SHORT).show()
-                }
-            }
-        } else {
-            Log.e("NETWORK_ERROR", "Device is offline, cannot save workout to remote storage")
-        }
-    }
-
-    fun Context.isConnected(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val network = connectivityManager.activeNetwork ?: return false
-            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-            return when {
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                else -> false
-            }
-        } else {
-            @Suppress("DEPRECATION")
-            val networkInfo = connectivityManager.activeNetworkInfo ?: return false
-            @Suppress("DEPRECATION")
-            return networkInfo.isConnected
         }
     }
 }

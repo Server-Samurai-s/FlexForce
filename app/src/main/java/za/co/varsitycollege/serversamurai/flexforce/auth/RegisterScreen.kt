@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import za.co.varsitycollege.serversamurai.flexforce.data.models.User
+import za.co.varsitycollege.serversamurai.flexforce.data.models.UserEntity
 import za.co.varsitycollege.serversamurai.flexforce.R
 import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentRegisterScreenBinding
 
@@ -66,7 +66,7 @@ class registerScreen : Fragment() {
     }
 
     private fun registerUser(name: String, surname: String, nickname: String, email: String, password: String) {
-        val user = User(
+        val userEntity = UserEntity(
             uid = email,
             name = name,
             surname = surname,
@@ -76,7 +76,7 @@ class registerScreen : Fragment() {
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            database.userDao().insert(user)
+            database.userDao().insert(userEntity)
             CoroutineScope(Dispatchers.Main).launch {
                 Toast.makeText(
                     context,

@@ -1,8 +1,5 @@
 package za.co.varsitycollege.serversamurai.flexforce.ui.fragments.exercise
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,20 +10,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 import za.co.varsitycollege.serversamurai.flexforce.ui.adapters.ExerciseAdapter
 import za.co.varsitycollege.serversamurai.flexforce.R
-import za.co.varsitycollege.serversamurai.flexforce.data.models.Exercise
+import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseEntity
 import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseResponse
+import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
 
 // Define data classes for API request and response
 data class MuscleRequest(val muscles: List<String>)
@@ -37,11 +35,10 @@ interface ApiService {
 }
 
 class SelectExerciseScreen : Fragment() {
-
     private lateinit var rvExerciseList: RecyclerView
-    private lateinit var apiService: ApiService
     private lateinit var selectedMuscles: List<String>
-    private var selectedExercises: MutableList<Exercise> = mutableListOf()
+    private var selectedExerciseEntities: MutableList<ExerciseEntity> = mutableListOf()
+    private lateinit var database: AppDatabase
 
     private lateinit var addSelectedText: TextView
     private lateinit var selectedCounterText: TextView
@@ -49,9 +46,7 @@ class SelectExerciseScreen : Fragment() {
     private lateinit var addSelectedLayout: View
     private lateinit var workoutName: String
     private lateinit var selectedDay: String
-
     private lateinit var selectExerciseBackBtn: ImageView
-
     private lateinit var selectExerciseWorkoutName: TextView
 
     override fun onCreateView(
@@ -60,150 +55,106 @@ class SelectExerciseScreen : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_select_exercise_screen, container, false)
 
-        // Retrieve workout name and selected day from arguments
-        workoutName = arguments?.getString("workoutName") ?: "Default Workout"
-        selectedDay = arguments?.getString("selectedDay") ?: "Monday"
-        selectedExercises = arguments?.getParcelableArrayList<Exercise>("selectedExercises") ?: mutableListOf()
+        // Initialize database
+        database = AppDatabase.getDatabase(requireContext())
 
-        selectExerciseWorkoutName = view.findViewById(R.id.selectExerciseWorkoutName)
-        selectExerciseWorkoutName.text = workoutName
-
-        // Initialize RecyclerView
-        rvExerciseList = view.findViewById(R.id.rv_exercise_list)
-        rvExerciseList.layoutManager = LinearLayoutManager(context)
-
-        // Get the text views for the Add Selected button and the counter
-        addSelectedText = view.findViewById(R.id.tv_add_selected)
-        selectedCounterText = view.findViewById(R.id.tv_selected_counter)
-
-        selectedCounterText.text = selectedExercises.size.toString() + " exercises selected"
-
-        // Get selected muscles from arguments (from previous fragment)
-        selectedMuscles = arguments?.getStringArrayList("selectedMuscles") ?: listOf() // default example
-
-        // Initialize Retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://flexforce-api.vercel.app/")  // Vercel API base URL
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        apiService = retrofit.create(ApiService::class.java)
-
-        // Set up the adapter with a callback for exercise selection
-        rvExerciseList.adapter = ExerciseAdapter(emptyList(), selectedExercises) { exercise, isSelected ->
-            toggleExerciseSelection(exercise, isSelected)
-        }
-
-        selectMuscleGroupButton = view.findViewById(R.id.btn_muscle_group)
-        selectMuscleGroupButton.setOnClickListener {
-            val bundle = Bundle().apply {
-                putString("workoutName", workoutName)
-                putString("selectedDay", selectedDay)
-                putParcelableArrayList("selectedExercises", ArrayList<Exercise>(selectedExercises))
-            }
-            findNavController().navigate(R.id.action_selectExerciseScreen_to_selectMuscleGroupScreen, bundle)
-        }
-
-        addSelectedLayout = view.findViewById(R.id.add_selected_layout)
-        addSelectedLayout.setOnClickListener {
-            // Pass the selected exercises to the next fragment
-            val bundle = Bundle().apply {
-                putParcelableArrayList("selectedExercises", ArrayList<Exercise>(selectedExercises))
-                putString("workoutName", workoutName)
-                putString("selectedDay", selectedDay)
-            }
-
-            findNavController().navigate(R.id.action_selectExerciseScreen_to_workoutSummaryScreen, bundle)
-        }
-
-        selectExerciseBackBtn = view.findViewById(R.id.selectExerciseBackBtn)
-        selectExerciseBackBtn.setOnClickListener {
-            findNavController().popBackStack()
-        }
+        // Initialize views and setup
+        setupViews(view)
+        setupRecyclerView()
+        setupClickListeners()
 
         // Fetch exercises based on selected muscles
-        fetchFilteredExercises(selectedMuscles)
+        fetchExercisesFromDatabase()
 
         return view
     }
 
-    private fun Context.isConnected(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork ?: return false
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
-        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    private fun setupViews(view: View) {
+        // Retrieve arguments
+        workoutName = arguments?.getString("workoutName") ?: "Default Workout"
+        selectedDay = arguments?.getString("selectedDay") ?: "Monday"
+        selectedExerciseEntities = arguments?.getParcelableArrayList<ExerciseEntity>("selectedExercises") ?: mutableListOf()
+        selectedMuscles = arguments?.getStringArrayList("selectedMuscles") ?: listOf()
+
+        // Initialize views
+        rvExerciseList = view.findViewById(R.id.rv_exercise_list)
+        addSelectedText = view.findViewById(R.id.tv_add_selected)
+        selectedCounterText = view.findViewById(R.id.tv_selected_counter)
+        selectMuscleGroupButton = view.findViewById(R.id.btn_muscle_group)
+        addSelectedLayout = view.findViewById(R.id.add_selected_layout)
+        selectExerciseBackBtn = view.findViewById(R.id.selectExerciseBackBtn)
+        selectExerciseWorkoutName = view.findViewById(R.id.selectExerciseWorkoutName)
+
+        selectExerciseWorkoutName.text = workoutName
+        selectedCounterText.text = "${selectedExerciseEntities.size} exercises selected"
     }
 
-    private fun fetchFilteredExercises(muscles: List<String>) {
-        if (requireContext().isConnected()) {
-            val request = MuscleRequest(muscles)
-            apiService.getExercisesByMuscles(request).enqueue(object : Callback<ExerciseResponse> {
-                override fun onResponse(call: Call<ExerciseResponse>, response: Response<ExerciseResponse>) {
-                    if (response.isSuccessful) {
-                        // Extract all exercises from each muscle group
-                        val allExercises = response.body()?.exercises?.flatMap { muscleGroup ->
-                            muscleGroup.exercises.map { exercise ->
-                                Exercise(
-                                    id = exercise.id,
-                                    name = exercise.name,
-                                    sets = exercise.sets,
-                                    reps = exercise.reps,
-                                    muscleGroup = muscleGroup.muscleGroup,
-                                    equipment = exercise.equipment
-                                )
-                            }
-                        } ?: emptyList()
-
-                        // Update the RecyclerView with all exercises
-                        (rvExerciseList.adapter as ExerciseAdapter).updateExercises(allExercises)
-                    } else {
-                        Toast.makeText(context, "Failed to load exercises", Toast.LENGTH_SHORT).show()
-                        loadStaticExercises()
-                    }
-                }
-
-                override fun onFailure(call: Call<ExerciseResponse>, t: Throwable) {
-                    Log.e("API_ERROR", "Error fetching data", t)
-                    Toast.makeText(context, "Error fetching exercises", Toast.LENGTH_SHORT).show()
-                    loadStaticExercises()
-                }
-            })
-        } else {
-            loadStaticExercises()
+    private fun setupRecyclerView() {
+        rvExerciseList.layoutManager = LinearLayoutManager(context)
+        // Initialize with empty list of ExerciseEntity
+        rvExerciseList.adapter = ExerciseAdapter(
+            emptyList<ExerciseEntity>(),
+            selectedExerciseEntities
+        ) { exercise, isSelected ->
+            toggleExerciseSelection(exercise, isSelected)
         }
     }
 
-    private fun loadStaticExercises() {
-        val staticExercises = listOf(
-            Exercise("1", "Push Up", 3, 12, "None", "Chest"),
-            Exercise("2", "Squat", 3, 15, "None", "Legs"),
-            Exercise("3", "Pull Up", 3, 10, "Pull-up bar", "Back"),
-            Exercise("4", "Plank",  3, 60, "None", "Core"),
-            Exercise("5", "Lunge",  3, 15, "None", "Legs"),
-            Exercise("6", "Bicep Curl",  3, 12, "Dumbbells", "Arms"),
-            Exercise("7", "Tricep Dip",  3, 12, "None", "Arms"),
-            Exercise("8", "Deadlift",  3, 10, "Barbell", "Back"),
-            Exercise("9", "Bench Press",  3, 10, "Barbell", "Chest"),
-            Exercise("10", "Shoulder Press", 3, 12, "Dumbbells", "Shoulders")
-        )
-        (rvExerciseList.adapter as ExerciseAdapter).updateExercises(staticExercises)
+    private fun setupClickListeners() {
+        selectMuscleGroupButton.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("workoutName", workoutName)
+                putString("selectedDay", selectedDay)
+                putParcelableArrayList("selectedExercises", ArrayList(selectedExerciseEntities))
+            }
+            findNavController().navigate(R.id.action_selectExerciseScreen_to_selectMuscleGroupScreen, bundle)
+        }
+
+        addSelectedLayout.setOnClickListener {
+            val bundle = Bundle().apply {
+                putParcelableArrayList("selectedExercises", ArrayList(selectedExerciseEntities))
+                putString("workoutName", workoutName)
+                putString("selectedDay", selectedDay)
+            }
+            findNavController().navigate(R.id.action_selectExerciseScreen_to_workoutSummaryScreen, bundle)
+        }
+
+        selectExerciseBackBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
-    private fun toggleExerciseSelection(exercise: Exercise, isSelected: Boolean) {
+    private fun fetchExercisesFromDatabase() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val exercises = try {
+                if (selectedMuscles.isEmpty()) {
+                    // If no muscles selected, get all exercises
+                    database.exerciseDao().getAllExercises()
+                } else {
+                    // Get exercises for selected muscle groups
+                    database.exerciseDao().getExercisesByMuscleGroup(selectedMuscles)
+                }
+            } catch (e: Exception) {
+                Log.e("Database", "Error fetching exercises", e)
+                emptyList<ExerciseEntity>() // Return empty list if there's an error
+            }
+
+            withContext(Dispatchers.Main) {
+                if (exercises != null) {
+                    (rvExerciseList.adapter as ExerciseAdapter).updateExercises(exercises)
+                } else {
+                    Toast.makeText(context, "No exercises found in database", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun toggleExerciseSelection(exerciseEntity: ExerciseEntity, isSelected: Boolean) {
         if (isSelected) {
-            // Add exercise to selected list
-            selectedExercises.add(exercise)
+            selectedExerciseEntities.add(exerciseEntity)
         } else {
-            // Remove exercise from selected list
-            selectedExercises.remove(exercise)
+            selectedExerciseEntities.remove(exerciseEntity)
         }
-
-        // Update the counter text
-        val count = selectedExercises.size
-        selectedCounterText.text = if (count > 0) {
-            "$count exercises selected"
-        } else {
-            "0 exercises selected"
-        }
+        selectedCounterText.text = "${selectedExerciseEntities.size} exercises selected"
     }
 }

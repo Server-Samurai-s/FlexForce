@@ -15,7 +15,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import za.co.varsitycollege.serversamurai.flexforce.data.models.Challenge
 import za.co.varsitycollege.serversamurai.flexforce.data.models.ChallengeResponse
-import za.co.varsitycollege.serversamurai.flexforce.data.models.Exercise
+import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseEntity
 import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseResponse
 import za.co.varsitycollege.serversamurai.flexforce.data.models.Response
 import za.co.varsitycollege.serversamurai.flexforce.data.models.WorkoutEntity
@@ -103,7 +103,7 @@ interface ApiService {
     fun saveUserWorkout(
         @Field("userId") userId: String,
         @Field("workoutName") workoutName: String,
-        @Field("exercises") exercises: List<Exercise>
+        @Field("exercises") exerciseEntities: List<ExerciseEntity>
     ): Call<Response>
 
     // Delete a user workout
@@ -112,14 +112,14 @@ interface ApiService {
 }
 
 
-data class ExerciseResponse(val exercises: List<Exercise>)
+data class ExerciseResponse(val exerciseEntities: List<ExerciseEntity>)
 
 data class MuscleRequest(val muscles: List<String>)
 
 data class WorkoutRequest(
     val workoutName: String,
     val workoutDay: String,
-    val exercises: List<Exercise>,
+    val exerciseEntities: List<ExerciseEntity>,
     val id: String? = null
 )
 

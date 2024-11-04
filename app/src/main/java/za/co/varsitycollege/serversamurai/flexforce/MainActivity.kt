@@ -41,6 +41,15 @@ class MainActivity : BaseActivity() {
         // Initialize the Room database
         database = AppDatabase.getDatabase(applicationContext)
 
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Try to access a table to force creation
+                database.workoutDao().getAllWorkouts()
+            } catch (e: Exception) {
+                Log.e("Database", "Error initializing database", e)
+            }
+        }
+
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
@@ -73,6 +82,9 @@ class MainActivity : BaseActivity() {
             }
         }
         registerReceiver(connectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+
+        // Sync data to Firebase on app launch
+        syncDataToFirebase()
     }
 
     private fun initializeFirebaseServices() {
@@ -161,6 +173,23 @@ class MainActivity : BaseActivity() {
                                 Log.e("RegistrationSync", "Failed to sync user: ${user.email}. Error: $errorMessage")
                                 Toast.makeText(this@MainActivity.applicationContext, "Failed to sync user: ${user.email}. Error: $errorMessage", Toast.LENGTH_LONG).show()
                             }
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun syncDataToFirebase() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val allData = database.userDao().getAllUsers() // Replace with your actual data fetching method
+            for (data in allData) {
+                // Sync each data item to Firebase
+                auth.createUserWithEmailAndPassword(data.email, data.password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d("DataSync", "Data synced successfully: ${data.email}")
+                        } else {
+                            Log.e("DataSync", "Failed to sync data: ${data.email}", task.exception)
                         }
                     }
             }

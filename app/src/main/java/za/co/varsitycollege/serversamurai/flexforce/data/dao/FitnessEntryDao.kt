@@ -5,19 +5,15 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import za.co.varsitycollege.serversamurai.flexforce.data.models.FitnessEntryEntity
 import za.co.varsitycollege.serversamurai.flexforce.data.models.UserEntity
 
 @Dao
-interface UserDao {
+interface FitnessEntryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(userEntity: UserEntity)
+    fun insert(fitnessEntry: FitnessEntryEntity)
 
-    @Query("SELECT * FROM user WHERE email = :email AND password = :password")
-    fun getUser(email: String, password: String): UserEntity?
+    @Query("SELECT * FROM FitnessEntryEntity ORDER BY dateSubmitted DESC LIMIT 1")
+    fun getLatestEntry(): FitnessEntryEntity?
 
-    @Query("SELECT * FROM user")
-    fun getAllUsers(): List<UserEntity>
-
-    @Delete
-    fun delete(userEntity: UserEntity)
 }

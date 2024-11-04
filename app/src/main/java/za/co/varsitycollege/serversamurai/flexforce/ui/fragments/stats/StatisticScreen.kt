@@ -58,7 +58,6 @@ class StatisticScreen : Fragment() {
 
         profileBtn.setOnClickListener {
             findNavController().navigate(R.id.action_nav_stats_to_nav_stats_view)
-            Toast.makeText(context, "Profile btn clicked", Toast.LENGTH_SHORT).show()
         }
 
         // Fetch fitness and goal data

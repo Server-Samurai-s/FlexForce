@@ -45,7 +45,6 @@ class homeInnerScreen : Fragment() {
         profileBtn.setOnClickListener {
             // Use NavController to navigate to the target fragment
             findNavController().navigate(R.id.action_homeInner_to_profile)
-            Toast.makeText(context, "Profile btn clicked", Toast.LENGTH_SHORT).show()
         }
 
         return view

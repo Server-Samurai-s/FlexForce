@@ -8,7 +8,6 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.appcompat.widget.Toolbar
@@ -16,9 +15,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import java.util.Locale
 import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
 import za.co.varsitycollege.serversamurai.flexforce.service.SyncManager
 
@@ -27,7 +23,6 @@ class MainActivity : BaseActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var database: AppDatabase
     private lateinit var auth: FirebaseAuth
-    private lateinit var connectivityReceiver: BroadcastReceiver
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var syncManager: SyncManager
@@ -77,7 +72,6 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(connectivityReceiver)
     }
 
     private fun setupNavigation() {
@@ -121,11 +115,9 @@ class MainActivity : BaseActivity() {
                 token?.let {
                     sharedPreferences.edit().putString("fcmToken", it).apply()
                     Log.d("FCM Token", "FCM Token: $it")
-                    Toast.makeText(this@MainActivity, "FCM Token: $it", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Log.w("FCM Token", "Fetching FCM registration token failed", task.exception)
-                Toast.makeText(this@MainActivity, "Failed to fetch FCM token", Toast.LENGTH_SHORT).show()
             }
         }
     }

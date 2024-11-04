@@ -2,6 +2,7 @@ package za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentWorkoutScreenBinding
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.ImageButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,6 +22,7 @@ import za.co.varsitycollege.serversamurai.flexforce.R
 import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
 import za.co.varsitycollege.serversamurai.flexforce.ui.adapters.WorkoutAdapter
 import za.co.varsitycollege.serversamurai.flexforce.ui.adapters.WorkoutItem
+import java.io.File
 
 class workoutScreen : Fragment() {
 
@@ -49,6 +52,10 @@ class workoutScreen : Fragment() {
         binding.recyclerWorkouts.adapter = workoutAdapter
         binding.recyclerWorkouts.layoutManager = LinearLayoutManager(context)
 
+        // Profile button action
+        val profileBtn: ImageButton = view.findViewById(R.id.workouts_profileBtn)
+        loadProfileImage(profileBtn)
+
         // Floating Action Button click listener
         binding.fabAddWorkout.setOnClickListener {
             findNavController().navigate(R.id.action_workoutScreen_to_createWorkoutFragment)
@@ -72,6 +79,18 @@ class workoutScreen : Fragment() {
 
         // Fetch and display the workouts
         fetchLocalWorkouts()
+    }
+
+    private fun loadProfileImage(profileButton: ImageButton) {
+        // Load the locally stored profile image
+        val file = File(requireContext().filesDir, "profile_image.jpg")
+        if (file.exists()) {
+            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+            profileButton.setImageBitmap(bitmap)
+        } else {
+            // Set a default image if the profile image isn't available
+            profileButton.setImageResource(R.drawable.profilepic)
+        }
     }
 
     private fun fetchLocalWorkouts() {

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import za.co.varsitycollege.serversamurai.flexforce.R
@@ -42,7 +41,6 @@ class ChallengeScreen : Fragment() {
 
         profileBtn.setOnClickListener {
             findNavController().navigate(R.id.action_nav_challenge_to_nav_profile)
-            Toast.makeText(context, "Profile btn clicked", Toast.LENGTH_SHORT).show()
         }
 
         return view
@@ -62,7 +60,6 @@ class ChallengeScreen : Fragment() {
         val bundle = Bundle()
         bundle.putString("challengeId", challengeId)
         findNavController().navigate(actionId, bundle)
-        Toast.makeText(context, "$challengeId button clicked", Toast.LENGTH_LONG).show()
     }
 
     companion object {

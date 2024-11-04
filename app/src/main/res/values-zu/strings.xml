@@ -119,8 +119,11 @@
     <string name="view_challenge">Buka inselele</string>
     <string name="sign_in_with_google">Ngena ngemvume nge-Google</string>
     <string name="loginbtngoogle">Ngena ngemvume nge-google</string>
-    <string name="image_description">Image description</string>
-    <string name="fingerprint_icon">Fingerprint icon</string>
-    <string name="or_text">or</string>
+    <string name="image_description">Incazelo yesithombe</string>
+    <string name="fingerprint_icon">Ithoyizi lomunwe</string>
+    <string name="or_text">noma</string>
+    <string name="already_have_account">Unayo i-akhawunti? %1$s</string>
+    <string name="login_text">Ngena</string>
+
 
 </resources>

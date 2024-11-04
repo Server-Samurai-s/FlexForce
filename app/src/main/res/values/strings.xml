@@ -123,5 +123,7 @@
     <string name="image_description">Image description</string>
     <string name="fingerprint_icon">Fingerprint icon</string>
     <string name="or_text">or</string>
+    <string name="already_have_account">Already have an account? %1$s</string>
+    <string name="login_text">Login</string>
 
 </resources>

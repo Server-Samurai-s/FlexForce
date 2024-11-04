@@ -8,15 +8,15 @@
     <!-- Welcome Fragment -->
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout.welcomeScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout.WelcomeScreen"
         android:label="Welcome"
         tools:layout="@layout/fragment_welcome_screen">
         <action
-            android:id="@+id/action_welcomeFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
             android:id="@+id/action_welcomeFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <!-- Login Fragment -->
@@ -47,17 +47,10 @@
             app:destination="@id/loginFragment" />
     </fragment>
 
-    <!-- Home Fragment (Parent for Inner Navigation) -->
+    <!-- Home Fragment -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="za.co.varsitycollege.serversamurai.flexforce.ui.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home_screen">
-        <!-- This is where you nest the `nav_home` graph -->
-        <action
-            android:id="@+id/action_homeFragment_to_nav_home"
-            app:destination="@id/nav_home" />
-    </fragment>
-
-
+        tools:layout="@layout/fragment_home_screen" />
 </navigation>

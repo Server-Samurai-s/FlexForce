@@ -120,5 +120,11 @@
     <string name="view_challenge">View Challenge</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="loginbtngoogle">Login with google</string>
-    <string name="save_changes">Save Changes</string>
+    <string name="save_changes" translatable="false">Save Changes</string>
+    <string name="image_description" translatable="false">Image description</string>
+    <string name="fingerprint_icon" translatable="false">Fingerprint icon</string>
+    <string name="or_text" translatable="false">or</string>
+    <string name="already_have_account" translatable="false">Already have an account? %1$s</string>
+    <string name="login_text" translatable="false">Login</string>
+
 </resources>

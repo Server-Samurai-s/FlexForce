@@ -25,6 +25,21 @@ Users also have predefined workouts within the application that they can choose 
 1. Filter Exercises by Muscle Group Anatomy: Users can select body parts on an interactive anatomy figure to filter exercises for targeted muscle training.
 2. Workout Streaks and High Score: Keeps users motivated as this feature encourages users as they are rewarded for consistent progress.
 3. Workout Challenges: The application offers workout challenges that users can participate in to push their limits.
+4. Google Login: Users are able to login with their google account.
+5. Weight Tracker: App allows users to track their weight, providing valuable insights into their overall fitness journey.
+
+## Release Notes:
+### Innovative features added:
+1. Google Login: Users are able to login with their google account.
+2. Weight Tracker: App allows users to track their weight, providing valuable insights into their overall fitness journey.
+
+### Added updates:
+1. Single sign-on.
+2. Biometric Authentication: A user can login using their registered fingerprint.
+3. Settings: A user can update their settings within the app.
+4. Offline mode: A user can save their workouts and settings offline.
+5. Real-time notificatons: Users can recieve real-time notifications.
+6. Multi-language: Users have the option to select between three languages: English, Afrikaans and Zulu.
 
 ## Design Considerations:
 FlexForce's design was influenced by a thorough research of other fitness programs, with the goal of combining its most effective elements with up-to-date innovative additions. 
@@ -91,6 +106,7 @@ The workflow is automatically triggered on every push to master or release/** br
 2. Vercel: Used to host the API.
 3. Node.js and Express: Used to build a custom REST API that connects to firebase. 
 4. Android Development: Developed using Kotlin programming language for Android platform compatibility.
+5. Database: RoomDB for offline mode.
  
 ## Reference / Bibliography list
 · GeeksforGeeks. 2024. How to send different types of requests (GET, POST, PUT, DELETE) in Postman, 1 January 2024. [Online]. Available at: https://www.geeksforgeeks.org/how-to-send-different-types-of-requests-get-post-put-delete-in-postman/ [Accessed 23 September 2024].

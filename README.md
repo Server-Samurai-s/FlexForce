@@ -142,7 +142,7 @@ During the completion of this assessment, AI tools played a supportive role in e
 ### AI as a Teaching Tool
    - Throughout the assessment, ChatGPT also acted as an educational resource, providing contextual explanations for unfamiliar coding concepts or error messages. For example, when we encountered issues related to Android’s view binding, ChatGPT provided explanations on how to inspect and resolve binding inconsistencies. This not only helped solve immediate problems but also deepened our understanding of Android development.
 
-### Conclusion
+## Conclusion
 ChatGPT was acknowledged within our team as a valuable resource, enhancing our project’s efficiency and accuracy. By acting as a coding assistant, debugging aid, and knowledge source, ChatGPT enabled us to complete our tasks more effectively while adhering to project requirements and best practices. All instances of AI support were carefully reviewed and adapted to align with our project’s unique needs, ensuring that we maintained a high standard of work.
 
 ---

@@ -14,7 +14,8 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:scaleType="centerCrop"
-        android:src="@drawable/register" />
+        android:src="@drawable/register"
+        android:contentDescription="@string/image_description" />
 
     <!-- Scrollable Register Form Container -->
     <ScrollView
@@ -37,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_semibold"
+                android:gravity="center"
                 android:text="@string/register"
                 android:textColor="@color/white"
                 android:textSize="28sp"
@@ -49,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/montserrat_light"
+                android:gravity="center"
                 android:text="@string/registerSubHeading"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -65,6 +68,7 @@
                 android:hint="@string/name"
                 android:drawableStart="@drawable/personicon"
                 android:inputType="textPersonName"
+                android:autofillHints="name"
                 android:textColorHint="@color/black" />
 
             <!-- Surname Input -->
@@ -79,6 +83,7 @@
                 android:hint="@string/surname"
                 android:drawableStart="@drawable/personicon"
                 android:inputType="textPersonName"
+                android:autofillHints="name"
                 android:textColorHint="@color/black" />
 
             <!-- Nickname Input -->
@@ -93,6 +98,7 @@
                 android:hint="@string/nickname"
                 android:drawableStart="@drawable/personicon"
                 android:inputType="textPersonName"
+                android:autofillHints="nickname"
                 android:textColorHint="@color/black" />
 
             <!-- Email Input -->
@@ -107,6 +113,7 @@
                 android:fontFamily="@font/montserrat"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
+                android:autofillHints="emailAddress"
                 android:textColorHint="@color/black" />
 
             <!-- Password Input -->
@@ -115,13 +122,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="16dp"
-                android:autofillHints=""
                 android:background="@drawable/rounded_edittext"
                 android:drawableStart="@drawable/lockclosedoutline"
                 android:drawablePadding="8dp"
                 android:fontFamily="@font/montserrat"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                android:autofillHints="password"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black" />
 
@@ -137,48 +144,76 @@
                 android:fontFamily="@font/montserrat"
                 android:hint="@string/confirm_password"
                 android:inputType="textPassword"
+                android:autofillHints="password"
                 android:textColorHint="@color/black" />
-
-            <!-- Already Have Account Link -->
-            <TextView
-                android:id="@+id/loginLink"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_light"
-                android:text="@string/already_have_an_account_login"
-                android:textColor="@color/white" />
         </LinearLayout>
     </ScrollView>
 
     <!-- Register Button -->
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_black_button"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/register"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_margin="16dp" />
+
+    <!-- OR Divider with Line -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1"
-        android:gravity="bottom"
-        android:padding="16dp">
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="6dp">
 
-        <Button
-            android:id="@+id/button_register"
+        <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="1dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_black_button"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="@string/register"
+            android:background="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/or_text"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:fontFamily="@font/montserrat_light" />
 
-        <Button
-            android:id="@+id/googleSignInBtn"
+        <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="1dp"
             android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:backgroundTint="@color/black"
-            android:text="@string/sign_in_with_google"
-            android:textColor="@android:color/white" />
+            android:background="@color/white" />
     </LinearLayout>
+
+    <!-- Sign in with Google Button -->
+    <Button
+        android:id="@+id/googleSignInBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_black_button"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/sign_in_with_google"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_margin="16dp" />
+
+    <!-- Already Have an Account? Login Link -->
+    <TextView
+        android:id="@+id/loginLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/montserrat_light"
+        android:text="@string/already_have_an_account_login"
+        android:textColor="@color/white" />
+
 </LinearLayout>

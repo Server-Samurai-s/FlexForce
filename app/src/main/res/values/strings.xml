@@ -120,4 +120,8 @@
     <string name="view_challenge">View Challenge</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="loginbtngoogle">Login with google</string>
+    <string name="image_description">Image description</string>
+    <string name="fingerprint_icon">Fingerprint icon</string>
+    <string name="or_text">or</string>
+
 </resources>

@@ -26,12 +26,12 @@ Users also have predefined workouts within the application that they can choose 
 2. Workout Streaks and High Score: Keeps users motivated as this feature encourages users as they are rewarded for consistent progress.
 3. Workout Challenges: The application offers workout challenges that users can participate in to push their limits.
 4. Google Login: Users are able to login with their google account.
-5. Weight Tracker: App allows users to track their weight, providing valuable insights into their overall fitness journey.
+5. Weight Tracker: App allows users to track their weight, current body fat %, as well as BMI, providing valuable insights into their overall fitness journey.
 
 ## Release Notes:
 ### Innovative features added:
 1. Google Login: Users are able to login with their google account.
-2. Weight Tracker: App allows users to track their weight, current body fat and BMI, providing valuable insights into their overall fitness journey.
+2. Weight Tracker: App allows users to track their weight, current body fat % and BMI, providing valuable insights into their overall fitness journey.
 
 ### Added updates:
 1. Single sign-on.

@@ -23,7 +23,7 @@ class SyncManager(private val context: Context) {
     private val apiService = ApiClient.retrofitService
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
-    fun syncData() {
+    fun syncUserData(email: String) {
         if (!isConnected()) {
             Log.d("SyncManager", "No internet connection, skipping sync")
             return
@@ -31,13 +31,42 @@ class SyncManager(private val context: Context) {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // First sync exercises from API
-                syncExercisesFromApi()
+                // Only sync if user is authenticated
+                if (auth.currentUser != null) {
+                    // Get user from Room
+                    val user = database.userDao().getUserByEmail(email)
+                    if (user != null) {
+                        // First sync user profile
+                        syncUserProfile(user)
 
-                // Then sync user data if logged in
-                syncUserData()
+                        // Then sync all related data
+                        syncWorkouts(email)
+                        syncFitnessEntries(email)
+                        syncGoals(email)
+                        Log.d("SyncManager", "All user data synced successfully for: $email")
+                    } else {
+                        Log.e("SyncManager", "User not found in local database: $email")
+                    }
+                } else {
+                    Log.e("SyncManager", "User not authenticated for sync")
+                }
             } catch (e: Exception) {
-                Log.e("SyncManager", "Error during sync", e)
+                Log.e("SyncManager", "Error during user sync", e)
+            }
+        }
+    }
+
+    fun syncExercisesOnly() {
+        if (!isConnected()) {
+            Log.d("SyncManager", "No internet connection, skipping sync")
+            return
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                syncExercisesFromApi()
+            } catch (e: Exception) {
+                Log.e("SyncManager", "Error during exercise sync", e)
             }
         }
     }
@@ -45,6 +74,8 @@ class SyncManager(private val context: Context) {
     private suspend fun syncExercisesFromApi() {
         Log.d("SyncManager", "Syncing exercises from API")
         try {
+            val currentExercises = database.exerciseDao().getAllExercises()
+
             val response = apiService.getExercisesByMuscles(MuscleRequest(emptyList())).execute()
 
             if (response.isSuccessful && response.body() != null) {
@@ -66,11 +97,16 @@ class SyncManager(private val context: Context) {
                     }
                 }
 
-                // Delete all existing exercises first
-                database.exerciseDao().deleteAllExercises()
-                // Then insert the new ones
-                database.exerciseDao().insertAll(allExercises)
-                Log.d("SyncManager", "Exercises synced from API successfully: ${allExercises.size} exercises")
+                // Only update if we have new data
+                if (currentExercises != null) {
+                    if (currentExercises.isEmpty() || currentExercises.size != allExercises.size) {
+                        database.exerciseDao().deleteAllExercises()
+                        database.exerciseDao().insertAll(allExercises)
+                        Log.d("SyncManager", "Exercises synced from API successfully: ${allExercises.size} exercises")
+                    } else {
+                        Log.d("SyncManager", "Exercises already up to date")
+                    }
+                }
             } else {
                 Log.e("SyncManager", "Failed to fetch exercises from API: ${response.code()} - ${response.message()}")
             }
@@ -79,42 +115,6 @@ class SyncManager(private val context: Context) {
         }
     }
 
-    private suspend fun syncUserData() {
-        val userEmail = sharedPreferences.getString("USER_EMAIL", null)
-        val userPassword = sharedPreferences.getString("USER_PASSWORD", null)
-
-        if (userEmail == null || userPassword == null) {
-            Log.d("SyncManager", "No user credentials found, skipping user sync")
-            return
-        }
-
-        try {
-            // Ensure user is authenticated, creating account if necessary
-            if (!ensureUserAuthenticated(userEmail, userPassword)) {
-                Log.e("SyncManager", "Failed to authenticate user")
-                return
-            }
-
-            // Get current user from Room
-            val user = database.userDao().getUser(userEmail, userPassword)
-            if (user == null) {
-                Log.d("SyncManager", "User not found in local database")
-                return
-            }
-
-            // Sync user profile first
-            syncUserProfile(user)
-
-            // Sync all other data
-            syncWorkouts(user.email)
-            syncFitnessEntries(user.email)
-            syncGoals(user.email)
-
-            Log.d("SyncManager", "All data synced successfully for user: ${user.email}")
-        } catch (e: Exception) {
-            Log.e("SyncManager", "Error syncing user data", e)
-        }
-    }
 
     private suspend fun ensureUserAuthenticated(email: String, password: String): Boolean {
         if (auth.currentUser != null) {

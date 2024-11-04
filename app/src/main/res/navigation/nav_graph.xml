@@ -8,7 +8,7 @@
     <!-- Welcome Fragment -->
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout.WelcomeScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.views.WelcomeScreen"
         android:label="Welcome"
         tools:layout="@layout/fragment_welcome_screen">
         <action

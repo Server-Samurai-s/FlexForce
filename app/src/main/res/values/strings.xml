@@ -106,7 +106,7 @@
     <string name="zero_kgs_brackets">(0 kgs)</string>
     <string name="bmi">BMI: 0.0</string>
     <string name="status_unknown">Status: Unknown</string>
-    <string name="bmi_stats"><![CDATA[Underweight: &lt; 18.5\nNormal: 18.5 - 24.9\nOverweight: 25 - 29.9\nObese: 30+]]></string>
+    <string name="bmi_stats"><![CDATA[Underweight: < 18.5\nNormal: 18.5 - 24.9\nOverweight: 25 - 29.9\nObese: 30+]]></string>
     <string name="workout">Workout</string>
     <string name="default_notification_channel_id">flexforce_channel</string>
     <string name="notification_centre">Notification Centre</string>

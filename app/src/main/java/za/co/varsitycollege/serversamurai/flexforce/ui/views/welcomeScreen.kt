@@ -1,4 +1,4 @@
-package za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout
+package za.co.varsitycollege.serversamurai.flexforce.ui.views
 
 import android.os.Bundle
 import android.text.SpannableString

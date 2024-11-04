@@ -57,23 +57,8 @@ class MainActivity : BaseActivity() {
         setupNavigation()
 
         syncManager = SyncManager(this)
-        syncManager.syncData()
+        syncManager.syncExercisesOnly()
 
-        // Register connectivity receiver
-        connectivityReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                val activeNetwork = cm.activeNetwork
-                val isConnected = activeNetwork != null
-                if (isConnected) {
-                    syncPendingRegistrations()
-                }
-            }
-        }
-        registerReceiver(connectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-
-        // Sync data to Firebase on app launch
-        syncDataToFirebase()
     }
 
     private fun initializeFirebaseServices() {
@@ -141,46 +126,6 @@ class MainActivity : BaseActivity() {
             } else {
                 Log.w("FCM Token", "Fetching FCM registration token failed", task.exception)
                 Toast.makeText(this@MainActivity, "Failed to fetch FCM token", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun syncPendingRegistrations() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val pendingUsers = database.userDao().getAllUsers()
-            Log.e("RegistrationSync", "Pending users: ${pendingUsers.size}")
-            for (user in pendingUsers) {
-                auth.createUserWithEmailAndPassword(user.email, user.password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                database.userDao().delete(user)
-                            }
-                        } else {
-                            CoroutineScope(Dispatchers.Main).launch {
-                                val errorMessage = task.exception?.message ?: "Unknown error"
-                                Log.e("RegistrationSync", "Failed to sync user: ${user.email}. Error: $errorMessage")
-                                Toast.makeText(this@MainActivity.applicationContext, "Failed to sync user: ${user.email}. Error: $errorMessage", Toast.LENGTH_LONG).show()
-                            }
-                        }
-                    }
-            }
-        }
-    }
-
-    private fun syncDataToFirebase() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val allData = database.userDao().getAllUsers() // Replace with your actual data fetching method
-            for (data in allData) {
-                // Sync each data item to Firebase
-                auth.createUserWithEmailAndPassword(data.email, data.password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.d("DataSync", "Data synced successfully: ${data.email}")
-                        } else {
-                            Log.e("DataSync", "Failed to sync data: ${data.email}", task.exception)
-                        }
-                    }
             }
         }
     }

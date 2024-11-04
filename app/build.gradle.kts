@@ -97,6 +97,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
 
+    implementation("com.google.firebase:firebase-auth:21.1.0")
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
+
     // Firebase and Firestore
     implementation(platform(libs.firebase.bom))
     implementation(libs.com.google.firebase.firebase.auth)

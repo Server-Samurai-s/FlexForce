@@ -3,7 +3,6 @@ package za.co.varsitycollege.serversamurai.flexforce
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.res.Configuration
@@ -36,7 +35,6 @@ class MainActivity : BaseActivity() {
     private lateinit var syncManager: SyncManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -45,6 +43,9 @@ class MainActivity : BaseActivity() {
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
         // Initialize Firebase services
         initializeFirebaseServices()
@@ -81,8 +82,7 @@ class MainActivity : BaseActivity() {
         Log.d("FirebaseInit", "Firebase services initialized.")
     }
 
-        setContentView(R.layout.activity_main)
-        // Set up the toolbar
+    // Set up the toolbar
     private fun setupToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -127,7 +127,6 @@ class MainActivity : BaseActivity() {
         // Return a new context with the updated locale configuration
         return context.createConfigurationContext(config)
     }
-}
 
     private fun fetchFCMToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
@@ -136,11 +135,11 @@ class MainActivity : BaseActivity() {
                 token?.let {
                     sharedPreferences.edit().putString("fcmToken", it).apply()
                     Log.d("FCM Token", "FCM Token: $it")
-                    Toast.makeText(this, "FCM Token: $it", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "FCM Token: $it", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Log.w("FCM Token", "Fetching FCM registration token failed", task.exception)
-                Toast.makeText(this, "Failed to fetch FCM token", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Failed to fetch FCM token", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -160,7 +159,7 @@ class MainActivity : BaseActivity() {
                             CoroutineScope(Dispatchers.Main).launch {
                                 val errorMessage = task.exception?.message ?: "Unknown error"
                                 Log.e("RegistrationSync", "Failed to sync user: ${user.email}. Error: $errorMessage")
-                                Toast.makeText(applicationContext, "Failed to sync user: ${user.email}. Error: $errorMessage", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@MainActivity.applicationContext, "Failed to sync user: ${user.email}. Error: $errorMessage", Toast.LENGTH_LONG).show()
                             }
                         }
                     }

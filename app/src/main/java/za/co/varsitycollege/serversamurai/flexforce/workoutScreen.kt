@@ -1,5 +1,6 @@
 package za.co.varsitycollege.serversamurai.flexforce
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,7 +17,9 @@ import za.co.varsitycollege.serversamurai.flexforce.service.ApiClient
 import za.co.varsitycollege.serversamurai.flexforce.service.WorkoutRequest
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.ImageButton
 import com.google.firebase.auth.FirebaseAuth
+import java.io.File
 
 class workoutScreen : Fragment() {
 
@@ -48,8 +51,11 @@ class workoutScreen : Fragment() {
         // Set up the search bar listener to filter the workout list
         binding.searchBar.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                // After text has changed, filter the workout list
-                workoutAdapter.updateWorkoutList(workoutAdapter.workoutList.filter { workout -> workout.name.contains(s.toString(), ignoreCase = true) })
+                workoutAdapter.updateWorkoutList(
+                    workoutAdapter.workoutList.filter { workout ->
+                        workout.name.contains(s.toString(), ignoreCase = true)
+                    }
+                )
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -57,12 +63,27 @@ class workoutScreen : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        binding.workoutsProfileBtn.setOnClickListener{
+        // Load profile image on profile button and set click listener
+        val profileBtn: ImageButton = binding.workoutsProfileBtn
+        loadProfileImage(profileBtn)
+        profileBtn.setOnClickListener {
             findNavController().navigate(R.id.action_nav_workout_to_nav_profile)
         }
 
         // Fetch and display the workouts
         fetchUserWorkouts()
+    }
+
+    private fun loadProfileImage(profileButton: ImageButton) {
+        // Load the locally stored profile image
+        val file = File(requireContext().filesDir, "profile_image.jpg")
+        if (file.exists()) {
+            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+            profileButton.setImageBitmap(bitmap)
+        } else {
+            // Set a default image if the profile image isn't available
+            profileButton.setImageResource(R.drawable.profilepic)
+        }
     }
 
     private fun fetchUserWorkouts() {

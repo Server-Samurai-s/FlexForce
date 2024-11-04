@@ -76,7 +76,10 @@ dependencies {
     implementation(libs.androidx.security.crypto) // latest version
 
     // Google login
-    implementation("com.google.android.gms:play-services-auth:20.5.0")
+    implementation(libs.google.play.services.auth)
+    implementation (libs.picasso)
+
+    implementation(libs.firebase.storage.ktx)
 
     // Testing
     testImplementation(libs.junit)

@@ -44,7 +44,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/changeProfilePic"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"

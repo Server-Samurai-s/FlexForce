@@ -108,5 +108,16 @@
     <string name="status_unknown">Isimo: Akwaziwa</string>
     <string name="bmi_stats"><![CDATA[Isisindo esiphansi: &lt; 18.5\nOkuvamile: 18.5 - 24.9\nUkukhuluphala ngokweqile: 25 - 29.9\nUkukhuluphala: 30+]]></string>
     <string name="workout">Zivocavoce</string>
+    <string name="default_notification_channel_id">Isiteshi se-FlexForce</string>
+    <string name="notification_centre">Isikhungo Sezaziso</string>
+    <string name="icon_description">Isithonjana se-FlexForce</string>
+    <string name="flexforce_title">FlexForce</string>
+    <string name="default_message">Isiphakamiso esisha somngane</string>
+    <string name="channel_description">Incazelo yesiteshi sezaziso</string>
+    <string name="leave_challenge">Shiya Challenge</string>
+    <string name="challenge_progress">Inselele Inqubekelaphambili</string>
+    <string name="view_challenge">Buka inselele</string>
+    <string name="sign_in_with_google">Ngena ngemvume nge-Google</string>
+    <string name="loginbtngoogle">Ngena ngemvume nge-google</string>
 
 </resources>

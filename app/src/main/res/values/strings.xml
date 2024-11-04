@@ -115,4 +115,9 @@
     <string name="default_message">New friend suggestion</string>
     <string name="channel_description">Notification Channel Description</string>
     <string name="default_web_client_id">7419107632-152gmk4f1r7brfnihue8dt4cmdumst9t.apps.googleusercontent.com</string>
+    <string name="leave_challenge">Leave Challenge</string>
+    <string name="challenge_progress">Challenge Progress</string>
+    <string name="view_challenge">View Challenge</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="loginbtngoogle">Login with google</string>
 </resources>

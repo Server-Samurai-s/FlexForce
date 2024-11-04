@@ -56,4 +56,5 @@
     <string name="icon_description">FlexForce icon</string>
     <string name="flexforce_title">FlexForce</string>
     <string name="default_message">New friend suggestion</string>
+    <string name="channel_description">Notification Channel Description</string>
 </resources>

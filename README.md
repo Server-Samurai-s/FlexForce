@@ -31,7 +31,7 @@ Users also have predefined workouts within the application that they can choose 
 ## Release Notes:
 ### Innovative features added:
 1. Google Login: Users are able to login with their google account.
-2. Weight Tracker: App allows users to track their weight, providing valuable insights into their overall fitness journey.
+2. Weight Tracker: App allows users to track their weight, current body fat and BMI, providing valuable insights into their overall fitness journey.
 
 ### Added updates:
 1. Single sign-on.

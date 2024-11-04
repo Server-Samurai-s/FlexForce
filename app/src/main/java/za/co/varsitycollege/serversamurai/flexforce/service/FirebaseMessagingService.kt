@@ -1,4 +1,4 @@
-package za.co.varsitycollege.serversamurai.flexforce.network
+package za.co.varsitycollege.serversamurai.flexforce.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

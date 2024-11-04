@@ -1,5 +1,7 @@
 package za.co.varsitycollege.serversamurai.flexforce.ui.fragments.stats
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,11 +19,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import za.co.varsitycollege.serversamurai.flexforce.R
 import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
-import kotlin.math.pow
 import java.io.File
+import kotlin.math.pow
 
 class StatisticScreen : Fragment() {
     private lateinit var database: AppDatabase
+    private lateinit var sharedPreferences: SharedPreferences
 
     // UI elements for fitness data
     private lateinit var bmiValueTextView: TextView
@@ -39,6 +42,7 @@ class StatisticScreen : Fragment() {
 
         // Initialize Room database
         database = AppDatabase.getDatabase(requireContext())
+        sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
         // Find views for fitness data
         bmiValueTextView = view.findViewById(R.id.textViewBmiValue)
@@ -77,8 +81,10 @@ class StatisticScreen : Fragment() {
     }
 
     private fun fetchFitnessData() {
+        val userEmail = sharedPreferences.getString("USER_EMAIL", "") ?: return
+
         lifecycleScope.launch(Dispatchers.IO) {
-            val latestEntry = database.fitnessEntryDao().getLatestEntry()
+            val latestEntry = database.fitnessEntryDao().getLatestEntryForUser(userEmail)
             latestEntry?.let {
                 val weight = it.currentWeight
                 val height = it.height
@@ -101,8 +107,10 @@ class StatisticScreen : Fragment() {
     }
 
     private fun fetchGoalData() {
+        val userEmail = sharedPreferences.getString("USER_EMAIL", "") ?: return
+
         lifecycleScope.launch(Dispatchers.IO) {
-            val latestGoal = database.goalDao().getLatestGoal()
+            val latestGoal = database.goalDao().getAllGoalsForUser(userEmail).firstOrNull()
             latestGoal?.let {
                 val goalWeight = it.goalWeight
                 withContext(Dispatchers.Main) {

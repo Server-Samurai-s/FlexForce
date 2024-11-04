@@ -22,7 +22,7 @@
     <!-- Login Fragment -->
     <fragment
         android:id="@+id/loginFragment"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.auth.loginScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.auth.LoginScreen"
         android:label="Login"
         tools:layout="@layout/fragment_login_screen">
         <action

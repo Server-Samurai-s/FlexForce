@@ -23,7 +23,7 @@ import za.co.varsitycollege.serversamurai.flexforce.data.models.FitnessEntryEnti
 
 @Database(
     entities = [UserEntity::class, GoalEntity::class, FitnessEntryEntity::class, WorkoutEntity::class, ExerciseEntity::class],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -43,7 +43,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "app_database"
+                    "flexforce-database"
                 )
                     .fallbackToDestructiveMigration()
                     .addCallback(object : RoomDatabase.Callback() {

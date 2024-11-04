@@ -2,11 +2,8 @@ package za.co.varsitycollege.serversamurai.flexforce.ui.fragments.workout
 
 import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.navigation.fragment.findNavController
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import za.co.varsitycollege.serversamurai.flexforce.network.ApiClient
-import za.co.varsitycollege.serversamurai.flexforce.network.WorkoutRequest
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +27,7 @@ import java.util.Date
 
 class WorkoutSummaryScreen : Fragment() {
 
-    private lateinit var selectedExerciseEntities: MutableList<ExerciseEntity> // The list of selected exercises
+    private lateinit var selectedExerciseEntities: MutableList<ExerciseEntity>
     private lateinit var workoutName: String
     private lateinit var selectedDay: String
     private lateinit var rvSelectedExercises: RecyclerView
@@ -44,6 +35,7 @@ class WorkoutSummaryScreen : Fragment() {
     private lateinit var btnAddMoreExercises: Button
     private lateinit var workoutSummaryScreenBackBtn: ImageView
     private lateinit var database: AppDatabase
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,35 +43,29 @@ class WorkoutSummaryScreen : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_workout_summary_screen, container, false)
 
-        // Initialize the Room database using the singleton pattern
         database = AppDatabase.getDatabase(requireContext())
+        sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
-        // Retrieve selected exercises, workout name, and selected day from arguments
         workoutName = arguments?.getString("workoutName") ?: "Default Workout"
         selectedDay = arguments?.getString("selectedDay") ?: "Monday"
         selectedExerciseEntities = arguments?.getParcelableArrayList("selectedExercises") ?: mutableListOf()
 
-        // Initialize RecyclerView
         rvSelectedExercises = view.findViewById(R.id.rv_selected_exercises)
         rvSelectedExercises.layoutManager = LinearLayoutManager(context)
         rvSelectedExercises.adapter = SelectedExerciseAdapter(selectedExerciseEntities)
 
-        // Set workout name in the title
         val tvWorkoutTitle: TextView = view.findViewById(R.id.tv_workout_title)
         tvWorkoutTitle.text = workoutName
 
-        // Initialize Done button
         btnDone = view.findViewById(R.id.btn_done)
         btnDone.setOnClickListener {
             saveWorkout()
         }
 
-        // Add more exercises button
         btnAddMoreExercises = view.findViewById(R.id.btn_add_more_exercises)
         btnAddMoreExercises.setOnClickListener {
-            // Navigate to add more exercises screen and pass the current exercises and workout details
             val bundle = Bundle().apply {
-                putParcelableArrayList("selectedExercises", ArrayList(selectedExerciseEntities)) // Pass previously selected exercises
+                putParcelableArrayList("selectedExercises", ArrayList(selectedExerciseEntities))
                 putString("workoutName", workoutName)
                 putString("selectedDay", selectedDay)
             }
@@ -94,7 +80,10 @@ class WorkoutSummaryScreen : Fragment() {
     }
 
     private fun saveWorkout() {
+        val userEmail = sharedPreferences.getString("USER_EMAIL", "") ?: return
+
         val workout = WorkoutEntity(
+            userEmail = userEmail,
             workoutName = workoutName,
             workoutDay = selectedDay,
             exerciseEntities = selectedExerciseEntities,

@@ -5,12 +5,13 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import za.co.varsitycollege.serversamurai.flexforce.service.Converters
 
-@Entity
+@Entity(tableName = "workouts")
 data class WorkoutEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0, // Default value for id
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val userEmail: String,  // Use userEmail instead of userId
     val workoutName: String,
     val workoutDay: String,
+    val exerciseEntities: List<ExerciseEntity>,
     val completionDate: String,
-    val completionCount: Int,
-    @TypeConverters(Converters::class) val exerciseEntities: List<ExerciseEntity>
+    val completionCount: Int
 )

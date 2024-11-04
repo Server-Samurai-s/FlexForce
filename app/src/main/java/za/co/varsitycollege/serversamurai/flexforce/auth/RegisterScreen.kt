@@ -1,5 +1,6 @@
 package za.co.varsitycollege.serversamurai.flexforce.auth
 
+import android.content.Context
 import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import za.co.varsitycollege.serversamurai.flexforce.data.models.UserEntity
 import za.co.varsitycollege.serversamurai.flexforce.R
 import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentRegisterScreenBinding
@@ -30,10 +32,8 @@ class registerScreen : Fragment() {
         binding = FragmentRegisterScreenBinding.inflate(inflater, container, false)
 
         // Initialize Room Database
-        database = Room.databaseBuilder(
-            requireContext(),
-            AppDatabase::class.java, "flexforce-database"
-        ).build()
+        // Replace lines 33-36 with:
+        database = AppDatabase.getDatabase(requireContext())
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
@@ -67,23 +67,36 @@ class registerScreen : Fragment() {
 
     private fun registerUser(name: String, surname: String, nickname: String, email: String, password: String) {
         val userEntity = UserEntity(
-            uid = email,
+            email = email,
             name = name,
             surname = surname,
             nickname = nickname,
-            email = email,
             password = password
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            database.userDao().insert(userEntity)
-            CoroutineScope(Dispatchers.Main).launch {
-                Toast.makeText(
-                    context,
-                    "User registered locally. Will sync when online.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
+            try {
+                database.userDao().insert(userEntity)
+
+                // Store credentials in SharedPreferences
+                requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+                    .edit()
+                    .putString("USER_EMAIL", email)
+                    .putString("USER_PASSWORD", password)
+                    .apply()
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        context,
+                        "User registered successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Registration failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

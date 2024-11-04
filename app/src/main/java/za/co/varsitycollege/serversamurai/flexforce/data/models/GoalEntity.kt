@@ -4,10 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity
+@Entity(tableName = "goals")
 data class GoalEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0, // Default value for id
-    val dateSet: String,
-    val goalBodyFat: Double,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val userEmail: String,  // Add this field
     val goalWeight: Double,
+    val goalBodyFat: Double,
+    val goalDate: String
 )

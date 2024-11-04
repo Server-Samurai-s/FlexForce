@@ -41,15 +41,6 @@ class MainActivity : BaseActivity() {
         // Initialize the Room database
         database = AppDatabase.getDatabase(applicationContext)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                // Try to access a table to force creation
-                database.workoutDao().getAllWorkouts()
-            } catch (e: Exception) {
-                Log.e("Database", "Error initializing database", e)
-            }
-        }
-
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 

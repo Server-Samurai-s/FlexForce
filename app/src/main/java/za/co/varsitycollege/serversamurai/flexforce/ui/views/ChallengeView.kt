@@ -17,9 +17,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import za.co.varsitycollege.serversamurai.flexforce.R
 import za.co.varsitycollege.serversamurai.flexforce.data.models.Challenge
-import za.co.varsitycollege.serversamurai.flexforce.network.ApiClient
-import za.co.varsitycollege.serversamurai.flexforce.network.ChallengeStatusResponse
-import za.co.varsitycollege.serversamurai.flexforce.network.UpdateChallengeStatusRequest
+import za.co.varsitycollege.serversamurai.flexforce.service.ApiClient
+import za.co.varsitycollege.serversamurai.flexforce.service.ChallengeStatusResponse
+import za.co.varsitycollege.serversamurai.flexforce.service.UpdateChallengeStatusRequest
 
 class challengeView : Fragment() {
     private lateinit var tvChallengeType: TextView

@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.room.Room
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -24,13 +23,14 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import za.co.varsitycollege.serversamurai.flexforce.R
 import com.google.firebase.auth.GoogleAuthProvider
 import za.co.varsitycollege.serversamurai.flexforce.auth.BiometricHelper
 import za.co.varsitycollege.serversamurai.flexforce.databinding.FragmentLoginScreenBinding
 import za.co.varsitycollege.serversamurai.flexforce.utils.UserSecrets
 
-class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
+class LoginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
     private lateinit var binding: FragmentLoginScreenBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var sharedPreferences: SharedPreferences
@@ -55,15 +55,9 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
         googleSignOnClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
-        database = Room.databaseBuilder(
-            requireContext(),
-            AppDatabase::class.java, "flexforce-database"
-        ).build()
+        database = AppDatabase.getDatabase(requireContext())
 
-        // Initialize Biometric Helper
         biometricHelper = BiometricHelper(requireActivity(), this)
-
-        // Initialize UserSecrets utility for encrypted preferences
         userSecrets = UserSecrets()
 
         return binding.root
@@ -77,11 +71,7 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
             val password = binding.editTextPassword.text.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                if (isConnected()) {
-                    loginUserOnline(email, password)
-                } else {
-                    loginUserOffline(email, password)
-                }
+                loginUser(email, password)
             } else {
                 Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
             }
@@ -111,30 +101,34 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
         return networkCapabilities != null && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
-    private fun loginUserOnline(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    handleRememberMe(email)
-                    // Store the credentials after a successful login
-                    storeCredentials(email, password)
-                    sharedPreferences.edit().putBoolean("rememberMe", true).apply()
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                } else {
-                    Toast.makeText(context, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
-
-    private fun loginUserOffline(email: String, password: String) {
+    private fun loginUser(email: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val user = database.userDao().getUser(email, password)
-            CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val user = database.userDao().getUser(email, password)
+
                 if (user != null) {
+                    // Store all necessary user data
+                    sharedPreferences.edit()
+                        .putString("USER_EMAIL", email)
+                        .putString("USER_PASSWORD", password)
+                        .putString("USER_NAME", user.name)
+                        .putString("USER_SURNAME", user.surname)
+                        .putString("USER_NICKNAME", user.nickname)
+                        .apply()
+
                     handleRememberMe(email)
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+
+                    withContext(Dispatchers.Main) {
+                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                    }
                 } else {
-                    Toast.makeText(context, "Login failed: Invalid credentials", Toast.LENGTH_SHORT).show()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Login failed: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -142,10 +136,10 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
 
     private fun handleRememberMe(email: String) {
         if (binding.checkboxRememberMe.isChecked) {
-            val editor = sharedPreferences.edit()
-            editor.putBoolean("rememberMe", true)
-            editor.putString("email", email)
-            editor.apply()
+            sharedPreferences.edit()
+                .putBoolean("rememberMe", true)
+                .putString("email", email)
+                .apply()
         }
     }
 
@@ -195,14 +189,12 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
     }
 
     override fun onSuccess() {
-        // Retrieve encrypted credentials on biometric success
         val encryptedPrefs = userSecrets.getEncryptedSharedPreferences(requireContext())
         val email = encryptedPrefs.getString("email", null)
         val password = encryptedPrefs.getString("password", null)
 
         if (email != null && password != null) {
-            // Log in with the retrieved credentials
-            loginUserOnline(email, password)
+            loginUser(email, password)
         } else {
             Toast.makeText(context, "No saved login credentials found.", Toast.LENGTH_SHORT).show()
         }

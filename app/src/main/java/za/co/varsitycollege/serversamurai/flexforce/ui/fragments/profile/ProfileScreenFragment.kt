@@ -8,37 +8,38 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import za.co.varsitycollege.serversamurai.flexforce.R
+import za.co.varsitycollege.serversamurai.flexforce.database.AppDatabase
+import za.co.varsitycollege.serversamurai.flexforce.data.models.UserEntity
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-import za.co.varsitycollege.serversamurai.flexforce.R
 
 class ProfileScreenFragment : Fragment() {
-    private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
+    private lateinit var database: AppDatabase
     private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var editTextName: EditText
     private lateinit var editTextNickname: EditText
     private lateinit var editTextSurname: EditText
     private lateinit var profileImageView: ImageView
+    private lateinit var saveButton: Button
+    private lateinit var logoutButton: Button
+    private lateinit var backHomeButton: ImageButton
 
     private val IMAGE_FILE_NAME = "profile_image.jpg"
 
@@ -48,36 +49,122 @@ class ProfileScreenFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile_screen_view, container, false)
 
-        auth = FirebaseAuth.getInstance()
-        firestore = FirebaseFirestore.getInstance()
+        database = AppDatabase.getDatabase(requireContext())
         sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
+        initializeViews(view)
+        setupClickListeners()
+        setupLanguageSelection(view)
+        loadUserProfile()
+        loadImageFromStorage()
+
+        return view
+    }
+
+    private fun initializeViews(view: View) {
         editTextName = view.findViewById(R.id.editText_name)
         editTextNickname = view.findViewById(R.id.editText_nickname)
         editTextSurname = view.findViewById(R.id.editText_lastname)
         profileImageView = view.findViewById(R.id.changeProfilePic)
-        // Setup language selection
-        setupLanguageSelection(view)
+        saveButton = view.findViewById(R.id.btn_save)
+        logoutButton = view.findViewById(R.id.btn_logOut)
+        backHomeButton = view.findViewById(R.id.profileBackHomeBtn)
+    }
 
-        // Fetch user details from Firestore
-        fetchUserProfile()
-
-        view.findViewById<ImageView>(R.id.backHomeBtn).setOnClickListener {
-            findNavController().popBackStack()
-        }
-        view.findViewById<Button>(R.id.btn_logOut).setOnClickListener {
-            logOut()
-            val mainNavHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            mainNavHostFragment.navController.navigate(R.id.welcomeFragment)
+    private fun setupClickListeners() {
+        backHomeButton.setOnClickListener {
+            findNavController().navigateUp()
         }
 
         profileImageView.setOnClickListener {
             selectImageFromGallery()
         }
 
-        fetchUserProfile()
-        loadImageFromStorage() // Load the profile image from internal storage
-        return view
+        saveButton.setOnClickListener {
+            saveUserProfile()
+        }
+
+        logoutButton.setOnClickListener {
+            logOut()
+        }
+    }
+
+    private fun loadUserProfile() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val email = sharedPreferences.getString("USER_EMAIL", "") ?: ""
+            val password = sharedPreferences.getString("USER_PASSWORD", "") ?: ""
+            val user = database.userDao().getUser(email, password)
+
+            withContext(Dispatchers.Main) {
+                user?.let {
+                    editTextName.setText(it.name)
+                    editTextNickname.setText(it.nickname)
+                    editTextSurname.setText(it.surname)
+                }
+            }
+        }
+    }
+
+    private fun saveUserProfile() {
+        val name = editTextName.text.toString()
+        val nickname = editTextNickname.text.toString()
+        val surname = editTextSurname.text.toString()
+
+        if (name.isBlank() || surname.isBlank()) {
+            Toast.makeText(context, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val email = sharedPreferences.getString("USER_EMAIL", "") ?: ""
+            val password = sharedPreferences.getString("USER_PASSWORD", "") ?: ""
+            val currentUser = database.userDao().getUser(email, password)
+
+            currentUser?.let { user ->
+                val updatedUser = user.copy(
+                    name = name,
+                    nickname = nickname,
+                    surname = surname
+                )
+                database.userDao().insert(updatedUser)
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun setupLanguageSelection(view: View) {
+        val languageSpinner: Spinner = view.findViewById(R.id.language_spinner)
+        val languages = listOf("English", "Afrikaans", "Zulu")
+        val languageCodes = listOf("en", "af", "zu")
+
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, languages)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        languageSpinner.adapter = adapter
+
+        val currentLanguage = sharedPreferences.getString("language", "en") ?: "en"
+        languageSpinner.setSelection(languageCodes.indexOf(currentLanguage))
+
+        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedLanguage = languageCodes[position]
+                if (selectedLanguage != currentLanguage) {
+                    changeLanguage(selectedLanguage)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
+
+    private fun changeLanguage(languageCode: String) {
+        sharedPreferences.edit().putString("language", languageCode).apply()
+
+        val intent = requireActivity().intent
+        requireActivity().finish()
+        startActivity(intent)
     }
 
     private fun selectImageFromGallery() {
@@ -128,68 +215,15 @@ class ProfileScreenFragment : Fragment() {
         }
     }
 
-    private fun setupLanguageSelection(view: View) {
-        // Get the language selection spinner from the layout
-        val languageSpinner: Spinner = view.findViewById(R.id.language_spinner)
-        // Define the list of languages and their corresponding language codes
-        val languages = listOf("English", "Afrikaans", "Zulu")
-        val languageCodes = listOf("en", "af", "zu")
-        // Set up the adapter to display the languages in the spinner
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, languages)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        languageSpinner.adapter = adapter
 
-        val currentLanguage = sharedPreferences.getString("language", "en") ?: "en"
-        languageSpinner.setSelection(languageCodes.indexOf(currentLanguage))
-        // Set a listener for when an item in the spinner is selected
-        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedLanguage = languageCodes[position]
-                if (selectedLanguage != currentLanguage) {
-                    changeLanguage(selectedLanguage)
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-    }
-
-    private fun changeLanguage(languageCode: String) {
-        sharedPreferences.edit().putString("language", languageCode).apply()
-
-        // Restart the activity to apply the new language
-        val intent = requireActivity().intent
-        requireActivity().finish()
-        startActivity(intent)
-    }
-
-    private fun fetchUserProfile() {
-        val userId = auth.currentUser?.uid
-        if (userId != null) {
-            firestore.collection("users")
-                .document(userId)
-                .collection("userDetails")
-                .document("details")
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        editTextName.setText(document.getString("name"))
-                        editTextNickname.setText(document.getString("nickname"))
-                        editTextSurname.setText(document.getString("surname"))
-                    } else {
-                        Toast.makeText(context, "User profile not found.", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(context, "Error fetching profile data: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
-        }
-    }
 
     private fun logOut() {
-        auth.signOut()
+        // Clear all SharedPreferences
         sharedPreferences.edit().clear().apply()
+
+        // Get the main NavController from the Activity
+        val mainNavController = requireActivity().findNavController(R.id.nav_host_fragment)
+        // Navigate to the welcome screen in the main navigation graph
+        mainNavController.navigate(R.id.welcomeFragment)
     }
 }

@@ -29,6 +29,11 @@
         <action
             android:id="@+id/action_nav_profile_to_navigation_home_inner"
             app:destination="@id/navigation_home_inner" />
+
+        <action
+            android:id="@+id/action_nav_profile_to_nav_graph"
+            app:destination="@id/nav_graph" />
+
     </fragment>
 
 

@@ -1,5 +1,6 @@
 package za.co.varsitycollege.serversamurai.flexforce.service
 
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -12,18 +13,28 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import za.co.varsitycollege.serversamurai.flexforce.data.models.ApiResponse
 import za.co.varsitycollege.serversamurai.flexforce.data.models.Challenge
 import za.co.varsitycollege.serversamurai.flexforce.data.models.ChallengeResponse
 import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseEntity
+import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseResponse
 import za.co.varsitycollege.serversamurai.flexforce.data.models.Response
 import za.co.varsitycollege.serversamurai.flexforce.data.models.WorkoutEntity
 
 object ApiClient {
     private const val BASE_URL = "https://flexforce-api.vercel.app/"
+    private var authToken: String? = null
 
     private val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
     private val client = OkHttpClient.Builder()
         .addInterceptor(logging)
+        .addInterceptor(Interceptor { chain ->
+            val request = chain.request().newBuilder()
+            authToken?.let {
+                request.addHeader("Authorization", "Bearer $it")
+            }
+            chain.proceed(request.build())
+        })
         .build()
 
     val retrofitService: ApiService by lazy {
@@ -34,13 +45,15 @@ object ApiClient {
             .build()
             .create(ApiService::class.java)
     }
+
+    fun setAuthToken(token: String) {
+        authToken = token
+    }
 }
 
 interface ApiService {
-
-    // Existing Endpoints
     @POST("api/workouts/exercises")
-    fun getExercisesByMuscles(@Body request: MuscleRequest): Call<ExerciseResponse>
+    fun getExercisesByMuscles(@Body request: MuscleRequest): Call<ApiResponse>
 
     @POST("api/workouts/saveWorkout/{userId}")
     fun addWorkout(
@@ -99,16 +112,13 @@ interface ApiService {
     fun deleteUserWorkout(@Path("userId") userId: String, @Path("workoutId") workoutId: String): Call<Response>
 }
 
-
-data class ExerciseResponse(val exerciseEntities: List<ExerciseEntity>)
-
 data class MuscleRequest(val muscles: List<String>)
 
 data class WorkoutRequest(
     val workoutName: String,
     val workoutDay: String,
-    val exerciseEntities: List<ExerciseEntity>,  // Ensure this is a List
-    val id: String? = null           // Optional id for workout
+    val exerciseEntities: List<ExerciseEntity>,
+    val id: String? = null
 )
 
 data class UpdateChallengeStatusRequest(

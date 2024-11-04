@@ -11,12 +11,12 @@ interface WorkoutDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(workout: WorkoutEntity)
 
-    @Query("SELECT * FROM WorkoutEntity")
-    fun getAllWorkouts(): List<WorkoutEntity>?
+    @Query("SELECT * FROM workouts WHERE userEmail = :email")
+    fun getAllWorkouts(email: String): List<WorkoutEntity>?
 
-    @Query("SELECT * FROM WorkoutEntity WHERE id = :workoutId")
+    @Query("SELECT * FROM workouts WHERE id = :workoutId")
     fun getWorkout(workoutId: String): WorkoutEntity?
 
-    @Query("SELECT * FROM WorkoutEntity ORDER BY completionCount DESC LIMIT 1")
-    fun getFavouriteWorkout(): WorkoutEntity?
+    @Query("SELECT * FROM workouts WHERE userEmail = :email ORDER BY completionCount DESC LIMIT 1")
+    fun getFavouriteWorkout(email: String): WorkoutEntity?
 }

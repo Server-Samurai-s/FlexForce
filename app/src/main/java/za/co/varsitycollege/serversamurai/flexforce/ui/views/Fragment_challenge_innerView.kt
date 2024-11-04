@@ -18,8 +18,8 @@ import retrofit2.Response
 import za.co.varsitycollege.serversamurai.flexforce.R
 import za.co.varsitycollege.serversamurai.flexforce.data.models.ChallengeExercise
 import za.co.varsitycollege.serversamurai.flexforce.data.models.ChallengeResponse
-import za.co.varsitycollege.serversamurai.flexforce.network.ApiClient
-import za.co.varsitycollege.serversamurai.flexforce.network.UpdateChallengeStatusRequest
+import za.co.varsitycollege.serversamurai.flexforce.service.ApiClient
+import za.co.varsitycollege.serversamurai.flexforce.service.UpdateChallengeStatusRequest
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"

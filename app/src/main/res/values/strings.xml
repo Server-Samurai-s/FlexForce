@@ -120,4 +120,5 @@
     <string name="view_challenge">View Challenge</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="loginbtngoogle">Login with google</string>
+    <string name="save_changes">Save Changes</string>
 </resources>

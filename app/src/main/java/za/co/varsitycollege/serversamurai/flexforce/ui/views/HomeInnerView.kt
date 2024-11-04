@@ -1,5 +1,7 @@
 package za.co.varsitycollege.serversamurai.flexforce.ui.views
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.google.type.DateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,6 +25,7 @@ import java.util.*
 
 class HomeInnerView : Fragment() {
     private lateinit var database: AppDatabase
+    private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var textViewCurrentStreak: TextView
     private lateinit var textViewDays: TextView
@@ -49,6 +51,7 @@ class HomeInnerView : Fragment() {
 
         // Initialize Room database
         database = AppDatabase.getDatabase(requireContext())
+        sharedPreferences = requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
         // Initialize TextViews
         textViewCurrentStreak = view.findViewById(R.id.textViewCurrentStreak)
@@ -92,8 +95,10 @@ class HomeInnerView : Fragment() {
 
     // Function to calculate the current workout streak
     private fun calculateWorkoutStreak() {
+        val userEmail = sharedPreferences.getString("USER_EMAIL", "") ?: return
+
         lifecycleScope.launch(Dispatchers.IO) {
-            val workouts = database.workoutDao().getAllWorkouts()
+            val workouts = database.workoutDao().getAllWorkouts(userEmail)
             if (workouts != null) {
                 if (workouts.isNotEmpty()) {
                     var streak = 0
@@ -146,8 +151,10 @@ class HomeInnerView : Fragment() {
 
     // Fetch the workout with the largest completion count
     private fun fetchFavoriteWorkout() {
+        val userEmail = sharedPreferences.getString("USER_EMAIL", "") ?: return
+
         lifecycleScope.launch(Dispatchers.IO) {
-            val favoriteWorkout = database.workoutDao().getFavouriteWorkout()
+            val favoriteWorkout = database.workoutDao().getFavouriteWorkout(userEmail)
             favoriteWorkout?.let {
                 withContext(Dispatchers.Main) {
                     textViewFavoriteWorkoutDay.text = it.workoutDay.substring(0, 3)
@@ -159,8 +166,10 @@ class HomeInnerView : Fragment() {
 
     // Function to fetch the most recent fitness entry
     private fun fetchLatestFitnessEntry() {
+        val userEmail = sharedPreferences.getString("USER_EMAIL", "") ?: return
+
         lifecycleScope.launch(Dispatchers.IO) {
-            val latestEntry = database.fitnessEntryDao().getLatestEntry()
+            val latestEntry = database.fitnessEntryDao().getLatestEntryForUser(userEmail)
             latestEntry?.let {
                 withContext(Dispatchers.Main) {
                     editTxtCurrentWeight.hint = "${it.currentWeight} Kg"
@@ -173,8 +182,10 @@ class HomeInnerView : Fragment() {
 
     // Function to fetch the most recent goal data
     private fun fetchLatestGoalData() {
+        val userEmail = sharedPreferences.getString("USER_EMAIL", "") ?: return
+
         lifecycleScope.launch(Dispatchers.IO) {
-            val latestGoal = database.goalDao().getLatestGoal()
+            val latestGoal = database.goalDao().getAllGoalsForUser(userEmail).firstOrNull()
             latestGoal?.let {
                 withContext(Dispatchers.Main) {
                     editTxtGoalWeight.hint = "${it.goalWeight} Kg"
@@ -186,6 +197,8 @@ class HomeInnerView : Fragment() {
 
     // Function to store goal data
     private fun storeGoalData() {
+        val userEmail = sharedPreferences.getString("USER_EMAIL", "") ?: return
+
         val goalWeight = editTxtGoalWeight.text.toString()
         val goalBodyFat = editTxtGoalBodyFat.text.toString()
 
@@ -195,7 +208,8 @@ class HomeInnerView : Fragment() {
         }
 
         val goal = GoalEntity(
-            dateSet = Date().toString(),
+            userEmail = userEmail,
+            goalDate = Date().toString(),
             goalWeight = goalWeight.toDouble(),
             goalBodyFat = goalBodyFat.toDouble()
         )
@@ -210,6 +224,8 @@ class HomeInnerView : Fragment() {
 
     // Function to store fitness data
     private fun storeFitnessData() {
+        val userEmail = sharedPreferences.getString("USER_EMAIL", "") ?: return
+
         val weight = editTxtCurrentWeight.text.toString()
         val bodyFat = editTxtCurrentBodyFat.text.toString()
         val height = editTxtHeight.text.toString()
@@ -220,6 +236,7 @@ class HomeInnerView : Fragment() {
         }
 
         val statistic = FitnessEntryEntity(
+            userEmail = userEmail,
             currentBodyFat = bodyFat.toDouble(),
             currentWeight = weight.toDouble(),
             dateSubmitted = Date().toString(),

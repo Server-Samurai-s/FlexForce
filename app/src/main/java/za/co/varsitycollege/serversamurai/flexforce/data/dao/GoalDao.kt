@@ -9,9 +9,9 @@ import za.co.varsitycollege.serversamurai.flexforce.data.models.GoalEntity
 
 @Dao
 interface GoalDao {
+    @Query("SELECT * FROM goals WHERE userEmail = :email")
+    fun getAllGoalsForUser(email: String): List<GoalEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGoal(goal: GoalEntity)
-
-    @Query("SELECT * FROM GoalEntity")
-    fun getLatestGoal(): GoalEntity?
 }

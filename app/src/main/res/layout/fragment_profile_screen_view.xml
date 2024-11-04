@@ -17,7 +17,7 @@
         android:paddingEnd="16dp">
 
         <ImageButton
-            android:id="@+id/backHomeBtn"
+            android:id="@+id/profileBackHomeBtn"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginTop="7dp"
@@ -194,6 +194,15 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:popupTheme="@style/SpinnerPopupTheme" />
+
+                        <Button
+                            android:id="@+id/btn_save"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/save_changes"
+                            android:backgroundTint="@color/button_background"
+                            android:textColor="@android:color/white"
+                            android:layout_marginTop="16dp" />
 
                               <Button
                                   android:id="@+id/btn_logOut"

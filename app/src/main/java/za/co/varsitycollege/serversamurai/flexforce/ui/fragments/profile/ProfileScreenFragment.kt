@@ -25,7 +25,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import za.co.varsitycollege.serversamurai.flexforce.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream

@@ -1,4 +1,4 @@
-package za.co.varsitycollege.serversamurai.flexforce
+package za.co.varsitycollege.serversamurai.flexforce.ui.fragments.challenge
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -10,17 +10,10 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import za.co.varsitycollege.serversamurai.flexforce.R
 import java.io.File
-import za.co.varsitycollege.serversamurai.flexforce.R
 
-import za.co.varsitycollege.serversamurai.flexforce.R
-
-/**
- * A simple [Fragment] subclass.
- * Use the [challengeScreen.newInstance] factory method to
- * create an instance of this fragment.
- */
-class challengeScreen : Fragment() {
+class ChallengeScreen : Fragment() {
     private val IMAGE_FILE_NAME = "profile_image.jpg"
 
     override fun onCreateView(
@@ -45,7 +38,6 @@ class challengeScreen : Fragment() {
 
         val profileBtn: ImageButton = view.findViewById(R.id.user_profileBtn)
 
-        // Load the profile picture from internal storage if it exists
         loadProfileImage(profileBtn)
 
         profileBtn.setOnClickListener {
@@ -62,7 +54,7 @@ class challengeScreen : Fragment() {
             val bitmap = BitmapFactory.decodeFile(file.absolutePath)
             profileBtn.setImageBitmap(bitmap)
         } else {
-            profileBtn.setImageResource(R.drawable.profilepic) // Default image if no profile picture is found
+            profileBtn.setImageResource(R.drawable.profilepic)
         }
     }
 
@@ -74,20 +66,11 @@ class challengeScreen : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment challengeScreen.
-         */
-        // TODO: Rename and change types and number of parameters
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            challengeScreen().apply {
+            ChallengeScreen().apply {
                 arguments = Bundle().apply {
                     putString("param1", param1)
                     putString("param2", param2)

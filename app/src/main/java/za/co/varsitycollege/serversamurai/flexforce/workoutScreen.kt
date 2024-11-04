@@ -19,6 +19,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.ImageButton
 import com.google.firebase.auth.FirebaseAuth
+import za.co.varsitycollege.serversamurai.flexforce.ui.adapters.WorkoutAdapter
+import za.co.varsitycollege.serversamurai.flexforce.ui.adapters.WorkoutItem
 import java.io.File
 
 class workoutScreen : Fragment() {

@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import za.co.varsitycollege.serversamurai.flexforce.Models.ApiDataModels
+import za.co.varsitycollege.serversamurai.flexforce.data.models.Challenge
 import za.co.varsitycollege.serversamurai.flexforce.service.ApiClient
 import za.co.varsitycollege.serversamurai.flexforce.service.UpdateChallengeStatusRequest
 import za.co.varsitycollege.serversamurai.flexforce.service.ChallengeStatusResponse
@@ -69,8 +69,8 @@ class challengeView : Fragment() {
     }
 
     private fun fetchChallengeData(challengeId: String) {
-        ApiClient.retrofitService.getChallengeView(challengeId).enqueue(object : Callback<ApiDataModels.Challenge> {
-            override fun onResponse(call: Call<ApiDataModels.Challenge>, response: Response<ApiDataModels.Challenge>) {
+        ApiClient.retrofitService.getChallengeView(challengeId).enqueue(object : Callback<Challenge> {
+            override fun onResponse(call: Call<Challenge>, response: Response<Challenge>) {
                 if (response.isSuccessful) {
                     response.body()?.let {
                         tvChallengeType.text = "Type: ${it.challengeType}"
@@ -83,7 +83,7 @@ class challengeView : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<ApiDataModels.Challenge>, t: Throwable) {
+            override fun onFailure(call: Call<Challenge>, t: Throwable) {
                 Toast.makeText(context, "Error: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
             }
         })

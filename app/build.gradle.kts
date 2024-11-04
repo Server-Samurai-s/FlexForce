@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
     id("kotlin-parcelize")
     id("kotlin-kapt")
-    id("kotlin-kapt") // for Room
 }
 
 android {

@@ -12,8 +12,11 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-import za.co.varsitycollege.serversamurai.flexforce.Exercise
-import za.co.varsitycollege.serversamurai.flexforce.Models.ApiDataModels
+import za.co.varsitycollege.serversamurai.flexforce.data.models.Challenge
+import za.co.varsitycollege.serversamurai.flexforce.data.models.ChallengeResponse
+import za.co.varsitycollege.serversamurai.flexforce.data.models.Exercise
+import za.co.varsitycollege.serversamurai.flexforce.data.models.Response
+import za.co.varsitycollege.serversamurai.flexforce.data.models.WorkoutEntity
 
 object ApiClient {
     private const val BASE_URL = "https://flexforce-api.vercel.app/"
@@ -49,22 +52,22 @@ interface ApiService {
     fun getUserWorkouts(@Path("userId") userId: String): Call<List<WorkoutRequest>>
 
     @GET("api/workouts/chest-day")
-    fun getChestDayWorkout(): Call<ApiDataModels.Workout>
+    fun getChestDayWorkout(): Call<WorkoutEntity>
 
     @GET("api/workouts/leg-day")
-    fun getLegDayWorkout(): Call<ApiDataModels.Workout>
+    fun getLegDayWorkout(): Call<WorkoutEntity>
 
     @GET("api/workouts/challengesWorkouts")
-    fun getChallengesWorkouts(): Call<ApiDataModels.ChallengeResponse>
+    fun getChallengesWorkouts(): Call<ChallengeResponse>
 
     @GET("api/workouts/challenges/{id}")
-    fun getChallengeView(@Path("id") challengeId: String): Call<ApiDataModels.Challenge>
+    fun getChallengeView(@Path("id") challengeId: String): Call<Challenge>
 
     // Get challenges for a specific user
     @GET("api/workouts/user/{userId}/challenges")
     fun getUserChallenges(
         @Path("userId") userId: String
-    ): Call<List<ApiDataModels.Challenge>>
+    ): Call<List<Challenge>>
 
     // Update user challenge status (e.g., started, completed, left)
     @POST("api/workouts/user/{userId}/challenges/update")
@@ -88,12 +91,12 @@ interface ApiService {
     fun saveUserWorkout(
         @Field("userId") userId: String,
         @Field("workoutName") workoutName: String,
-        @Field("exercises") exercises: List<ApiDataModels.Exercise>
-    ): Call<ApiDataModels.Response>
+        @Field("exercises") exercises: List<Exercise>
+    ): Call<Response>
 
     // Delete a user workout
     @DELETE("user/{userId}/workout/{workoutId}")
-    fun deleteUserWorkout(@Path("userId") userId: String, @Path("workoutId") workoutId: String): Call<ApiDataModels.Response>
+    fun deleteUserWorkout(@Path("userId") userId: String, @Path("workoutId") workoutId: String): Call<Response>
 }
 
 

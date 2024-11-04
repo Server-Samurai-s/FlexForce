@@ -72,7 +72,7 @@
     <!-- Challenge Fragment -->
     <fragment
         android:id="@+id/nav_challenge"
-        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.challenge.challengeScreen"
+        android:name="za.co.varsitycollege.serversamurai.flexforce.ui.fragments.challenge.ChallengeScreen"
         android:label="Challenge"
         tools:layout="@layout/fragment_challenge_screen" >
         <action

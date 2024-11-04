@@ -10,11 +10,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import java.io.File
+import za.co.varsitycollege.serversamurai.flexforce.R
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 private const val IMAGE_FILE_NAME = "profile_image.jpg"
-import za.co.varsitycollege.serversamurai.flexforce.R
+
 
 class homeInnerScreen : Fragment() {
     private var param1: String? = null

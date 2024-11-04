@@ -167,7 +167,7 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_black_button"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Register"
+            android:text="@string/register"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -178,7 +178,7 @@
             android:layout_weight="1"
             android:layout_marginStart="16dp"
             android:backgroundTint="@color/black"
-            android:text="Sign in with Google"
+            android:text="@string/sign_in_with_google"
             android:textColor="@android:color/white" />
     </LinearLayout>
 </LinearLayout>

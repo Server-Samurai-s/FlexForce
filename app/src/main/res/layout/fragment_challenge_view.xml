@@ -226,7 +226,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/black"
-            android:text="Challenge Progress"
+            android:text="@string/challenge_progress"
             android:textColor="@android:color/white" />
 
         <Button
@@ -246,7 +246,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/black"
-            android:text="View Challenge"
+            android:text="@string/view_challenge"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

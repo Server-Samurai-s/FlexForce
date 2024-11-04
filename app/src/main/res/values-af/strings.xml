@@ -108,5 +108,16 @@
     <string name="status_unknown">Status: Onbekend</string>
     <string name="bmi_stats"><![CDATA[Ondergewig: &lt; 18.5\nNormaal: 18.5 - 24.9\nOorgewig: 25 - 29.9\nVetsugtig: 30+]]></string>
     <string name="workout">Oefensessie</string>
+    <string name="default_notification_channel_id">FlexForce-Kanaal</string>
+    <string name="notification_centre">Kennisgewingsentrum</string>
+    <string name="icon_description">FlexForce ikoon</string>
+    <string name="flexforce_title">FlexForce</string>
+    <string name="default_message">Nuwe vriend voorstel</string>
+    <string name="channel_description">Kennisgewingkanaalbeskrywing</string>
+    <string name="leave_challenge">Los Uitdaging</string>
+    <string name="challenge_progress">Uitdagingsvordering</string>
+    <string name="view_challenge">Kyk Uitdaging</string>
+    <string name="sign_in_with_google">Meld aan met Google</string>
+    <string name="loginbtngoogle">Teken in met google</string>
 
 </resources>

@@ -131,7 +131,7 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_black_button"
             android:fontFamily="@font/montserrat_medium"
-            android:text="@string/loginbtn"
+            android:text="@string/loginbtngoogle"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:layout_marginEnd="8dp" />

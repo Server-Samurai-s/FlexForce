@@ -1,5 +1,6 @@
 package za.co.varsitycollege.serversamurai.flexforce.ui.fragments.stats
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import za.co.varsitycollege.serversamurai.flexforce.R
 import kotlin.math.pow
+import java.io.File
 
 class statisticScreen : Fragment() {
     private lateinit var auth: FirebaseAuth
@@ -45,18 +47,32 @@ class statisticScreen : Fragment() {
         goalWeightTextView = view.findViewById(R.id.goalWeightValue)
         bodyFatTextView = view.findViewById(R.id.currentBodyFatValue)
 
-        // Fetch fitness and goal data
-        fetchFitnessData()
-        fetchGoalData()
-
         // Profile button action
         val profileBtn: ImageButton = view.findViewById(R.id.user_profileBtn)
+        loadProfileImage(profileBtn)
+
         profileBtn.setOnClickListener {
             findNavController().navigate(R.id.action_nav_stats_to_nav_stats_view)
             Toast.makeText(context, "Profile btn clicked", Toast.LENGTH_SHORT).show()
         }
 
+        // Fetch fitness and goal data
+        fetchFitnessData()
+        fetchGoalData()
+
         return view
+    }
+
+    private fun loadProfileImage(profileButton: ImageButton) {
+        // Load the locally stored profile image
+        val file = File(requireContext().filesDir, "profile_image.jpg")
+        if (file.exists()) {
+            val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+            profileButton.setImageBitmap(bitmap)
+        } else {
+            // Set a default image if the profile image isn't available
+            profileButton.setImageResource(R.drawable.profilepic)
+        }
     }
 
     private fun fetchFitnessData() {
@@ -71,13 +87,11 @@ class statisticScreen : Fragment() {
                     if (document.exists()) {
                         val fitnessEntries = document.get("fitnessEntries") as? List<Map<String, Any>>
                         if (!fitnessEntries.isNullOrEmpty()) {
-                            // Get the latest fitness entry
                             val latestEntry = fitnessEntries.last()
                             val weight = latestEntry["currentWeight"].toString().toDoubleOrNull()
                             val height = latestEntry["height"].toString().toDoubleOrNull()
                             val bodyFat = latestEntry["currentBodyFat"].toString().toDoubleOrNull()
 
-                            // Check if weight, height, and body fat data are available
                             if (weight != null && height != null && height > 0 && bodyFat != null) {
                                 calculateAndDisplayBMI(weight, height)
                                 displayBodyStatistics(weight, bodyFat)
@@ -113,7 +127,6 @@ class statisticScreen : Fragment() {
                         val goalWeight = goalWeightString?.toDoubleOrNull()
 
                         if (goalWeight != null) {
-                            // Display goal weight in grey next to current weight
                             goalWeightTextView.text = String.format("(%.1f kg)", goalWeight)
                         } else {
                             Toast.makeText(context, "Invalid goal weight data.", Toast.LENGTH_SHORT).show()
@@ -150,4 +163,3 @@ class statisticScreen : Fragment() {
         bodyFatTextView.text = String.format("%.1f%%", bodyFat)
     }
 }
-

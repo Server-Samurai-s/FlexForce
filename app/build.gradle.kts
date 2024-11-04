@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    id("kotlin-kapt") // for Room
 }
 
 android {
@@ -45,10 +46,10 @@ android {
             freeCompilerArgs += "-Xallow-break-and-continue-in-lambdas"
         }
     }
-
 }
 
 dependencies {
+    // Core libraries
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.0")
     implementation("com.google.android.material:material:1.4.0")
@@ -97,6 +98,19 @@ dependencies {
     // Retrofit and networking
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor.v500alpha10) // or latest version
+
+    // Biometric Authentication
+    implementation(libs.androidx.biometric.v110)
+    implementation(libs.androidx.security.crypto) // latest version
+
+    // Google login
+    implementation(libs.google.play.services.auth)
+    implementation (libs.picasso)
+
+    implementation(libs.firebase.storage.ktx)
+
+    // Testing
     implementation(libs.logging.interceptor.v500alpha10) // or latest version
 
     // Biometric Authentication

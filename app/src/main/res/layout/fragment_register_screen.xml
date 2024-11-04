@@ -151,6 +151,14 @@
         </LinearLayout>
     </ScrollView>
 
+   <!-- Register Button -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:orientation="horizontal"
+    android:layout_weight="1"
+    android:gravity="bottom"
+    android:padding="16dp">
     <!-- Register Button -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -159,6 +167,29 @@
         android:layout_weight="1"
         android:gravity="bottom"
         android:padding="16dp">
+
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_black_button"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="Register"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/googleSignInBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/black"
+        android:text="Sign in with Google"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>
 
         <Button
             android:id="@+id/button_register"

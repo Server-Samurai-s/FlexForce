@@ -18,6 +18,7 @@ import za.co.varsitycollege.serversamurai.flexforce.data.models.ChallengeRespons
 import za.co.varsitycollege.serversamurai.flexforce.data.models.Exercise
 import za.co.varsitycollege.serversamurai.flexforce.data.models.ExerciseResponse
 import za.co.varsitycollege.serversamurai.flexforce.data.models.Response
+import za.co.varsitycollege.serversamurai.flexforce.data.models.WorkoutEntity
 
 object ApiClient {
     private const val BASE_URL = "https://flexforce-api.vercel.app/"
@@ -63,10 +64,10 @@ interface ApiService {
     fun getUserWorkouts(@Path("userId") userId: String): Call<List<WorkoutRequest>>
 
     @GET("api/workouts/chest-day")
-    fun getChestDayWorkout(): Call<ApiDataModels.Workout>
+    fun getChestDayWorkout(): Call<WorkoutEntity>
 
     @GET("api/workouts/leg-day")
-    fun getLegDayWorkout(): Call<ApiDataModels.Workout>
+    fun getLegDayWorkout(): Call<WorkoutEntity>
 
     @GET("api/workouts/challengesWorkouts")
     fun getChallengesWorkouts(): Call<ChallengeResponse>
@@ -78,7 +79,7 @@ interface ApiService {
     @GET("api/workouts/user/{userId}/challenges")
     fun getUserChallenges(
         @Path("userId") userId: String
-    ): Call<List<ApiDataModels.Challenge>>
+    ): Call<List<Challenge>>
 
     // Update user challenge status (e.g., started, completed, left)
     @POST("api/workouts/user/{userId}/challenges/update")

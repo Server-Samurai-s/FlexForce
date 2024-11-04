@@ -146,6 +146,9 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
             editor.putBoolean("rememberMe", true)
             editor.putString("email", email)
             editor.apply()
+        }
+    }
+
     private fun storeCredentials(email: String, password: String) {
         val encryptedPrefs = userSecrets.getEncryptedSharedPreferences(requireContext())
         with(encryptedPrefs.edit()) {
@@ -199,7 +202,7 @@ class loginScreen : Fragment(), BiometricHelper.AuthenticationCallback {
 
         if (email != null && password != null) {
             // Log in with the retrieved credentials
-            loginUser(email, password)
+            loginUserOnline(email, password)
         } else {
             Toast.makeText(context, "No saved login credentials found.", Toast.LENGTH_SHORT).show()
         }

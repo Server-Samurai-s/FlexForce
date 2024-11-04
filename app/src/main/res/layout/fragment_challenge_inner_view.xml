@@ -320,7 +320,6 @@
             android:id="@+id/buttonLeaveChallenge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/start_challenge"
             android:text="Leave Challenge"
             android:backgroundTint="@color/black"
             android:textColor="@android:color/white"

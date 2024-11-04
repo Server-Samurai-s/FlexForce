@@ -122,6 +122,30 @@ API repository: git clone https://github.com/davidrmellors/flexforce-api.git
 3. Node.js and Express: Used to build a custom REST API that connects to firebase. 
 4. Android Development: Developed using Kotlin programming language for Android platform compatibility.
 5. Database: RoomDB for offline mode.
+
+Here’s the addition of the AI usage write-up at the end of your README:
+
+---
+
+## 🤖 AI Tools Usage and Citation
+
+During the completion of this assessment, AI tools played a supportive role in enhancing productivity, debugging code, and clarifying technical details. OpenAI’s ChatGPT was used for several key purposes throughout the project, helping the team achieve their objectives with precision and efficiency.
+
+### Code Assistance and Generation
+   - **Code Examples**: ChatGPT was utilized to generate examples of Git commands and workflows for managing repositories, which were beneficial when organizing our project on GitHub. For instance, the AI provided detailed steps for setting up remote repositories and maintaining synchronized forks, enabling each team member to display the project on their personal GitHub profiles.
+   - **Debugging Code**: The AI was instrumental in troubleshooting coding errors. When certain functions weren’t executing as expected, such as a Google Sign-In intent in our Android app, ChatGPT helped diagnose potential issues. It suggested methods to verify button bindings, isolate lifecycle dependencies, and add debug logging, which guided us in identifying the underlying issues.
+
+### Project Documentation and Best Practices
+   - **Best Practices for Git Workflows**: ChatGPT provided insights into collaborative Git workflows, such as adding upstream remotes and handling merges, which were directly applied to our project. This ensured our team followed industry-standard practices for version control and repository management.
+   - **Writeup and Explanations**: ChatGPT assisted in drafting explanations for certain project components, making it easier to communicate our methodology and choices effectively. For example, it offered a clear structure for describing our GitHub organization setup, which helped align our project structure with the requirements set by our lecturer.
+
+### AI as a Teaching Tool
+   - Throughout the assessment, ChatGPT also acted as an educational resource, providing contextual explanations for unfamiliar coding concepts or error messages. For example, when we encountered issues related to Android’s view binding, ChatGPT provided explanations on how to inspect and resolve binding inconsistencies. This not only helped solve immediate problems but also deepened our understanding of Android development.
+
+### Conclusion
+ChatGPT was acknowledged within our team as a valuable resource, enhancing our project’s efficiency and accuracy. By acting as a coding assistant, debugging aid, and knowledge source, ChatGPT enabled us to complete our tasks more effectively while adhering to project requirements and best practices. All instances of AI support were carefully reviewed and adapted to align with our project’s unique needs, ensuring that we maintained a high standard of work.
+
+---
  
 ## 📚 Reference / Bibliography
 · GeeksforGeeks. 2024. How to send different types of requests (GET, POST, PUT, DELETE) in Postman, 1 January 2024. [Online]. Available at: https://www.geeksforgeeks.org/how-to-send-different-types-of-requests-get-post-put-delete-in-postman/ [Accessed 23 September 2024].
